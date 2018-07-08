@@ -1,0 +1,6 @@
+RewriteEngine on
+#Rewritebase //
+Rewritebase /
+RewriteCond $1 !^(index\.php|publicshare|user_guide|assets|resources|Resources|dataimport|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L]
+
