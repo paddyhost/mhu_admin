@@ -16,6 +16,65 @@
                     <div class="block-header">
                         <h2>Dashboard</h2>
                     </div>
+                    <div class="mini-charts">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3">
+                                <div class="mini-charts-item bgm-cyan">
+                                    <div class="clearfix">
+                                        <div class="chart"><i class="zmdi zmdi-face zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
+                                        <div class="count">
+                                            <h4 class="c-white">Child Under 19 Years</h4>
+                                            <h2>4000</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="mini-charts-item bgm-lightgreen">
+                                    <div class="clearfix">
+                                        <div class="chart"><i class="zmdi zmdi-female zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
+                                        <div class="count">
+                                            <h4 class="c-white">Lactating Women</h4>
+                                            <h2>11000</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6 col-md-3">
+                                <div class="mini-charts-item bgm-orange">
+                                    <div class="clearfix">
+                                        <div class="chart"><i class="zmdi zmdi-female zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
+                                        <div class="count">
+                                            <h4 class="c-white">Pregnant Women</h4>
+                                            <h2>9550</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6 col-md-3">
+                                <div class="mini-charts-item bgm-bluegray">
+                                    <div class="clearfix">
+                                        <div class="chart"><i class="zmdi zmdi-walk zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
+                                        <div class="count">
+                                            <h4 class="c-white">Senior citizen above 60 years</h4>
+                                            <h2>3500</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            
+                        </div>
+                        <div class="card-body card-padding">
+                            <div id="bar-chart" class="flot-chart"></div>
+                            <div class="flc-bar"></div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </section>
