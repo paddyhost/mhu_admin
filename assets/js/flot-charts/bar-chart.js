@@ -2,9 +2,9 @@ $(document).ready(function(){
     
     /* Make some random data for Flot Line Chart*/
     
-    var data1 = [[1,60], [2,30], [3,50], [4,100], [5,10], [6,90], [7,85]];
-    var data2 = [[1,20], [2,90], [3,60], [4,40], [5,100], [6,25], [7,65]];
-    var data3 = [[1,100], [2,20], [3,60], [4,90], [5,80], [6,10], [7,5]];
+    var data1 = [[1,60], [2,30], [3,50], [4,100], [5,10], [6,90]];
+    var data2 = [[1,20], [2,90], [3,60], [4,40], [5,100], [6,25]];
+    var data3 = [[1,100], [2,20], [3,60], [4,90], [5,80], [6,10],];
     
     /* Create an Array push the data + Draw the bars*/
     
@@ -12,7 +12,7 @@ $(document).ready(function(){
 
     barData.push({
             data : data1,
-            label: 'Tokyo',
+            label: 'Child Under 19 Years',
             bars : {
                     show : true,
                     barWidth : 0.08,
@@ -24,7 +24,7 @@ $(document).ready(function(){
     
     barData.push({
             data : data2,
-            label: 'Seoul',
+            label: 'Lactating Women',
             bars : {
                     show : true,
                     barWidth : 0.08,
@@ -36,7 +36,7 @@ $(document).ready(function(){
     
     barData.push({
             data : data3,
-            label: 'Beijing',
+            label: 'Pregnant Women',
             bars : {
                     show : true,
                     barWidth : 0.08,
@@ -45,6 +45,20 @@ $(document).ready(function(){
                     fillColor: '#FF9800'
             }
     });
+    var ticks = [
+    [0, "jan"], [1, "Feb"], [2, "March"], [3, "April"], [4, "May"], [5, "JUn"]
+];
+ 
+    var options = {
+           
+           
+            xaxis: {
+               
+                ticks: ticks
+            },
+           
+           
+        };
     
     /* Let's create the chart */
     if ($('#bar-chart')[0]) {
@@ -77,6 +91,7 @@ $(document).ready(function(){
                     color: "#9f9f9f"
                 },
                 shadowSize: 0,
+                ticks: ticks,
             },
     
             legend:{
@@ -106,3 +121,6 @@ $(document).ready(function(){
         $("<div class='flot-tooltip' class='chart-tooltip'></div>").appendTo("body");
     }
 });
+
+
+ 
