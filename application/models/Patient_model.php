@@ -492,5 +492,39 @@ class Patient_model extends CI_Model {
         return $response;
         
     }
+    
+    
+    public function getTotalPatientCounts() {
+
+        
+        $query = $this->db->query("SELECT count(DISTINCT id) as total,patient_category FROM `patient_master` GROUp By patient_category");
+
+        return $query->result_array();
+        
+        $sqlmonthlycount='SELECT count( DISTINCT patient_master_id) as count ,MONTH(created_at) as monthno FROM visit_master GROUP by MONTH(created_at) ORDER By MONTH(created_at)';
+        
+    }
+      
+    public function getTotalMonthlyPatientCounts($category) {
+
+        $sqlmonthlycount='SELECT count( DISTINCT patient_master_id) as count ,MONTH(created_at) as monthno FROM visit_master LEFT JOIN patient_master ON(patient_master.id=visit_master.patient_master_id) WHERE patient_master.patient_category="'.$category.'"GROUP by MONTH(created_at) ORDER By MONTH(created_at)';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $monthlycount= $query->result_array();
+        
+         $data2=array();
+         foreach ($monthlycount as $key => $value) {
+            
+                $arrdata=array();
+                array_push($arrdata,intval($value["monthno"])-1);
+                array_push($arrdata,intval($value["count"]));
+                array_push($data2,$arrdata);
+            
+        }
+        return $data2;
+        
+        
+    }
 
 }

@@ -16,6 +16,7 @@
                     <div class="block-header">
                         <h2>Dashboard</h2>
                     </div>
+                    <!--PW:pregnent women, LW:lactating women, C:child under 5yrs, S:senior citizen above 60yrs-->
                     <div class="mini-charts">
                         <div class="row">
                             <div class="col-sm-6 col-md-3">
@@ -24,7 +25,7 @@
                                         <div class="chart"><i class="zmdi zmdi-face zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
                                         <div class="count">
                                             <h4 class="c-white">Child Under 19 Years</h4>
-                                            <h2>4000</h2>
+                                            <h2 id="C">0</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -35,7 +36,7 @@
                                         <div class="chart"><i class="zmdi zmdi-female zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
                                         <div class="count">
                                             <h4 class="c-white">Lactating Women</h4>
-                                            <h2>11000</h2>
+                                            <h2 id="LW">0</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -47,7 +48,7 @@
                                         <div class="chart"><i class="zmdi zmdi-female zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
                                         <div class="count">
                                             <h4 class="c-white">Pregnant Women</h4>
-                                            <h2>9550</h2>
+                                            <h2 id="PW">0</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +60,7 @@
                                         <div class="chart"><i class="zmdi zmdi-walk zmdi-hc-fw c-white" style="font-size: 70px"></i></div>
                                         <div class="count">
                                             <h4 class="c-white">Senior citizen above 60 years</h4>
-                                            <h2>3500</h2>
+                                            <h2 id="S">0</h2>
                                         </div>
                                     </div>
                                 </div>
