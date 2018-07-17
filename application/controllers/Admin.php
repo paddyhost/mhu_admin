@@ -11,7 +11,7 @@ class admin extends CI_Controller {
         $this->load->model('patient_model');
         // Your own constructor code
     }
-    
+
     public function dashboard() {
 
         $this->load->view('dashboard');
@@ -65,7 +65,7 @@ class admin extends CI_Controller {
 //            $this->db->order('created_at');
             $patient_arr = $visit_arr = array();
             $patientQuery = $this->db->get_where('patient_master', ['id' => $patient_id]);
-            
+
             if ($patientQuery->num_rows() == 1) {
                 $patient_arr = $patientQuery->first_row();
             }
@@ -83,25 +83,45 @@ class admin extends CI_Controller {
         }
         $this->load->view('patient_card', $data);
     }
-    
-    public function getpatientbyvisit(){
+
+    public function getpatientbyvisit() {
         $visit_master_id = $this->input->post('id');
-        $patient_record = array(); 
-        if($visit_master_id >= 1){
-            $patient_record['vital'] = $this->patient_model->getOneByTable('vital_master', ['visit_master_id'=>$visit_master_id]);
-            $patient_record['medical'] = $this->patient_model->getOneByTable('medicalconditionmaster', ['visit_master_id'=>$visit_master_id]);
-            if(!empty($patient_record['medical'])){
+        $patient_record = array();
+        if ($visit_master_id >= 1) {
+            $patient_record['vital'] = $this->patient_model->getOneByTable('vital_master', ['visit_master_id' => $visit_master_id]);
+            $patient_record['medical'] = $this->patient_model->getOneByTable('medicalconditionmaster', ['visit_master_id' => $visit_master_id]);
+            if (!empty($patient_record['medical'])) {
                 $id = $patient_record['medical']->id;
-                $dose = $this->patient_model->getManyByTable('priscribedose', ['medicalconditionid'=> $id]);
+                $dose = $this->patient_model->getManyByTable('priscribedose', ['medicalconditionid' => $id]);
                 $patient_record['medical']->prescribe_dose = $dose;
             }
-            $patient_record['vaccination'] = $this->patient_model->getOneByTable('vaccinationmaster', ['visit_master_id'=>$visit_master_id]);
+            $patient_record['vaccination'] = $this->patient_model->getOneByTable('vaccinationmaster', ['visit_master_id' => $visit_master_id]);
 //            $patient_record['history'] = $this->patient_model->getOneByTable('patient_history', ['visit_master_id'=>$visit_master_id]);
             $patient_record['test'] = $this->patient_model->gettestvalues($visit_master_id);
         }
-        $data['view'] = $this->load->view('patientinfo',['patient_record'=>$patient_record], TRUE); 
+        $data['view'] = $this->load->view('patientinfo', ['patient_record' => $patient_record], TRUE);
         $data['message'] = 1;
         echo json_encode($data);
+    }
+
+    public function ajax_getDashBoardData() {
+        $records = $this->patient_model->getTotalPatientCounts();
+
+        foreach ($records as $key => $value) {
+            
+                
+        $data[$value["patient_category"]]=$value["total"];
+            
+        }
+       
+        //print_r($data2);die;
+      // $Datat='[[1,60],[2,30],[3,50],[4,100],[5,10],[6,90]]';
+$data['barPW']= $this->patient_model->getTotalMonthlyPatientCounts("PW");
+$data['baLW']= $this->patient_model->getTotalMonthlyPatientCounts("LW");
+$data['barS']= $this->patient_model->getTotalMonthlyPatientCounts("S");
+$data['barC']= $this->patient_model->getTotalMonthlyPatientCounts("C");
+                        echo json_encode($data);
+
     }
 
 }
