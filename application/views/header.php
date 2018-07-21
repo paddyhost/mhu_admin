@@ -7,7 +7,7 @@
         <li class="pull-right">
             <ul class="top-menu">
                 <li>
-                    <a href="javascript:void(0)" class="bgm-green"><span class="tm-label tm-icon"><i class="zmdi zmdi-plus-square zmdi-hc-fw"></i>&nbsp;New Registration</span></a> 
+                    <a href="/admin/newregistration" class="bgm-green"><span class="tm-label tm-icon"><i class="zmdi zmdi-plus-square zmdi-hc-fw"></i>&nbsp;New Registration</span></a> 
                 </li>
                 <li>
                     <a href="/admin/dashboard"><span class="tm-label tm-icon">Dashboard</span></a> 
