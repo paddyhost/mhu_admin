@@ -11,8 +11,8 @@
         <link href="/assets//vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
             
         <!-- CSS -->
-        <link href="/assets//css/app.min.1.css" rel="stylesheet">
-        <link href="/assets//css/app.min.2.css" rel="stylesheet">
+        <link href="/assets/css/app.min.1.css" rel="stylesheet">
+        <link href="/assets/css/app.min.2.css" rel="stylesheet">
     </head>
     
     <body class="login-content">
@@ -43,17 +43,17 @@
         </div>
         
         <!-- Javascript Libraries -->
-        <script src="/assets//vendors/bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="/assets//vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/assets/vendors/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/assets/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         
-        <script src="/assets//vendors/bower_components/Waves/dist/waves.min.js"></script>
+        <script src="/assets/vendors/bower_components/Waves/dist/waves.min.js"></script>
         
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
         <![endif]-->
         
-        <script src="/assets//js/functions.js"></script>
+        <script src="/assets/js/functions.js"></script>
         
     </body>
 </html>

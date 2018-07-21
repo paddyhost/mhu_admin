@@ -15181,6 +15181,12 @@ a.thumbnail.active {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .lc-block {
@@ -15189,7 +15195,7 @@ a.thumbnail.active {
   border-radius: 2px;
   width: 500px;
   display: inline-block;
-  //margin-top: 42px;
+/*  margin-top: 42px;*/
   vertical-align: middle;
   position: relative;
 }

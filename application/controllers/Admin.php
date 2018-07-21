@@ -17,6 +17,11 @@ class admin extends CI_Controller {
         $this->load->view('dashboard');
     }
 
+    public function newregistration() {
+
+        $this->load->view('new_registration');
+    }
+
     public function patientlist() {
 
         $this->load->view('patient_list');

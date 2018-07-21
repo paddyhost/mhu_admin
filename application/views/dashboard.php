@@ -14,7 +14,7 @@
             <section id="content">
                 <div class="container">
                     <div class="block-header">
-                        <h2>Dashboard</h2>
+                        <h2>Total Registration's</h2>
                     </div>
                     <!--PW:pregnent women, LW:lactating women, C:child under 5yrs, S:senior citizen above 60yrs-->
                     <div class="mini-charts">
@@ -67,6 +67,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="block-header">
+                        <h2>Registration Year 2018</h2>
+                    </div>
                     <div class="card">
                         <div class="card-header">
                             
@@ -86,13 +89,10 @@
                 <svg class="pl-circular" viewBox="25 25 50 50">
                     <circle class="plc-path" cx="50" cy="50" r="20" />
                 </svg>
-
                 <p>Please wait...</p>
             </div>
         </div>
-
         <?php $this->load->view('common_js');?>
-     
     </body>
   </html>
 
