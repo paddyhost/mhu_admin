@@ -8,7 +8,8 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (result) {
             //PW:pregnent women, LW:lactating women, C:child under 5yrs, S:senior citizen above 60yr
-
+            result=JSON.parse('{"C":"73","PW":"12","LW":"4","barPW":[[3,4],[4,1],[5,5],[6,1]],"baLW":[[3,4],[5,4],[4,1],[6,2]],"barS":[[3,4],[5,4],[4,6],[6,6]],"barC":[[3,4],[5,4],[4,1],[5,1]]}');//demo data
+            //comment after demo above line 
             $("#PW").html(result.PW);
             $("#LW").html(result.LW);
             $("#C").html(result.C);
@@ -69,7 +70,7 @@ var barData = new Array();
         bars: {
             show: true,
             barWidth: 0.08,
-            order: 3,
+            order: 4,
             lineWidth: 0,
             fillColor: '#FF9800'
         }
