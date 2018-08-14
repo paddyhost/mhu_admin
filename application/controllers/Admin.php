@@ -19,11 +19,14 @@ class admin extends CI_Controller {
 
     public function newregistration() {
 
-        $this->load->view('new_registration');
+        $data = array();
+        $medicine_query = $this->db->get('medicine_master');
+        $data['medicine'] = $medicine_query->result();
+        $this->load->view('new_registration', $data);
     }
 
     public function patientlist() {
-
+        
         $this->load->view('patient_list');
     }
 

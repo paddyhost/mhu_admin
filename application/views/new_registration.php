@@ -22,11 +22,15 @@
                                     <div class="form-group">
                                         <label>Patient Unique ID</label>
                                         <div class="fg-line">
-                                            <input type="text" class="form-control">
+                                            <input type="text" id="unique_id" name="unique_id" class="form-control">
+                                            <input type="hidden" name="registration_no" id="registration_no">
+                                            <input type="hidden" name="pid" id="pid">
+                                            <input type="hidden" name="visit_master_id" id="visit_master_id">
+                                            
                                         </div>
                                         <div class="row m-l-0 m-r-0 m-t-15">
-                                            <button type="button" data-toggle="tab" id="btnuid" class="btn btn-primary">Proceed with UID</button>
-                                            <button type="button" data-toggle="tab" id="btnwuid" class="btn btn-info m-l-10">Proceed without UID</button>
+                                            <button type="button" data-toggle="tab" id="btnuid" class="proceed1 btn btn-primary">Proceed with UID</button>
+                                            <button type="button" data-toggle="tab" id="btnwuid" class="proceed1 btn btn-info m-l-10">Proceed without UID</button>
                                         </div>
                                     </div>
                                 </div>
@@ -35,12 +39,12 @@
                             </div>
                             <div class="form-wizard-basic fw-container" style="display: none" id="form_registration">
                                 <ul class="tab-nav text-center">
-                                    <li><a href="#general_info" data-toggle="tab">General Information</a></li>
-                                    <li><a href="#vital_info" data-toggle="tab">Vital Information</a></li>
-                                    <li><a href="#medical" data-toggle="tab">Medical Condition</a></li>
-                                    <li><a href="#vaccination" data-toggle="tab">Vaccination Records</a></li>
-                                    <li><a href="#test_mhu" data-toggle="tab">Test By MHU</a></li>
-                                    <li><a href="#test_outside" data-toggle="tab">Test Adviced From Outside</a></li>
+                                    <li><a href="#general_info" url="/patient/postGeneralInfo" app-url="/api/v1_1/addPatient" data-toggle="tab">General Information</a></li>
+                                    <li><a href="#vital_info" url="/patient/postVitalInfo" app-url="/api/v1_1/addVital" data-toggle="tab">Vital Information</a></li>
+                                    <li><a href="#medical" url="/api/v1_1/addMedicalcondition" data-toggle="tab">Medical Condition</a></li>
+                                    <li><a href="#vaccination" url="/api/v1_1/addvaccination" data-toggle="tab">Vaccination Records</a></li>
+                                    <li><a href="#test_mhu" url="/api/v1_1/addMHUTest" data-toggle="tab">Test By MHU</a></li>
+                                    <li><a href="#test_outside" url="/api/v1_1/addPatient" data-toggle="tab">Test Adviced From Outside</a></li>
                                 </ul>
 
                                 <div class="tab-content p-b-0">
@@ -52,18 +56,19 @@
                                                     <div class="input-group form-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-calendar"></i></span>
                                                         <div class="dtp-container fg-line">
-                                                            <input type='text' class="form-control date-picker" placeholder="Registration Date">
+                                                            <input type='text' name="dor" id="dor" class="form-control date-picker" placeholder="Registration Date">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <label>Patient Category</label>
                                                     <div class="form-group">
-                                                        <select class="selectpicker" title="Select patient category">
-                                                            <option>Child under 19 years of age</option>
-                                                            <option>Lactating women</option>
-                                                            <option>Pregnant women</option>
-                                                            <option>Senior citizen above 60 years of age</option>
+                                                        <select name='patient_category' class="selectpicker"  title="Select patient category">
+                                                            <option value="C">Child under 19 years of age</option>
+                                                            <option value="LW">Lactating women</option>
+                                                            <option value="PW">Pregnant women</option>
+                                                            <option value="S">Senior citizen above 60 years of age</option>
+                                                            <option value="O">Other</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -81,7 +86,7 @@
                                                     <label>Last Name</label>
                                                     <div class="form-group">
                                                         <div class="fg-line">
-                                                            <input type="text" class="form-control" placeholder="Last name">
+                                                            <input type="text" name='lname' class="form-control" placeholder="Last name">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -90,12 +95,12 @@
                                                         <label>Gender</label>
                                                         <div class="clearfix"></div>
                                                         <label class="radio radio-inline m-r-20 m-t-15">
-                                                            <input type="radio" name="radio_gender" value="male">
+                                                            <input type="radio" name='gender' value="M">
                                                             <i class="input-helper"></i>
                                                             Male
                                                         </label>
                                                         <label class="radio radio-inline m-r-20 m-t-15">
-                                                            <input type="radio" name="radio_gender" value="female">
+                                                            <input type="radio" name='gender' value="F">
                                                             <i class="input-helper"></i>
                                                             Female
                                                         </label>
@@ -105,7 +110,7 @@
                                                     <label>Mobile Number</label>
                                                     <div class="form-group">
                                                         <div class="fg-line">
-                                                            <input type="text" class="form-control" placeholder="Mobile No.">
+                                                            <input type="text" name='mobile' class="form-control" placeholder="Mobile No.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,7 +122,7 @@
                                                         <div class="input-group form-group">
                                                             <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-calendar"></i></span>
                                                             <div class="dtp-container fg-line">
-                                                                <input type='text' class="form-control date-picker" placeholder="DOB">
+                                                                <input type='text' name='dob' class="form-control date-picker" placeholder="DOB">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -133,16 +138,16 @@
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>State</label>
-                                                        <select class="selectpicker" title="Select State">
-                                                            <option></option>
+                                                        <select name="state" class="selectpicker" title="Select State">
+                                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>District</label>
-                                                        <select class="selectpicker" title="Select District">
-                                                            <option></option>
+                                                        <select name="district" class="selectpicker" title="Select District">
+                                                            <option value="Ghaziabad">Ghaziabad</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -151,87 +156,105 @@
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>City</label>
-                                                        <select class="selectpicker" title="Select City">
+                                                        <!--<select name="city" class="selectpicker" title="Select City">
                                                             <option></option>
-                                                        </select>
+                                                        </select>-->
+                                                        <div class="form-group">
+                                                            <div class="fg-line">
+                                                                <input type="text" name="city" class="form-control" placeholder="City">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>Area</label>
-                                                        <select class="selectpicker" title="Select Area">
+                                                        <!--<select name="city" class="selectpicker" title="Select Area">
                                                             <option></option>
-                                                        </select>
+                                                        </select>-->
+                                                        <div class="form-group">
+                                                            <div class="fg-line">
+                                                                <input type="text" name="area" class="form-control" placeholder="Area">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>Location</label>
-                                                        <select class="selectpicker" title="Select Location">
+                                                        <!--<select name="lcoation" class="selectpicker" title="Select Location">
                                                             <option></option>
-                                                        </select>
+                                                        </select>-->
+                                                        <div class="form-group">
+                                                            <div class="fg-line">
+                                                                <input type="text" name='location' class="form-control" placeholder="Location">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="tab-pane fade" id="vital_info">
-                                        <div class="row">
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                                <label>Height</label>
-                                                <div class="form-group">
-                                                    <div class="fg-line">
-                                                        <input type="text" class="form-control" placeholder="Height in cm">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                                <label>Weight</label>
-                                                <div class="form-group">
-                                                    <div class="fg-line">
-                                                        <input type="text" class="form-control" placeholder="Weight in kg">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                                <label>Bp</label>
-                                                <div class="clearfix"></div>
-                                                <div class="col-md-6 col-sm-6 col-xs-12 p-l-0">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label>Height</label>
                                                     <div class="form-group">
                                                         <div class="fg-line">
-                                                            <input type="text" class="form-control" placeholder="Bp (Sys)">
+                                                            <input type="text" name="height" id="height" class="form-control" placeholder="Height in cm">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label>Weight</label>
                                                     <div class="form-group">
                                                         <div class="fg-line">
-                                                            <input type="text" class="form-control" placeholder="Bp (Dia)">
+                                                            <input type="text" name="weight" id="weight" class="form-control" placeholder="Weight in kg">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label>Bp</label>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 p-l-0">
+                                                        <div class="form-group">
+                                                            <div class="fg-line">
+                                                                <input type="text" name="bloodpresure" id="bloodpresure" class="form-control" placeholder="Bp (Sys)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
+                                                        <div class="form-group">
+                                                            <div class="fg-line">
+                                                                <input type="text" name="bpto" id="bpto" class="form-control" placeholder="Bp (Dia)">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                                <label>Temperature</label>
-                                                <div class="form-group">
-                                                    <div class="fg-line">
-                                                        <input type="text" class="form-control" placeholder="Temperature in Fahrenheit">
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label>Temperature</label>
+                                                    <div class="form-group">
+                                                        <div class="fg-line">
+                                                            <input type="text" name="tempreture" id="tempreture" class="form-control" placeholder="Temperature in Fahrenheit">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label>Respiration</label>
+                                                    <div class="form-group">
+                                                        <div class="fg-line">
+                                                            <input type="text" name="respiration" id="respiration" class="form-control" placeholder="Respiration / min">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                                <label>Respiration</label>
-                                                <div class="form-group">
-                                                    <div class="fg-line">
-                                                        <input type="text" class="form-control" placeholder="Respiration / min">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
                                     <div class="tab-pane fade" id="medical">
+                                        <form>
                                         <div class="row">
                                             <label class="m-l-15 m-r-15 m-b-15">Chief Conmplaint</label>
                                             <div class="clearfix"></div>
@@ -239,7 +262,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-1"></i></span>
                                                     <div class="fg-line">
-                                                        <input class="form-control" placeholder="" type="text">
+                                                        <input name="chiefcomplaints1" id="chiefcomplaints1" class="form-control" placeholder="" type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -247,7 +270,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-2"></i></span>
                                                     <div class="fg-line">
-                                                        <input class="form-control" placeholder="" type="text">
+                                                        <input name="chiefcomplaints2" id="chiefcomplaints2" class="form-control" placeholder="" type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -255,7 +278,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-3"></i></span>
                                                     <div class="fg-line">
-                                                        <input class="form-control" placeholder="" type="text">
+                                                        <input name="chiefcomplaints3" id="chiefcomplaints3" class="form-control" placeholder="" type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -267,7 +290,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-1"></i></span>
                                                     <div class="fg-line">
-                                                        <input class="form-control" placeholder="" type="text">
+                                                        <input name="briefHistory1" id="briefHistory1" class="form-control" placeholder="" type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -275,7 +298,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-2"></i></span>
                                                     <div class="fg-line">
-                                                        <input class="form-control" placeholder="" type="text">
+                                                        <input name="briefHistory2" id="briefHistory2" class="form-control" placeholder="" type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -283,7 +306,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-3"></i></span>
                                                     <div class="fg-line">
-                                                        <input class="form-control" placeholder="" type="text">
+                                                        <input name="briefHistory3" id="briefHistory3" class="form-control" placeholder="" type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -330,17 +353,17 @@
                                                     <label>Previous Investigation</label>
                                                     <div class="clearfix"></div>
                                                     <label class="radio radio-inline m-r-20 m-t-15">
-                                                        <input type="radio" name="radio_investigation" value="yes">
+                                                        <input type="radio" name="investigation" value="Y">
                                                         <i class="input-helper"></i>
                                                         Yes
                                                     </label>
                                                     <label class="radio radio-inline m-r-20 m-t-15">
-                                                        <input type="radio" name="radio_investigation" value="no">
+                                                        <input type="radio" name="investigation" value="N">
                                                         <i class="input-helper"></i>
                                                         No
                                                     </label>
                                                     <label class="radio radio-inline m-r-20 m-t-15">
-                                                        <input type="radio" name="radio_investigation" value="dont_know">
+                                                        <input type="radio" name="investigation" value="DN">
                                                         <i class="input-helper"></i>
                                                         Dont Know
                                                     </label>
@@ -351,29 +374,30 @@
                                                     <label>Treatment Taken</label>
                                                     <div class="clearfix"></div>
                                                     <label class="radio radio-inline m-r-20 m-t-15">
-                                                        <input type="radio" name="radio_treatment" value="yes">
+                                                        <input type="radio" name="tratementtaken" value="Y">
                                                         <i class="input-helper"></i>
                                                         Yes
                                                     </label>
                                                     <label class="radio radio-inline m-r-20 m-t-15">
-                                                        <input type="radio" name="radio_treatment" value="no">
+                                                        <input type="radio" name="tratementtaken" value="N">
                                                         <i class="input-helper"></i>
                                                         No
                                                     </label>
                                                     <label class="radio radio-inline m-r-20 m-t-15">
-                                                        <input type="radio" name="radio_treatment" value="dont_know">
+                                                        <input type="radio" name="tratementtaken" value="DN">
                                                         <i class="input-helper"></i>
                                                         Dont Know
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
+                                        </form>
                                         <hr>
                                         <div class="row m-l-0 m-r-0 m-b-15">
                                             <label>Prescription</label>
                                             <div class="clearfix"></div>
                                             <button type="button" class="btn btn-info btn-icon-text" data-toggle="modal" data-target="#modalPrescription"><i class="zmdi zmdi-plus"></i>Add Prescription</button>
-                                            <table class="table table-bordered m-t-15">
+                                            <table id="prescribe_dose_table" class="table table-bordered m-t-15">
                                                 <thead>
                                                 <th>Medicine Name</th>
                                                 <th>Frequency</th>
@@ -1733,6 +1757,7 @@
                                 <div class="row m-l-0 m-r-0 text-right">
                                     <button class="btn btn-default previous">Previous</button>
                                     <button class="btn btn-primary next m-l-10">Next</button>
+                                    <button class="btn btn-success finish m-l-10">Finish</button>
                                 </div>
                             </div>
                     </div>
@@ -1748,45 +1773,46 @@
                         <h4 class="modal-title">Add Prescription</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label>Medicine Name</label>
-                            <select class="selectpicker" title="Select Medicine">
-                                <option>1st SID P-TAP 1</option>
-                                <option>Acigene tab</option>
-                                <option>Alprasafe-0.25 tab</option>
-                                <option>Ambrox-ls syp</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Frequency</label>
-                            <select class="selectpicker" title="Select Medicine">
-                                <option>Once a day</option>
-                                <option>Twise a day</option>
-                                <option>Thrise a day</option>
-                                <option>Four times a day</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Days</label>
-                            <div class="fg-line">
-                                <input type="text" class="form-control required" placeholder="">
+                        <form id="prescribe_dose" name="prescribe_dose">
+                            <div class="form-group">
+                                <label>Medicine Name</label>
+                                <select name="name" id="name" class="selectpicker" title="Select Medicine">
+                                    <?php foreach ($medicine as $key => $value):?>
+                                        <option value="<?= $value->id.'_'.$value->name;?>"><?= $value->name;?></option>
+                                    <?php endforeach;?>
+                                </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="radio radio-inline m-r-20 m-t-15">
-                                <input type="radio" name="radio_meal" value="before_meal">
-                                <i class="input-helper"></i>
-                                Before Meal
-                            </label>
-                            <label class="radio radio-inline m-r-20 m-t-15">
-                                <input type="radio" name="radio_meal" value="after_meal">
-                                <i class="input-helper"></i>
-                                After Meal
-                            </label>
-                        </div>
+                            <div class="form-group">
+                                <label>Frequency</label>
+                                <select name="frequency" id="frequency" class="selectpicker" title="Select Medicine">
+                                    <option value="1">Once a day</option>
+                                    <option value="2">Twice a day</option>
+                                    <option value="3">Thrice a day</option>
+                                    <option value="4">Four times a day</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Days</label>
+                                <div class="fg-line">
+                                    <input type="text" name="days" id="days" class="form-control required" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="radio radio-inline m-r-20 m-t-15">
+                                    <input type="radio" name="aftermeal" value="No" checked="checked">
+                                    <i class="input-helper"></i>
+                                    Before Meal
+                                </label>
+                                <label class="radio radio-inline m-r-20 m-t-15">
+                                    <input type="radio" name="aftermeal" value="Yes">
+                                    <i class="input-helper"></i>
+                                    After Meal
+                                </label>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success">Save changes</button>
+                        <button type="button" class="btn btn-success" url="/patient/add_prescribe_struct" id="btn_prescrib_struct">Save changes</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -1802,13 +1828,16 @@
             </div>
         </div>
         <?php $this->load->view('common_js');?>
+        <script src="/assets/js/new_registration.js"></script>
+
         <script>
-            $(document).ready(function(){
-               $('#btnuid').click(function(){
-                   $('#uidDiv').hide();
-                   $('#form_registration').show();
-               });
-            });
+//            $(document).ready(function(){
+//               $('#btnuid').click(function(){
+//                   if()
+//                   $('#uidDiv').hide();
+//                   $('#form_registration').show();
+//               });
+//            });
         </script>
     </body>
   </html>

@@ -13,6 +13,7 @@ class Patient_model extends CI_Model {
             'fname' => '',
             'lanme' => '',
             'dob' => '',
+            'regitrationdate'=> date('Y-m-d'),
             'gender' => '',
             'mobile' => '',
             'address' => '',
@@ -32,6 +33,7 @@ class Patient_model extends CI_Model {
             'fname' => $fname,
             'lanme' => $lanme,
             'dob' => $dob,
+            'regitrationdate'=> $regitrationdate,
             'gender' => $gender,
             'mobile' => $mobile,
             'address' => $address,
@@ -188,7 +190,7 @@ class Patient_model extends CI_Model {
             'frequency' => '',
             'days' => '',
             'medicalconditionid' => '',
-            'time' => '',
+            'aftermeal' => 'Yes',
         );
         $data = array_merge($data, $insertArray);
         extract($data);
@@ -197,7 +199,7 @@ class Patient_model extends CI_Model {
             'frequency' => $frequency,
             'days' => $days,
             'medicalconditionid' => $medicalconditionid,
-            'time' => $time,
+            'aftermeal' => $aftermeal,
         );
 
 

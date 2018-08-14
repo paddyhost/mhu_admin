@@ -21,7 +21,7 @@
             <div class="row text-center">
                 <img src="/assets/img/logo.png"/>
             </div>
-            <form id='login' action='<?php echo base_url("welcome/login") ?>' method='post' accept-charset='UTF-8' class="m-t-20">
+            <form id='login' action='<?php echo base_url("/login/login") ?>' method='post' accept-charset='UTF-8' class="m-t-20">
             <div class="input-group m-b-20">
                 <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                 <div class="fg-line">
