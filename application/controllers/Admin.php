@@ -22,6 +22,17 @@ class admin extends CI_Controller {
         $data = array();
         $medicine_query = $this->db->get('medicine_master');
         $data['medicine'] = $medicine_query->result();
+             
+        $sql1 = "SELECT GROUP_CONCAT( mta.attribute_name, '|', mta.id ORDER BY mta.id SEPARATOR '--') as attribute_values,"
+                . " GROUP_CONCAT(DISTINCT tm.test_name ORDER BY tm.id) as test_name, tm.id"
+                . " FROM map_test_attribute mta "
+                . " LEFT JOIN test_master tm ON (tm.id = mta.test_master_id) "
+                . " GROUP BY tm.id";
+        $query1 = $this->db->query($sql1);
+        
+        $data_view['mhu_test'] = $query1->result();
+        $data['test_view'] = $this->load->view('tpl_mhu_tests', $data_view, TRUE);
+        
         $this->load->view('new_registration', $data);
     }
 

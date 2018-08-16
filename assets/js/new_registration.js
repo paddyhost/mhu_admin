@@ -11,9 +11,41 @@ $(document).ready(function(){
     $(document).on('click', '.proceed1', function(){
         var id = $(this).attr('id');
         if(id == 'btnuid'){
-            if($("#unique_id").val() == ''){
+            if(!validate_input('unique_id')){
+//            if($("#unique_id").val() == ''){
                 alert('unique ID cannot be Empty');
                 return false;
+            }else {
+                var uid = $('#unique_id').val();
+                var response = getPatientInfo(uid);
+                //console.log(response);
+                if(response.code == 200){
+                    alert('Patient status found.')
+                    var data = response.data;
+                    $("#insert").val(0);
+                    $("#registration_no").val(data.registration_no); $("#pid").val(data.id);
+                    
+                    //patient data
+                    $('#patient_category').val(data.patient_category).selectpicker('refresh');
+                    $('#fname').val(data.fname);
+                    $('#lname').val(data.lanme);
+                    $('input:radio[value="'+data.gender+'"]').prop("checked", true);
+                    $('#mobile').val(data.mobile);
+                    $('#state').val(data.state).selectpicker('refresh');
+                    $('#district').val(data.district).selectpicker('refresh');
+                    $('#city').val(data.city);
+                    $('#area').val(data.area);
+                    $('#location').val(data.location);
+                    $('#dob').val(data.dob).change();
+                    $('#dor').val(data.regitrationdate).change();
+                    
+                    //init dob & dor with datepicker
+                    
+                    
+                }else {
+                    alert('Patient with Unique ID not found.')
+                    return false;
+                }
             }
         }
         
@@ -25,8 +57,14 @@ $(document).ready(function(){
         tabClass: 'fw-nav',
         'nextSelector': '.next',
         'previousSelector': '.previous',
-        onInit: function(){
+//        onInit: function(){
+//            $('.finish').hide();
+//        },
+        onTabShow: function(tab, navigation, index) {
             $('.finish').hide();
+            if(index==5){
+                $('.finish').show();
+            }
         },
 //        onTabClick: function(tab, navigation, index) {
 //            alert('on tab click disabled');
@@ -38,10 +76,14 @@ $(document).ready(function(){
             console.log(tab);
             alert(index + ' ' + current_tab + url);
             
-            if(index==5)
-            $('.finish').show();
-
             var flag_next = 1;
+            //flag_next = validate_tab(index,current_tab);
+            
+//            if(index > 1 && $('#visit_master_id').val() == 0){
+//                alert('Patient info not availab;e')
+//                return false;
+//            }
+            
             var response = post_data(current_tab, url, index);
             if(!response){
                 flag_next = 0;
@@ -72,11 +114,42 @@ $(document).ready(function(){
     });
     
     $('.form-wizard-basic .finish').click(function() {
-        alert('Finished!, Starting over!');
+        var url = $(this).attr('url');
+        var response = post_data('#test_outside', url, 6);
+        if(!response){
+            return false;
+        }else {
+            if(response.code == 01){
+               return false;
+            }else{
+                alert('Finished!, Starting over!');
+                location.reload();
+            }
+            alert(response.message);
+        }
         $('.form-wizard-basic').bootstrapWizard('finish',5);
     }); 
     
     $(document).on('click', '#btn_prescrib_struct', function(){
+        var is_valid = true;
+        $('#prescribe_dose .selectpicker').each(function(i,e){
+            if($(this).val() == ''){
+                is_valid = false;
+            }
+            
+        })
+        $('#prescribe_dose input').each(function(i,e){
+            if($(this).val() == ''){
+                is_valid = false;
+                $(this).addClass('error');
+            }
+        })
+        
+        if(!is_valid){
+            alert('please provide data');
+            return false;
+        }
+        
         var url = $(this).attr('url');
         $.ajax({
             url: url,
@@ -87,6 +160,8 @@ $(document).ready(function(){
             success: function (response) {
                 if(response.code == 200){
                     $("#prescribe_dose_table tbody").append(response.data);
+                    reset('prescribe_dose');
+                    $('#modalPrescription').modal('hide');
                 }
             }
         });
@@ -98,6 +173,22 @@ $(document).ready(function(){
     
     
 });
+
+
+function getPatientInfo(uid){
+    var result = [];
+    $.ajax({
+        url: '/patient/getPatientInfo',
+        dataType: 'json',
+        async: false,
+        type: 'POST',
+        data: {'unique_id':uid},
+        success: function (response) {
+            result = response;
+        }
+    });
+    return result;
+}
 
 function post_data(current_tab, url, index){
     // alert(current_tab); return false;
@@ -148,6 +239,42 @@ function post_data(current_tab, url, index){
     return result;
 }
 
+function reset(id){
+    var id = '#'+id;
+    $(id).find('.selectpicker').val('').selectpicker('refresh');
+    $(id).find('input').val('');
+    $(id).find('radio').val('');
+}
 
+$(document).on('click', '.error', function(){
+    $(this).removeClass('error');
+})
 
+function validate_tab(index, current_tab){
+    var is_valid = 1;
+    switch (index){
+        case 1:
+            if(!validate_input()){
+                is_valid = 0;
+            }else if(!validate_select()){
+                is_valid = 0;
+            }
+            break;
+    }
+    
+    return is_valid;
+}
 
+function validate_input(inputIDs){
+    var is_valid = 1;
+    var ids = inputIDs.split(',');
+    $.each(ids, function(k,v){
+        
+        var id = '#'+v;
+        if($(id).val() == ''){
+            $(id).addClass('error');
+            is_valid = 0;
+        }
+    })
+    return is_valid;
+}

@@ -394,13 +394,17 @@ class Patient_model extends CI_Model {
     public function gettestvalues($visit_master_id = 0) {
         $result = FALSE;
         if ($visit_master_id >= 1) {
-            $sql1 = "SELECT GROUP_CONCAT( CONCAT( mta.attribute_name , ' = ' , IF(mtav.reading = '','NA',mtav.reading), ' - ' , IF(mtav.reference_value = '','NA',mtav.reference_value)) ORDER BY mtav.test_master_id SEPARATOR '--') as attribute_values,"
+            $sql1 = "SELECT GROUP_CONCAT( CONCAT( mta.attribute_name , ' = ' , "
+                    . " COALESCE(IF(mtav.reading = '','NA',mtav.reading), 'NA'), ' - ' , "
+                    . " COALESCE(IF(mtav.reference_value = '','NA',mtav.reference_value), 'NA')"
+                    . ") ORDER BY mtav.test_master_id SEPARATOR '--') as attribute_values,"
                     . " GROUP_CONCAT(DISTINCT tm.test_name ORDER BY mtav.test_master_id) as test_name"
                     . " FROM map_test_attribute_values mtav "
                     . " LEFT JOIN map_test_attribute mta ON (mta.id = mtav.map_test_attribute_id) "
                     . " LEFT JOIN test_master tm ON (tm.id = mtav.test_master_id) "
                     . " WHERE mtav.visit_master_id = " . $visit_master_id . " GROUP BY mtav.test_master_id";
             $query1 = $this->db->query($sql1);
+//            echo $this->db->last_query(); die();
             if ($query1->num_rows() >= 1) {
                 $result = $query1->result();
                 $temp = array();

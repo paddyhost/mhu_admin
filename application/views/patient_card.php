@@ -63,7 +63,7 @@
                                     <label class="col-md-3 col-sm-3 col-xs-12 m-t-0"><i class="zmdi zmdi-account-box-o zmdi-hc-fw"></i>&nbsp;&nbsp;Patient Category</label>
                                     <p class="col-md-9 col-sm-9 col-xs-12">
                                         <?php 
-                                            $patient_category = ['PW'=>'Pregnant Women', 'LW'=>'Lactating Women', 'C'=>'Child below 5 yrs.', 'C'=>'Senor above 60 yrs.', NULL => 'NA' ,'O'=>'other'];
+                                            $patient_category = ['PW'=>'Pregnant Women', 'LW'=>'Lactating Women', 'C'=>'Child below 5 yrs.', 'S'=>'Senor above 60 yrs.', NULL => 'NA' ,'O'=>'other'];
                                             echo (!empty($patient->patient_category)? $patient_category[$patient->patient_category] : 'NA');
                                         ?>
                                     </p>
@@ -74,7 +74,12 @@
                                 </div>
                                 <div class="row">
                                     <label class="col-md-3 col-sm-3 col-xs-12 m-t-0"><i class="zmdi zmdi-pin-drop zmdi-hc-fw"></i>&nbsp;&nbsp;Name of Cluster/ Address</label>
-                                    <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (!empty($patient->regitrationdate)? $patient->address : 'NA')?>
+                                    <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (!empty($patient->address)? $patient->address.'&nbsp' : 'NA')?>
+                                        <?php echo (!empty($patient->location)? $patient->location.'&nbsp' : 'NA');?>
+                                        <?php echo (!empty($patient->area)? $patient->area.'&nbsp' : 'NA');?>
+                                        <?php echo (!empty($patient->city)? $patient->city.'&nbsp' : 'NA');?>
+                                        <?php echo (!empty($patient->district)? $patient->district.'&nbsp' : 'NA');?>
+                                        <?php echo (!empty($patient->state)? $patient->state : 'NA');?>
                                         <!--Plot No.12, N-8, New Swami Vivekanand Hsg., Society, Cidco, Aurangabad-->
                                     </p>
                                 </div>

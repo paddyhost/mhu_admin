@@ -1,6 +1,7 @@
 <tr>
     <td>
         <input type="hidden" name="id[]" value="<?= $data['id']?>">
+        <input type="hidden" name="name[]" value="<?= $data['name']?>">
         <?= $data['name']?>    
     </td>
     <td>

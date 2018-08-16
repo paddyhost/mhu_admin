@@ -1,5 +1,5 @@
 <?php if(!empty($patient_record)):?>
-<?php $medical = $patient_record['medical']; $arr = ['Y'=>'Yes','N'=>'No', ''=>'NA', NULL=>'NA']; //print_r($patient_record['medical']);?>
+<?php $medical = $patient_record['medical']; $arr = ['Y'=>'Yes','N'=>'No', 'DN'=>'Dont know', ''=>'NA', NULL=>'NA']; //print_r($patient_record['medical']);?>
 
         <div class="row">
         <div class="col-md-8 col-sm-8 col-xs-12">
@@ -50,6 +50,7 @@
                                     <th>Medicine</th>
                                     <th>Dose</th>
                                     <th>Dosage Time</th>
+                                    <th>After Meal</th>
                                     <th>Frequency</th>
                                     <th>Days</th>
                                     </thead>
@@ -60,7 +61,8 @@
                                                 <td><?php echo $key + 1; ?></td>
                                                 <td><?php echo $value->name; ?></td>
                                                 <td><?php echo $value->frequency; ?> times/day</td>
-                                                <td><?php echo $value->time; ?></td>
+                                                <td><?php echo (isset($value->time) ? $value->time : 'NA'); ?></td>
+                                                <td><?php echo $value->aftermeal; ?></td>
                                                 <td><?php echo $value->days; ?></td>
                                                 <td><?php echo $value->medicalconditionid; ?></td>
                                             </tr>
