@@ -209,108 +209,147 @@ class admin extends CI_Controller {
         
         echo json_encode($data);
     }
- public function ajax_getpatient_complaint() {
           
-          //$cat = $this->input->get('cat');
-        $LW = $this->patient_model->getComplentCountBy("LW");
-        $PW = $this->patient_model->getComplentCountBy("PW");
-        $S = $this->patient_model->getComplentCountBy("S");
-        $C = $this->patient_model->getComplentCountBy("C");
-        $O = $this->patient_model->getComplentCountBy("O");
 
       
+public function ajax_getTestList() {
     
         
-        
-         $i=1;
-        $x[0]="x";
-        foreach ($C as $key => $value) {
-                 $x[$i]=($value["chiefcomplaints1"]);
-                 $i++;
-        }
-        
-        
-         $i=1;
-        $datachild[0]="Child Under-5 Year of Age";
-        foreach ($C as $key => $value) {
-                 $datachild[$i]=intval($value["count"]);
-                 $i++;
-        }
-        $i=1;
-        $datapw[0]="Pregnant Women";
-        foreach ($PW as $key => $value) {
-                 $datapw[$i]=intval($value["count"]);
-                 $i++;
-        }
-         $i=1;
-        $dataLW[0]="Lactating Women";
-        foreach ($LW as $key => $value) {
-                 $dataLW[$i]=intval($value["count"]);
-                 $i++;
-        }
-          $i=1;
-        $dataS[0]="Senior Citizen-above 60 year of age";
-        foreach ($S as $key => $value) {
-                 $dataS[$i]=intval($value["count"]);
-                 $i++;
-        }
-        
-        
-       
-        
-        $data=array(
-             0=>$x,
-  1 => $dataS,
-  2=>$dataLW,
-  3=>$datapw,
-  4=>$datachild
- 
-);
-
-
-        echo json_encode($data);
-    }
-
-
-public function ajax_getTestList() {
-          
-       
         $tests = $this->patient_model->getTestList();
-        $data=array();
+        $names=$data=$group=array();
+        $j=0;
         foreach ($tests as $key => $value) {
                  $testdata=$this->patient_model->getTestCountBY($value["id"]);
+        
+                 
+                      
                  $arrayrow=array();
-                 $i=0;
+                      
+                    $i=0;
+                 // $arrayrow[$i]=$value["test_name"];
+                 
                   foreach ($testdata as $key1 => $value1) {
-                    $arrayrow[$i]=$value1["COUNT(`patient_master`.`patient_category`)"];
-                    $i++;
-                  }
+                      
+                     
+                      
+                    $arrayrow[$i]=$value1["count"];
                  
-                 $data[$value["test_name"]]=$arrayrow;
-                 
+                     $names[$i]=$value1["name"];
+                 $i++;
+              
         }
+                 //echo json_encode($arrayrow);
+            //$data[0]=$names;
+                 $data["x"]= $names;
+                $data[$value["test_name"]]=($arrayrow);
+                $group[$j]=$value["test_name"];
+                $j++;
+        
+        
+        }
+        $data["groups"]=$group;
+         //echo json_encode($names);
         
        echo json_encode($data);
+        }
+
+
+
+
+public function ajax_getpatient_complaint() {
+          
+          //$cat = $this->input->get('cat');
+      
+
+        
+        
+        $type = $this->patient_model->category();
+        $names=$data=$group=array();
+        $j=0;
+        foreach ($type as $key => $value) {
+                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],null,null);
+                 
+                 
+                      
+                 $arrayrow=array();
+                      
+                    $i=0;
+                 // $arrayrow[$i]=$value["test_name"];
+                 
+                  foreach ($testdata as $key1 => $value1) {
+                      
+                     
+                      
+                    $arrayrow[$i]=$value1["count"];
+                 
+                     $names[$i]=$value1["name"];
+                 $i++;
+              
+        }
+                 //echo json_encode($arrayrow);
+            //$data[0]=$names;
+                 $data["x"]= $names;
+                $data[$value["chiefcomplaints1"]]=($arrayrow);
+                $group[$j]=$value["chiefcomplaints1"];
+                $j++;
+                
+              
+        }
+        $data["groups"]=$group;
+         //echo json_encode($names);
+        
+       echo json_encode($data);
+        
+    }
+       
+public function ajax_getpatient_complaintby() {
+        
+          //$cat = $this->input->get('cat');
+ 
+
+
+        $month = $this->input->get('month');
+          $aria = $this->input->get('aria');
+
+        $type = $this->patient_model->category();
+        $names=$data=$group=array();
+        $j=0;
+        foreach ($type as $key => $value) {
+                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],$month,$aria);
+
+          
+       
+                 $arrayrow=array();
+                      
+                 $i=0;
+                 // $arrayrow[$i]=$value["test_name"];
+                 
+                  foreach ($testdata as $key1 => $value1) {
+                      
+                     
+                      
+                    $arrayrow[$i]=$value1["count"];
+                 
+                     $names[$i]=$value1["name"];
+                    $i++;
+              
+                  }
+                 //echo json_encode($arrayrow);
+            //$data[0]=$names;
+                 $data["x"]= $names;
+                $data[$value["chiefcomplaints1"]]=($arrayrow);
+                $group[$j]=$value["chiefcomplaints1"];
+                $j++;
+                 
+                 
+        }
+        $data["groups"]=$group;
+         //echo json_encode($names);
+        
+       echo json_encode($data);
+   
 }
 }
 
 
 
-
-/*
- * 
- * 
- *   columns: [
-                    ['x', 'Child', 'Lactating Women', 'Pregnant Women', 'Senior citizen'],
-                    ['data1', 30, 200, 100, 400],
-                    ['data2', 130, 300, 200, 300],
-                    ['data3', 80, 150, 100, 180],
-                    ['data4', 20, 100, 50, 150],
-                    ['data5', 20, 100, 50, 150],
-                    ['data6', 20, 100, 50, 150],
-                    ['data7', 20, 100, 50, 150],
-                    ['data8', 20, 100, 50, 150],
-                    ['data9', 20, 100, 50, 150],
-                    ['data10', 20, 100, 50, 150]
-                ]
- *             }*/
