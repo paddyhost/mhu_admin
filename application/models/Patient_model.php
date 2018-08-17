@@ -533,4 +533,97 @@ class Patient_model extends CI_Model {
         
     }
 
+     public function getTotalpatientCount() {
+
+        $sqlmonthlycount='SELECT `patient_master`.`patient_category`,`patient_category`.name ,COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`) GROUP BY `patient_master`.`patient_category`';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    }
+    
+     public function getTotalpatientCountBy($month,$aria) {
+
+        $sqlmonthlycount='SELECT  `patient_master`.`patient_category`,`patient_category`.name ,COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`)  WHERE month(STR_TO_DATE(regitrationdate, "%d-%m-%Y"))='.$month.' AND `patient_master`.`area`="'.$aria.'"
+GROUP BY `patient_master`.`patient_category`';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    }
+    
+      public function getComplentCountBy($cat) {
+
+        $sqlmonthlycount='SELECT `medicalconditionmaster`.`chiefcomplaints1`,count(`medicalconditionmaster`.`chiefcomplaints1`) as count  FROM `medicalconditionmaster` LEFT JOIN `patient_master` ON(`patient_master`.id=`medicalconditionmaster`.`patient_id`) WHERE `patient_master`.`patient_category`="'.$cat.'" GROUP BY `medicalconditionmaster`.`chiefcomplaints1` ORDER BY count DESC';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    }
+      public function getAria() {
+
+        $sqlmonthlycount='SELECT area FROM `patient_master` GROUP BY area';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    }
+     public function getTestList() {
+
+        $sqlmonthlycount='SELECT  * FROM `test_master`';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    }
+    
+       public function getTestCountBY($testid) {
+
+        $sqlmonthlycount='SELECT COUNT(`patient_master`.`patient_category`) ,`patient_category`.`name` FROM   `patient_master` LEFT JOIN `map_test_attribute_values` ON `patient_master`.`id`=`map_test_attribute_values`.`patient_id` LEFT JOIN `patient_category` ON `patient_category`.`code`=`patient_master`.`patient_category` 
+WHERE `map_test_attribute_values`.`test_master_id`='.$testid.'
+GROUP BY `patient_master`.`patient_category`';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    }
 }
+   
+    
+
