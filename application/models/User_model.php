@@ -23,7 +23,7 @@ class User_model extends CI_Model {
     {
 
        $this->db->where('mobile', $mobile);
-      $this->db->where('password', $password);
+       $this->db->where('password', $password);
        $query = $this->db->get('user_table');
        $result = $query->result();
         //Free Memory for resource id

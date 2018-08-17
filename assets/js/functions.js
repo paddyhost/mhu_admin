@@ -548,7 +548,7 @@ $(document).ready(function(){
     //Date
     if ($('.date-picker')[0]) {
     	$('.date-picker').datetimepicker({
-    	    format: 'DD/MM/YYYY'
+    	    format: 'DD-MM-YYYY'
     	});
     }
 
@@ -557,11 +557,11 @@ $(document).ready(function(){
      */
 
     if ($('.form-wizard-basic')[0]) {
-    	$('.form-wizard-basic').bootstrapWizard({
-    	    tabClass: 'fw-nav',
-            'nextSelector': '.next',
-            'previousSelector': '.previous'
-    	});
+//    	$('.form-wizard-basic').bootstrapWizard({
+//    	    tabClass: 'fw-nav',
+//            'nextSelector': '.next',
+//            'previousSelector': '.previous'
+//    	});
     }
 
     /*
