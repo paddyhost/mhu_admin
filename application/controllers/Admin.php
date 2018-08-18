@@ -13,9 +13,10 @@ class admin extends CI_Controller {
     }
 
     public function dashboard() {
-        $data["aria"]= $this->patient_model->getAria();;
-     
-        $this->load->view('dashboard',$data);
+        $data["aria"] = $this->patient_model->getAria();
+        ;
+
+        $this->load->view('dashboard', $data);
     }
 
     public function newregistration() {
@@ -23,29 +24,29 @@ class admin extends CI_Controller {
         $data = array();
         $medicine_query = $this->db->get('medicine_master');
         $data['medicine'] = $medicine_query->result();
-             
+
         $sql1 = "SELECT GROUP_CONCAT( mta.attribute_name, '|', mta.id ORDER BY mta.id SEPARATOR '--') as attribute_values,"
                 . " GROUP_CONCAT(DISTINCT tm.test_name ORDER BY tm.id) as test_name, tm.id"
                 . " FROM map_test_attribute mta "
                 . " LEFT JOIN test_master tm ON (tm.id = mta.test_master_id) "
                 . " GROUP BY tm.id";
         $query1 = $this->db->query($sql1);
-        
+
         $data_view['mhu_test'] = $query1->result();
         $data['test_view'] = $this->load->view('tpl_mhu_tests', $data_view, TRUE);
-        
+
         $this->load->view('new_registration', $data);
     }
 
     public function api($api) {
-        
-       $user= $this->session->has_userdata('user');
+
+        $user = $this->session->has_userdata('user');
         $_POST["format"] = "JSON";
         $_POST["mobile"] = $this->session->user[0]->mobile;
         $_POST["password"] = $this->session->user[0]->password;
-         $data_string = json_encode($_POST);
-        
-        $url = 'http://localhost/api/v1_1/'.$api;
+        $data_string = json_encode($_POST);
+
+        $url = 'http://localhost/api/v1_1/' . $api;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -69,7 +70,7 @@ class admin extends CI_Controller {
     }
 
     public function patientlist() {
-        
+
         $this->load->view('patient_list');
     }
 
@@ -91,8 +92,6 @@ class admin extends CI_Controller {
 
         die(json_encode($json_data));  // send data as json format
     }
-
-  
 
     public function patientcard($patient_id) {
         if ($patient_id) {
@@ -155,147 +154,135 @@ class admin extends CI_Controller {
         $data['barC'] = $this->patient_model->getTotalMonthlyPatientCounts("C");
         echo json_encode($data);
     }
-    
+
     public function ajax_getTotalpatientCount() {
         $records = $this->patient_model->getTotalpatientCount();
 
-      
-      $data=array();
-  
-        foreach ($records as $key => $value) {
-                 $data[$value["name"]]=$value["count"];
-                 
-                 
-        }
-        
-        echo json_encode($data);
-    }
-    
-      public function ajax_getTotalpatientCountby() {
-          
-          $month = $this->input->get('month');
-          $aria = $this->input->get('aria');
-        $records = $this->patient_model->getTotalpatientCountBy($month,$aria);
 
-      
-      $data=array();
-  
+        $data = array();
+
         foreach ($records as $key => $value) {
-                 $data[$value["name"]]=intval($value["count"]);
-                 
-                 
+            $data[$value["name"]] = $value["count"];
         }
-        
+
         echo json_encode($data);
     }
- public function ajax_getComplentCountBy() {
-          
-          $cat = $this->input->get('cat');
+
+    public function ajax_getTotalpatientCountby() {
+
+        $month = $this->input->get('month');
+        $aria = $this->input->get('aria');
+        $records = $this->patient_model->getTotalpatientCountBy($month, $aria);
+
+
+        $data = array();
+
+        foreach ($records as $key => $value) {
+            $data[$value["name"]] = intval($value["count"]);
+        }
+
+        echo json_encode($data);
+    }
+
+    public function ajax_getComplentCountBy() {
+
+        $cat = $this->input->get('cat');
         $records = $this->patient_model->getComplentCountBy($cat);
 
-      
-      $data=array();
-  $i=0;
+
+        $data = array();
+        $i = 0;
         foreach ($records as $key => $value) {
-                 $data[$value["chiefcomplaints1"]]=intval($value["count"]);
-                 
-                 if($i==4)
-                 {
-                     break;
-                 }
-                     
-                     $i++;
+            $data[$value["chiefcomplaints1"]] = intval($value["count"]);
+
+            if ($i == 4) {
+                break;
+            }
+
+            $i++;
         }
-        
+
         echo json_encode($data);
     }
- public function ajax_getpatient_complaint() {
-          
-          //$cat = $this->input->get('cat');
+
+    public function ajax_getpatient_complaint() {
+
+        //$cat = $this->input->get('cat');
         $LW = $this->patient_model->getComplentCountBy("LW");
         $PW = $this->patient_model->getComplentCountBy("PW");
         $S = $this->patient_model->getComplentCountBy("S");
         $C = $this->patient_model->getComplentCountBy("C");
         $O = $this->patient_model->getComplentCountBy("O");
 
-      
-    
-        
-        
-         $i=1;
-        $x[0]="x";
+        $i = 1;
+        $x[0] = "x";
         foreach ($C as $key => $value) {
-                 $x[$i]=($value["chiefcomplaints1"]);
-                 $i++;
+            $x[$i] = ($value["chiefcomplaints1"]);
+            $i++;
         }
-        
-        
-         $i=1;
-        $datachild[0]="Child Under-5 Year of Age";
-        foreach ($C as $key => $value) {
-                 $datachild[$i]=intval($value["count"]);
-                 $i++;
-        }
-        $i=1;
-        $datapw[0]="Pregnant Women";
-        foreach ($PW as $key => $value) {
-                 $datapw[$i]=intval($value["count"]);
-                 $i++;
-        }
-         $i=1;
-        $dataLW[0]="Lactating Women";
-        foreach ($LW as $key => $value) {
-                 $dataLW[$i]=intval($value["count"]);
-                 $i++;
-        }
-          $i=1;
-        $dataS[0]="Senior Citizen-above 60 year of age";
-        foreach ($S as $key => $value) {
-                 $dataS[$i]=intval($value["count"]);
-                 $i++;
-        }
-        
-        
-       
-        
-        $data=array(
-             0=>$x,
-  1 => $dataS,
-  2=>$dataLW,
-  3=>$datapw,
-  4=>$datachild
- 
-);
 
+
+        $i = 1;
+        $datachild[0] = "Child Under-5 Year of Age";
+        foreach ($C as $key => $value) {
+            $datachild[$i] = intval($value["count"]);
+            $i++;
+        }
+        $i = 1;
+        $datapw[0] = "Pregnant Women";
+        foreach ($PW as $key => $value) {
+            $datapw[$i] = intval($value["count"]);
+            $i++;
+        }
+        $i = 1;
+        $dataLW[0] = "Lactating Women";
+        foreach ($LW as $key => $value) {
+            $dataLW[$i] = intval($value["count"]);
+            $i++;
+        }
+        $i = 1;
+        $dataS[0] = "Senior Citizen-above 60 year of age";
+        foreach ($S as $key => $value) {
+            $dataS[$i] = intval($value["count"]);
+            $i++;
+        }
+
+
+
+
+        $data = array(
+            0 => $x,
+            1 => $dataS,
+            2 => $dataLW,
+            3 => $datapw,
+            4 => $datachild
+        );
+        
 
         echo json_encode($data);
     }
 
+    public function ajax_getTestList() {
 
-public function ajax_getTestList() {
-          
-       
+
         $tests = $this->patient_model->getTestList();
-        $data=array();
+        $data = array();
         foreach ($tests as $key => $value) {
-                 $testdata=$this->patient_model->getTestCountBY($value["id"]);
-                 $arrayrow=array();
-                 $i=0;
-                  foreach ($testdata as $key1 => $value1) {
-                    $arrayrow[$i]=$value1["COUNT(`patient_master`.`patient_category`)"];
-                    $i++;
-                  }
-                 
-                 $data[$value["test_name"]]=$arrayrow;
-                 
+            $testdata = $this->patient_model->getTestCountBY($value["id"]);
+            $arrayrow = array();
+            $i = 0;
+            foreach ($testdata as $key1 => $value1) {
+                $arrayrow[$i] = $value1["COUNT(`patient_master`.`patient_category`)"];
+                $i++;
+            }
+
+            $data[$value["test_name"]] = $arrayrow;
         }
-        
-       echo json_encode($data);
+
+        echo json_encode($data);
+    }
+
 }
-}
-
-
-
 
 /*
  * 
