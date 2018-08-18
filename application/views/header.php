@@ -41,7 +41,7 @@
                     </a>
                     <ul class="dropdown-menu dm-icon pull-right">
                         <li>
-                            <a href="<?php echo base_url("/Welcome/logout"); ?>"><i class="zmdi zmdi-time-restore"></i> Logout</a>
+                            <a href="<?php echo base_url("/Login/logout"); ?>"><i class="zmdi zmdi-time-restore"></i> Logout</a>
                         </li>
                     </ul>
                 </li>

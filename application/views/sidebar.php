@@ -34,7 +34,7 @@
             <a href="<?php echo base_url("/admin/dashboard"); ?>"><i class="zmdi zmdi-home"></i> Dashboard</a>
         </li>
         <li>
-            <a href="<?php echo base_url("/Welcome/logout"); ?>"><i class="zmdi zmdi-time-restore"></i> Logout</a>
+            <a href="<?php echo base_url("/Login/logout"); ?>"><i class="zmdi zmdi-time-restore"></i> Logout</a>
         </li>
     </ul>
 </aside>
