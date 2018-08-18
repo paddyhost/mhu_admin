@@ -562,7 +562,8 @@ class Patient_model extends CI_Model {
                 END as name,'
                 . 'COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` '
 //                . 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`)  '
-                . 'WHERE month(STR_TO_DATE(regitrationdate, "%d-%m-%Y"))=' . $month . ' AND '
+//                . 'WHERE month(STR_TO_DATE(regitrationdate, "%d-%m-%Y"))=' . $month . ' AND '
+                . 'WHERE month(regitrationdate)=' . $month . ' AND '
                 . '`patient_master`.`area`="' . $aria . '" GROUP BY `patient_master`.`patient_category`';
 
         $query = $this->db->query($sqlmonthlycount);
@@ -591,6 +592,23 @@ class Patient_model extends CI_Model {
         return $data2;
     }
 
+    public function category() {
+
+        $sqlmonthlycount='SELECT  `medicalconditionmaster` .chiefcomplaints1  FROM `medicalconditionmaster` GROUP BY chiefcomplaints1';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    }
+    
+    
+    
     public function getAria() {
 
         $sqlmonthlycount = 'SELECT area FROM `patient_master` GROUP BY area';
@@ -617,23 +635,24 @@ class Patient_model extends CI_Model {
         return $data2;
     }
 
+
     public function getTestCountBY($testid) {
 
-        $sqlmonthlycount = 'SELECT COUNT(`patient_master`.`patient_category`),'
-//            .'`patient_category`.`name`' 
+        $sqlmonthlycount='SELECT COUNT(`patient_master`.`patient_category`) count,'
+//            .'`patient_category`.`name` '
             . 'CASE
                 WHEN patient_category = "PW" THEN "Pregnant Women"
                 WHEN patient_category = "LW" THEN "Lactating Women"
                 WHEN patient_category = "C" THEN "Child Under-5 Year of Age"
                 WHEN patient_category = "S" THEN "Senior Citizen-above 60 year of age"
                 ELSE "Others"
-            END as name, '
-            .' FROM   `patient_master`'
-            .' LEFT JOIN `map_test_attribute_values` ON `patient_master`.`id`=`map_test_attribute_values`.`patient_id` '
-//            .' LEFT JOIN `patient_category` ON `patient_category`.`code`=`patient_master`.`patient_category`' 
-            .' WHERE `map_test_attribute_values`.`test_master_id`=' . $testid 
-            .' GROUP BY `patient_master`.`patient_category`';
-
+            END as name '
+            .'FROM   `patient_master` '
+            .'LEFT JOIN `map_test_attribute_values` ON `patient_master`.`id`=`map_test_attribute_values`.`patient_id` '
+//            .'LEFT JOIN `patient_category` ON `patient_category`.`code`=`patient_master`.`patient_category` '
+            .'WHERE `map_test_attribute_values`.`test_master_id`='.$testid.
+            ' GROUP BY `patient_master`.`patient_category` ORDER BY patient_category'; //patient_category.id
+        
         $query = $this->db->query($sqlmonthlycount);
 
         $data2 = $query->result_array();
@@ -642,5 +661,46 @@ class Patient_model extends CI_Model {
 
         return $data2;
     }
-
+    
+    public function getPationtBY($copmplaint,$month,$aria) {
+        
+        $where="";
+        
+        if(isset($month) && isset($aria))
+        {
+           $where= //' AND month(STR_TO_DATE(regitrationdate, "%d-%m-%Y"))='.$month.' '
+                   ' AND month(regitrationdate)='.$month.' '
+                   . 'AND `patient_master`.`area`="'.$aria.'"';
+            
 }
+   
+    
+       $sqlmonthlycount='SELECT COUNT(`medicalconditionmaster` .chiefcomplaints1) count ,'
+//               . '`patient_category`.`name` '
+               . 'CASE
+                    WHEN patient_category = "PW" THEN "Pregnant Women"
+                    WHEN patient_category = "LW" THEN "Lactating Women"
+                    WHEN patient_category = "C" THEN "Child Under-5 Year of Age"
+                    WHEN patient_category = "S" THEN "Senior Citizen-above 60 year of age"
+                    ELSE "Others"
+                END as name '
+               . ' FROM `patient_master` '
+               . 'LEFT JOIN `medicalconditionmaster` ON `patient_master`.`id`=`medicalconditionmaster`.`patient_id` '
+//               . 'LEFT JOIN `patient_category` ON `patient_category`.`code`=`patient_master`.`patient_category` '
+               . 'WHERE `medicalconditionmaster`.`chiefcomplaints1`="'.$copmplaint.'" '.$where.' '
+               . 'GROUP BY `patient_master`.`patient_category` ORDER BY patient_category'; //patient_category_id
+
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2= $query->result_array();
+      
+         
+  
+        return $data2;
+        
+        
+    
+}
+}
+   
+
