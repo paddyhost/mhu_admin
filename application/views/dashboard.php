@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MHU | Dashboard</title>
     <?php
+   // print_r($aria);
+   // die();
     $this->load->view('common_css');
 
     print_r($aria);
@@ -17,8 +19,25 @@
 
 
     <section id="main" data-layout="layout-1">
+         
         <?php //$this->load->view('sidebar'); ?>
         <section id="content">
+            <div class="container " >
+            <div class="row card col-md-12 col-sm-12 col-xs-12">
+            
+            <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
+                                            <select id="phase" class="selectpicker" title="Select Phase">
+                                               
+                                                <option value="1" selected="true">PHASE 1</option>
+                                        <option value="2">PHASE 2</option>
+                                      
+
+                                            </select>
+                                        </div>
+            
+            
+            </div>
+            </div>
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-5 col-xs-12">
@@ -59,11 +78,11 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
-                                            <select id="chart1area" class="selectpicker" title="Area">
+                                            <select id="chart1area" class="selectpicker" title="Location">
 
                                                 <?php
                                                 foreach ($aria as $key => $value) {
-                                                    echo "<option>" . $value["area"] . "</option>";
+                                                    echo "<option>" . $value["location"] . "</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -112,10 +131,11 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
-                                    <select class="selectpicker" id="patient_complaintaria" title="Area">
+                                    <select class="selectpicker" id="patient_complaintaria" title="Location">
                                          <?php
                                                 foreach ($aria as $key => $value) {
-                                                    echo "<option>" . $value["area"] . "</option>";
+                                                 
+                                                    echo "<option>" . $value["location"] . "</option>";
                                                 }
                                                 ?>
                                     </select>
@@ -191,6 +211,14 @@
                         </div>
                     </div>
                 </div>
+                 <div class="card">
+                    <div class="card-header">
+                        <h4>Target Population By Location</h4>
+                    </div>
+                    <div class="card-body card-padding">
+                        <div id="TargetPopulationLocation"></div>
+                    </div>
+                </div>
             </div>
         </section>
     </section>
@@ -206,10 +234,21 @@
     </div>
 <?php $this->load->view('common_js'); ?>
     <script>
+        
+        
+        var phase=1;
+        
+        $( "#phase" ).change(function() {
+            phase= $( "#phase option:selected" ).val();
+            load();
+            
+        });
+        
+        function load(){
         var general_chart = c3.generate({
             bindto: '#general_chart',
             data: {
-                url: '/admin/ajax_getTotalpatientCount',
+                url: '/admin/ajax_getTotalpatientCount/'+phase,
                 type: 'bar',
                 mimeType: 'json'
             },
@@ -261,13 +300,13 @@
             }
         });
         general_chart2.unload();
-$( "#chart1area" ).change(function() {
+        $( "#chart1area" ).change(function() {
    var month= $( "#chart1 option:selected" ).val();
   var aria=  $( "#chart1area option:selected" ).val();
   
   general_chart2.unload();
   general_chart2.load({
-        url: '/admin/ajax_getTotalpatientCountby?month='+month+'&aria='+aria,
+        url: '/admin/ajax_getTotalpatientCountby/'+phase+'?month='+month+'&aria='+aria,
          type: 'bar',
                 mimeType: 'json'
     });
@@ -276,7 +315,7 @@ $( "#chart1area" ).change(function() {
 
 });
 
-$( "#chart1" ).change(function() {
+        $( "#chart1" ).change(function() {
     
 $( "#chart1area option:selected" ).removeAttr("selected");
   general_chart2.unload();
@@ -285,13 +324,11 @@ $( "#chart1area option:selected" ).removeAttr("selected");
 
 
 });
-      
-
         var patient_complaint = c3.generate({
             bindto: '#patient_complaint',
             data: {
                         x:'x',
-                       url:'/admin/ajax_getpatient_complaint',
+                       url:'/admin/ajax_getpatient_complaint/'+phase,
                        mimeType: 'json',
                        type: 'bar',
                        groups: [
@@ -321,7 +358,6 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
             onrendered: function () {  }
         });
-
         var patient_complaint2 = c3.generate({
             bindto: '#patient_complaint2',
             legend: {
@@ -329,7 +365,7 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
             data: {
                 x:'x',
-                       url:'/admin/ajax_getpatient_complaint',
+                       url:'/admin/ajax_getpatient_complaint/'+phase,
                        mimeType: 'json',
                        type: 'bar',
                        groups: [
@@ -355,11 +391,10 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
              onrendered: function () {  }
         });
-
         var child_complaint = c3.generate({
             bindto: '#child_complaint',
             data: {
-                url: '/admin/ajax_getComplentCountBy?cat=C',
+                url: '/admin/ajax_getComplentCountBy/'+phase+'?cat=C',
                 type: 'bar',
                 mimeType: 'json'
             },
@@ -378,11 +413,10 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
              onrendered: function () {  }
         });
-
         var lactating_complaint = c3.generate({
             bindto: '#lactating_complaint',
             data: {
-                url: '/admin/ajax_getComplentCountBy?cat=LW',
+                url: '/admin/ajax_getComplentCountBy/'+phase+'?cat=LW',
                 type: 'bar',
                 mimeType: 'json'
             },
@@ -401,11 +435,10 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
              onrendered: function () {  }
         });
-
         var pregnant_complaint = c3.generate({
             bindto: '#pregnant_complaint',
             data: {
-              url: '/admin/ajax_getComplentCountBy?cat=PW',
+              url: '/admin/ajax_getComplentCountBy/'+phase+'?cat=PW',
                 type: 'bar',
                 mimeType: 'json'
             },
@@ -424,11 +457,10 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             }, 
             onrendered: function () {  }
         });
-
         var senior_complaint = c3.generate({
             bindto: '#senior_complaint',
             data: {
-                url: '/admin/ajax_getComplentCountBy?cat=C',
+                url: '/admin/ajax_getComplentCountBy/'+phase+'?cat=C',
                 type: 'bar',
                 mimeType: 'json'
             },
@@ -448,13 +480,12 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             ,
              onrendered: function () {  }
         });
-
         var test = c3.generate({
             bindto: '#test',
             data: 
                     {
                         x:'x',
-                       url:'/admin/ajax_getTestList',
+                       url:'/admin/ajax_getTestList/'+phase,
                        mimeType: 'json',
                        type: 'bar',
                        groups: [
@@ -483,18 +514,13 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             , 
             onrendered: function () {  }
         });
-        
-        
-        
-        
-        
-        $( "#patient_complaintaria" ).change(function() {
+      $( "#patient_complaintaria" ).change(function() {
    var month= $( "#patient_complaintmonth option:selected" ).val();
   var aria=  $( "#patient_complaintaria option:selected" ).val();
   
   patient_complaint2.unload();
   patient_complaint2.load({
-        url: '/admin/ajax_getpatient_complaintby?month='+month+'&aria='+aria,
+        url: '/admin/ajax_getpatient_complaintby/'+phase+'?month='+month+'&aria='+aria,
          type: 'bar',
          mimeType: 'json'
     });
@@ -502,8 +528,7 @@ $( "#chart1area option:selected" ).removeAttr("selected");
 
 
 });
-
-$( "#patient_complaintmonth" ).change(function() {
+      $( "#patient_complaintmonth" ).change(function() {
     
 $( "#patient_complaintaria option:selected" ).removeAttr("selected");
   patient_complaint2.unload();
@@ -512,7 +537,42 @@ $( "#patient_complaintaria option:selected" ).removeAttr("selected");
 
 
 });
-  
+      var TargetPopulationLocation = c3.generate({
+            bindto: '#TargetPopulationLocation',
+            data: {
+                        x:'x',
+                       url:'/admin/ajax_getTargetPopulationLocationt/'+phase,
+                       mimeType: 'json',
+                       type: 'bar',
+                       groups: [
+            ["ADARSH NAGAR","Adarsh Vihar","ANIL VIHAR","AZAD VIHAR","BHARAT NAGAR","INDRA VIHAR","LOKPRIYA VIHAR","PRAGATI VIAHR","PRAGATI VIHAR","PREM VIHAR","RAJIV NAGAR","SANGAM VIHAR","SHIV PARK","VANDANA VIHAR","VANDNA VIHAR"]              
+            ],
+                       
+                    },
+                    legend: {
+        show: false
+    },
+            axis: {
+                x: {
+                    type: 'category',
+                    //categories: ['Fever', 'Bodyache', 'Cough', 'Cough Cold', 'Allergic', 'Abdominal Pain', 'Ranalcalkulus', 'Joint Pain', 'Gastritis', 'Knee Pain'],
+                    label: 'Patient Categories'
+                },
+                y: {
+                    label: 'Complaints Count'
+                }
+            },
+            bar: {
+                width: {
+                    ratio: 0.5 // this makes bar width 50% of length between ticks
+                }
+                // or
+                //width: 100 // this makes bar width 100px
+            },
+            onrendered: function () {  }
+        });
+    }
+ load();
     </script>
 </body>
 </html>
