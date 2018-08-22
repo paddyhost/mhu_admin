@@ -60,13 +60,23 @@
                                             <input type="hidden" name="pid" id="pid" value="0">
                                             <input type="hidden" name="registration_no" id="registration_no" value="0">
                                             <div class="row">
-                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="col-md- col-sm-2 col-xs-12">
                                                     <label>Registration Date</label>
                                                     <div class="input-group form-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-calendar"></i></span>
                                                         <div class="dtp-container fg-line">
                                                             <input type='text' name="dor" id="dor" class="form-control date-picker" placeholder="Registration Date">
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                                    <div class="form-group">
+                                                        <label>Phase</label>
+                                                        <select name="phase" id="phase" class="selectpicker" title="Select Phase">
+                                                            <?php $i=1; while ($i<=100):?>
+                                                            <option value="<?= $i?>"> Phase <?= $i?></option>
+                                                            <?php $i++; endwhile;?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">

@@ -53,8 +53,8 @@ class Patient extends CI_Controller {
         $data = array();
         if ($id > 0) {
             $result = $this->patient_model->getPatient($id);
-            
-            $visit_arr = ['patient_master_id'=>$id, 'user_id'=> $this->session_data[0]->id];
+            $phase = $this->input->get_post('phase');
+            $visit_arr = ['patient_master_id'=>$id, 'user_id'=> $this->session_data[0]->id, 'phase'=>$phase];
             $this->db->insert('visit_master',$visit_arr);
             $result->visit_master_id = $this->db->insert_id();
             
