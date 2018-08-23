@@ -16,6 +16,9 @@ class admin extends CI_Controller {
         $data["aria"] = $this->patient_model->getAria();
         ;
 
+        
+        
+        
         $this->load->view('dashboard', $data);
     }
 
@@ -155,8 +158,8 @@ class admin extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function ajax_getTotalpatientCount() {
-        $records = $this->patient_model->getTotalpatientCount();
+    public function ajax_getTotalpatientCount($phase) {
+        $records = $this->patient_model->getTotalpatientCount($phase);
 
 
         $data = array();
@@ -168,11 +171,11 @@ class admin extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function ajax_getTotalpatientCountby() {
+    public function ajax_getTotalpatientCountby($phase) {
 
         $month = $this->input->get('month');
         $aria = $this->input->get('aria');
-        $records = $this->patient_model->getTotalpatientCountBy($month, $aria);
+        $records = $this->patient_model->getTotalpatientCountBy($month, $aria,$phase);
 
 
         $data = array();
@@ -184,10 +187,10 @@ class admin extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function ajax_getComplentCountBy() {
+    public function ajax_getComplentCountBy($phase) {
 
         $cat = $this->input->get('cat');
-        $records = $this->patient_model->getComplentCountBy($cat);
+        $records = $this->patient_model->getComplentCountBy($cat,$phase);
 
 
         $data = array();
@@ -207,14 +210,14 @@ class admin extends CI_Controller {
           
 
       
-public function ajax_getTestList() {
+public function ajax_getTestList($phase) {
     
         
         $tests = $this->patient_model->getTestList();
         $names=$data=$group=array();
         $j=0;
         foreach ($tests as $key => $value) {
-                 $testdata=$this->patient_model->getTestCountBY($value["id"]);
+                 $testdata=$this->patient_model->getTestCountBY($value["id"],$phase);
         
                  
                       
@@ -251,7 +254,7 @@ public function ajax_getTestList() {
 
 
 
-public function ajax_getpatient_complaint() {
+public function ajax_getpatient_complaint($phase) {
           
           //$cat = $this->input->get('cat');
       
@@ -262,7 +265,7 @@ public function ajax_getpatient_complaint() {
         $names=$data=$group=array();
         $j=0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],null,null);
+                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],null,null,$phase);
                  
                  
                       
@@ -297,7 +300,7 @@ public function ajax_getpatient_complaint() {
         
     }
        
-public function ajax_getpatient_complaintby() {
+public function ajax_getpatient_complaintby($phase) {
         
           //$cat = $this->input->get('cat');
  
@@ -310,7 +313,7 @@ public function ajax_getpatient_complaintby() {
         $names=$data=$group=array();
         $j=0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],$month,$aria);
+                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],$month,$aria,$phase);
 
           
        
@@ -344,6 +347,53 @@ public function ajax_getpatient_complaintby() {
        echo json_encode($data);
    
 }
+
+public function ajax_getTargetPopulationLocationt($phase) {
+          
+          //$cat = $this->input->get('cat');
+      
+
+        
+        
+        $type = $this->patient_model->getAria();
+        $names=$data=$group=array();
+        $j=0;
+        foreach ($type as $key => $value) {
+                 $testdata=$this->patient_model->getTotalpatientCount($phase,$value["location"]);
+                 
+                 
+                      
+                 $arrayrow=array();
+                      
+                    $i=0;
+                 // $arrayrow[$i]=$value["test_name"];
+                 
+                  foreach ($testdata as $key1 => $value1) {
+                      
+                     
+                      
+                    $arrayrow[$i]=$value1["count"];
+                 
+                     $names[$i]=$value1["name"];
+                 $i++;
+              
+        }
+                 //echo json_encode($arrayrow);
+            //$data[0]=$names;
+                 $data["x"]= $names;
+                $data[$value["location"]]=($arrayrow);
+                $group[$j]=$value["location"];
+                $j++;
+                
+              
+        }
+        $data["groups"]=$group;
+         //echo json_encode($names);
+        
+       echo json_encode($data);
+        
+    }
+
 }
 
 

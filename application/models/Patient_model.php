@@ -525,7 +525,14 @@ class Patient_model extends CI_Model {
         return $data2;
     }
 
-    public function getTotalpatientCount() {
+    public function getTotalpatientCount($phase,$location='') {
+        
+        $where=" ";
+        if($location!='')
+        {
+            $where=" AND `patient_master`.`location`='".$location."'";
+            
+        }
 
         $sqlmonthlycount = 'SELECT `patient_master`.`patient_category`,'
                 //. '`patient_category`.name ,'
@@ -537,8 +544,11 @@ class Patient_model extends CI_Model {
                     ELSE "Others"
                 END as name, '
                 . 'COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` '
+                .'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
                 //. 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`) '
-                . 'GROUP BY `patient_master`.`patient_category`';
+                .$where. ' GROUP BY `patient_master`.`patient_category`';
+        
+       // echo $sqlmonthlycount;die();
 
         $query = $this->db->query($sqlmonthlycount);
 
@@ -549,7 +559,7 @@ class Patient_model extends CI_Model {
         return $data2;
     }
 
-    public function getTotalpatientCountBy($month, $aria) {
+    public function getTotalpatientCountBy($month, $aria,$phase) {
 
         $sqlmonthlycount = 'SELECT  `patient_master`.`patient_category`,'
 //                . '`patient_category`.name ,'
@@ -562,9 +572,11 @@ class Patient_model extends CI_Model {
                 END as name,'
                 . 'COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` '
 //                . 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`)  '
-//                . 'WHERE month(STR_TO_DATE(regitrationdate, "%d-%m-%Y"))=' . $month . ' AND '
-                . 'WHERE month(regitrationdate)=' . $month . ' AND '
-                . '`patient_master`.`area`="' . $aria . '" GROUP BY `patient_master`.`patient_category`';
+    //         .'WHERE month(STR_TO_DATE(regitrationdate, "%d-%m-%Y"))=' . $month . ' AND '
+                .' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+                
+               . ' AND month(regitrationdate)=' . $month . ' AND '
+                . '`patient_master`.`location`="' . $aria . '" GROUP BY `patient_master`.`patient_category`';
 
         $query = $this->db->query($sqlmonthlycount);
 
@@ -575,12 +587,14 @@ class Patient_model extends CI_Model {
         return $data2;
     }
 
-    public function getComplentCountBy($cat) {
+    public function getComplentCountBy($cat,$phase) {
 
         $sqlmonthlycount = 'SELECT `medicalconditionmaster`.`chiefcomplaints1`,'
                 . 'count(`medicalconditionmaster`.`chiefcomplaints1`) as count  FROM `medicalconditionmaster` '
                 . 'LEFT JOIN `patient_master` ON(`patient_master`.id=`medicalconditionmaster`.`patient_id`) '
-                . 'WHERE `patient_master`.`patient_category`="' . $cat . '" '
+                .' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+               
+                . ' AND `patient_master`.`patient_category`="' . $cat . '" '
                 . 'GROUP BY `medicalconditionmaster`.`chiefcomplaints1` ORDER BY count DESC';
 
         $query = $this->db->query($sqlmonthlycount);
@@ -611,7 +625,7 @@ class Patient_model extends CI_Model {
     
     public function getAria() {
 
-        $sqlmonthlycount = 'SELECT area FROM `patient_master` GROUP BY area';
+        $sqlmonthlycount = 'SELECT location FROM `patient_master` GROUP BY location';
 
         $query = $this->db->query($sqlmonthlycount);
 
@@ -636,7 +650,7 @@ class Patient_model extends CI_Model {
     }
 
 
-    public function getTestCountBY($testid) {
+    public function getTestCountBY($testid,$phase) {
 
         $sqlmonthlycount='SELECT COUNT(`patient_master`.`patient_category`) count,'
 //            .'`patient_category`.`name` '
@@ -650,7 +664,9 @@ class Patient_model extends CI_Model {
             .'FROM   `patient_master` '
             .'LEFT JOIN `map_test_attribute_values` ON `patient_master`.`id`=`map_test_attribute_values`.`patient_id` '
 //            .'LEFT JOIN `patient_category` ON `patient_category`.`code`=`patient_master`.`patient_category` '
-            .'WHERE `map_test_attribute_values`.`test_master_id`='.$testid.
+              .' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+               
+                .' AND `map_test_attribute_values`.`test_master_id`='.$testid.
             ' GROUP BY `patient_master`.`patient_category` ORDER BY patient_category'; //patient_category.id
         
         $query = $this->db->query($sqlmonthlycount);
@@ -662,7 +678,7 @@ class Patient_model extends CI_Model {
         return $data2;
     }
     
-    public function getPationtBY($copmplaint,$month,$aria) {
+    public function getPationtBY($copmplaint,$month,$aria,$phase) {
         
         $where="";
         
@@ -687,9 +703,15 @@ class Patient_model extends CI_Model {
                . ' FROM `patient_master` '
                . 'LEFT JOIN `medicalconditionmaster` ON `patient_master`.`id`=`medicalconditionmaster`.`patient_id` '
 //               . 'LEFT JOIN `patient_category` ON `patient_category`.`code`=`patient_master`.`patient_category` '
-               . 'WHERE `medicalconditionmaster`.`chiefcomplaints1`="'.$copmplaint.'" '.$where.' '
+               
+               .' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+
+                . ' AND `medicalconditionmaster`.`chiefcomplaints1`="'.$copmplaint.'" '.$where.' '
+               
                . 'GROUP BY `patient_master`.`patient_category` ORDER BY patient_category'; //patient_category_id
 
+       //echo $sqlmonthlycount;
+       
         $query = $this->db->query($sqlmonthlycount);
 
         $data2= $query->result_array();
