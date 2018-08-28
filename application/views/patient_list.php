@@ -23,7 +23,7 @@
                         <table id="data-table-command" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th data-column-id="registration_no" data-type="reg_no" data-width="200px">Registration No.</th>
+                                    <th data-column-id="unique_id" data-type="reg_no" data-width="200px">Unique ID.</th><!--registration_no-->
                                     <th data-column-id="regitrationdate" data-width="200px">Registration Date</th>
                                     <th data-column-id="fname" data-order="name">Name</th>
                                     <th data-column-id="patient_category" data-formatter="patient_category">Patient Category</th>

@@ -11,7 +11,7 @@
    // die();
     $this->load->view('common_css');
 
-    print_r($aria);
+    //print_r($aria);
     ?>
 </head>
 <body>
@@ -23,20 +23,14 @@
         <?php //$this->load->view('sidebar'); ?>
         <section id="content">
             <div class="container " >
-            <div class="row card col-md-12 col-sm-12 col-xs-12">
-            
-            <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
-                                            <select id="phase" class="selectpicker" title="Select Phase">
-                                               
-                                                <option value="1" selected="true">PHASE 1</option>
-                                        <option value="2">PHASE 2</option>
-                                      
-
-                                            </select>
-                                        </div>
-            
-            
-            </div>
+            <!--<div class="row">-->
+                <div class="card col-md-5 col-sm-5 col-xs-12">
+                    <select id="phase" class="selectpicker" title="Select Phase">
+                        <option value="1" selected="true">PHASE 1</option>
+                        <option value="2">PHASE 2</option>
+                    </select>
+                </div>
+            <!--</div>-->
             </div>
             <div class="container">
                 <div class="row">
@@ -134,7 +128,7 @@
                                     <select class="selectpicker" id="patient_complaintaria" title="Location">
                                          <?php
                                                 foreach ($aria as $key => $value) {
-                                                 
+                                                    $location[] = $value['location']; 
                                                     echo "<option>" . $value["location"] . "</option>";
                                                 }
                                                 ?>
@@ -213,7 +207,7 @@
                 </div>
                  <div class="card">
                     <div class="card-header">
-                        <h4>Target Population By Location</h4>
+                        <h4>Target Population Achieve during Health Camp</h4>
                     </div>
                     <div class="card-body card-padding">
                         <div id="TargetPopulationLocation"></div>
@@ -238,10 +232,9 @@
         
         var phase=1;
         
-        $( "#phase" ).change(function() {
-            phase= $( "#phase option:selected" ).val();
-            load();
-            
+        $("#phase" ).change(function() {
+            phase = $( "#phase option:selected" ).val();
+            load(); 
         });
         
         function load(){
@@ -299,46 +292,41 @@
                 width: 50
             }
         });
+        
         general_chart2.unload();
+        
         $( "#chart1area" ).change(function() {
-   var month= $( "#chart1 option:selected" ).val();
-  var aria=  $( "#chart1area option:selected" ).val();
+            var month= $( "#chart1 option:selected" ).val();
+            var aria= $( "#chart1area option:selected" ).val();
   
-  general_chart2.unload();
-  general_chart2.load({
-        url: '/admin/ajax_getTotalpatientCountby/'+phase+'?month='+month+'&aria='+aria,
-         type: 'bar',
+            general_chart2.unload();
+            general_chart2.load({
+                url: '/admin/ajax_getTotalpatientCountby/'+phase+'?month='+month+'&aria='+aria,
+                type: 'bar',
                 mimeType: 'json'
-    });
+            });
+        });
 
-
-
-});
-
-        $( "#chart1" ).change(function() {
-    
-$( "#chart1area option:selected" ).removeAttr("selected");
-  general_chart2.unload();
-  
-
-
-
-});
+        $("#chart1").change(function() {    
+            $("#chart1area option:selected").removeAttr("selected");
+            general_chart2.unload();
+        });
+        
+        
         var patient_complaint = c3.generate({
             bindto: '#patient_complaint',
             data: {
-                        x:'x',
-                       url:'/admin/ajax_getpatient_complaint/'+phase,
-                       mimeType: 'json',
-                       type: 'bar',
-                       groups: [
-                          ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
-                        ],
-                       
-                    },
-                    legend: {
-        show: false
-    },
+                x:'x',
+                url:'/admin/ajax_getpatient_complaint/'+phase,
+                mimeType: 'json',
+                type: 'bar',
+                groups: [
+                   ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
+                 ],     
+                },
+            legend: {
+                show: false
+            },
             axis: {
                 x: {
                     type: 'category',
@@ -358,19 +346,21 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
             onrendered: function () {  }
         });
+        
+        
         var patient_complaint2 = c3.generate({
             bindto: '#patient_complaint2',
-            legend: {
-        show: false
-            },
+                legend: {
+                    show: false
+                },
             data: {
                 x:'x',
-                       url:'/admin/ajax_getpatient_complaint/'+phase,
-                       mimeType: 'json',
-                       type: 'bar',
-                       groups: [
-                          ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
-                        ],
+                url:'/admin/ajax_getpatient_complaint/'+phase,
+                mimeType: 'json',
+                type: 'bar',
+                groups: [
+                   ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
+                 ],
             },
             axis: {
                 x: {
@@ -391,6 +381,8 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
              onrendered: function () {  }
         });
+        
+        
         var child_complaint = c3.generate({
             bindto: '#child_complaint',
             data: {
@@ -413,6 +405,7 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
              onrendered: function () {  }
         });
+        
         var lactating_complaint = c3.generate({
             bindto: '#lactating_complaint',
             data: {
@@ -435,6 +428,8 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             },
              onrendered: function () {  }
         });
+        
+        
         var pregnant_complaint = c3.generate({
             bindto: '#pregnant_complaint',
             data: {
@@ -457,10 +452,12 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             }, 
             onrendered: function () {  }
         });
+        
+        
         var senior_complaint = c3.generate({
             bindto: '#senior_complaint',
             data: {
-                url: '/admin/ajax_getComplentCountBy/'+phase+'?cat=C',
+                url: '/admin/ajax_getComplentCountBy/'+phase+'?cat=S',
                 type: 'bar',
                 mimeType: 'json'
             },
@@ -480,20 +477,22 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             ,
              onrendered: function () {  }
         });
+        
+        
         var test = c3.generate({
             bindto: '#test',
             data: 
-                    {
-                        x:'x',
-                       url:'/admin/ajax_getTestList/'+phase,
-                       mimeType: 'json',
-                       type: 'bar',
-                       groups: [
-                           ["Complete Blood Count (CBC)\/ Homogram (Hgm)","Liver Function Test (LFT)","Kidney Function Test","Lipid Profile","Glucose Profile (BSR)","WIDAL","TYPHIDOT","Malaria Serology","RA Factor","HBSAG (Hepatitis B AG)","Urine Examination","CRP","Anti HCV","HIV","VDRL","GCT","ABO RH (Blood Group)"]
-                    
-                        ],
-                       
-                    },
+                {
+                    x:'x',
+                   url:'/admin/ajax_getTestList/'+phase,
+                   mimeType: 'json',
+                   type: 'bar',
+                   groups: [
+                       ["Complete Blood Count (CBC)\/ Homogram (Hgm)","Liver Function Test (LFT)","Kidney Function Test","Lipid Profile","Glucose Profile (BSR)","WIDAL","TYPHIDOT","Malaria Serology","RA Factor","HBSAG (Hepatitis B AG)","Urine Examination","CRP","Anti HCV","HIV","VDRL","GCT","ABO RH (Blood Group)"]
+
+                    ],
+
+                },
             axis: {
                 x: {
                     type: 'category',
@@ -514,44 +513,42 @@ $( "#chart1area option:selected" ).removeAttr("selected");
             , 
             onrendered: function () {  }
         });
-      $( "#patient_complaintaria" ).change(function() {
-   var month= $( "#patient_complaintmonth option:selected" ).val();
-  var aria=  $( "#patient_complaintaria option:selected" ).val();
-  
-  patient_complaint2.unload();
-  patient_complaint2.load({
-        url: '/admin/ajax_getpatient_complaintby/'+phase+'?month='+month+'&aria='+aria,
-         type: 'bar',
-         mimeType: 'json'
-    });
+        
+        
+        $( "#patient_complaintaria" ).change(function() {
+            var month= $( "#patient_complaintmonth option:selected" ).val();
+            var aria=  $( "#patient_complaintaria option:selected" ).val();
 
+            patient_complaint2.unload();
+            patient_complaint2.load({
+                url: '/admin/ajax_getpatient_complaintby/'+phase+'?month='+month+'&aria='+aria,
+                type: 'bar',
+                mimeType: 'json'
+            });
+        });
 
+        $( "#patient_complaintmonth" ).change(function() {
 
-});
-      $( "#patient_complaintmonth" ).change(function() {
-    
-$( "#patient_complaintaria option:selected" ).removeAttr("selected");
-  patient_complaint2.unload();
-  
+            $( "#patient_complaintaria option:selected" ).removeAttr("selected");
+            patient_complaint2.unload();
+        });
 
-
-
-});
-      var TargetPopulationLocation = c3.generate({
+        var TargetPopulationLocation = c3.generate({
             bindto: '#TargetPopulationLocation',
             data: {
-                        x:'x',
-                       url:'/admin/ajax_getTargetPopulationLocationt/'+phase,
-                       mimeType: 'json',
-                       type: 'bar',
-                       groups: [
-            ["ADARSH NAGAR","Adarsh Vihar","ANIL VIHAR","AZAD VIHAR","BHARAT NAGAR","INDRA VIHAR","LOKPRIYA VIHAR","PRAGATI VIAHR","PRAGATI VIHAR","PREM VIHAR","RAJIV NAGAR","SANGAM VIHAR","SHIV PARK","VANDANA VIHAR","VANDNA VIHAR"]              
-            ],
+                x:'x',
+                url:'/admin/ajax_getTargetPopulationLocationt/'+phase,
+                mimeType: 'json',
+                type: 'bar',
+                groups: [
+                //["ADARSH NAGAR","Adarsh Vihar","ANIL VIHAR","AZAD VIHAR","BHARAT NAGAR","INDRA VIHAR","LOKPRIYA VIHAR","PRAGATI VIAHR","PRAGATI VIHAR","PREM VIHAR","RAJIV NAGAR","SANGAM VIHAR","SHIV PARK","VANDANA VIHAR","VANDNA VIHAR"]              
+                [<?php echo '"'.implode('","', $location).'"';?>]
+                ],
                        
-                    },
-                    legend: {
-        show: false
-    },
+            },
+            legend: {
+                show: false
+            },
             axis: {
                 x: {
                     type: 'category',
@@ -572,7 +569,8 @@ $( "#patient_complaintaria option:selected" ).removeAttr("selected");
             onrendered: function () {  }
         });
     }
- load();
+    
+    load();
     </script>
 </body>
 </html>

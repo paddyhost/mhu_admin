@@ -136,15 +136,17 @@ class Patient extends CI_Controller {
 //        $medicalconditionid = 1;
         $medicalconditionid = $this->patient_model->addMedicalcondition($arrdata);
         
-        foreach ($id as $iterator => $medicine_id) {
-            $prescribe_dose[] = array(
-                'name'=>$name[$iterator],
-                'medicine_id'=>$medicine_id,
-                'frequency'=>$frequency[$iterator],
-                'days'=>$days[$iterator],
-                'aftermeal'=>$aftermeal[$iterator],
-                'medicalconditionid'=>$medicalconditionid
-                );
+        if(!empty($id)){
+            foreach ($id as $iterator => $medicine_id) {
+                $prescribe_dose[] = array(
+                    'name'=>$name[$iterator],
+                    'medicine_id'=>$medicine_id,
+                    'frequency'=>$frequency[$iterator],
+                    'days'=>$days[$iterator],
+                    'aftermeal'=>$aftermeal[$iterator],
+                    'medicalconditionid'=>$medicalconditionid
+                    );
+            }
         }
         
         $data = array();
@@ -200,6 +202,7 @@ class Patient extends CI_Controller {
     
     public function postVaccination() {
         extract($_POST);
+        if(!empty($vaccination))
         $vaccination_arr = array_keys($vaccination);
         
         $arrdata = array(
@@ -209,8 +212,10 @@ class Patient extends CI_Controller {
             'visit_master_id' => $this->input->get_post('visit_master_id'),
         );
         
-        foreach ($vaccination as  $value) {
-            $arrdata[$value] = 'Y';
+        if(!empty($vaccination)){
+            foreach ($vaccination as  $value) {
+                $arrdata[$value] = 'Y';
+            }
         }
 
         $id = $this->patient_model->addvaccination($arrdata);
