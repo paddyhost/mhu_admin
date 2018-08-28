@@ -530,11 +530,11 @@ class Patient_model extends CI_Model {
         $where=" ";
         if($location!='')
         {
-            $where=" AND `patient_master`.`location`='".$location."'";
+            $where=" WHERE `camp_pationt_master`.`location`='".$location."'";
             
         }
 
-        $sqlmonthlycount = 'SELECT `patient_master`.`patient_category`,'
+        $sqlmonthlycount = 'SELECT `camp_pationt_master`.`patient_category`,'
                 //. '`patient_category`.name ,'
                 . 'CASE
                     WHEN patient_category = "PW" THEN "Pregnant Women"
@@ -543,10 +543,10 @@ class Patient_model extends CI_Model {
                     WHEN patient_category = "S" THEN "Senior Citizen-above 60 year of age"
                     ELSE "Others"
                 END as name, '
-                . 'COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` '
-                .'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+                . 'COUNT(`camp_pationt_master`.`patient_category`) AS count FROM `camp_pationt_master` '
+                //.'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
                 //. 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`) '
-                .$where. ' GROUP BY `patient_master`.`patient_category`';
+                .$where. ' GROUP BY `camp_pationt_master`.`patient_category`';
         
        // echo $sqlmonthlycount;die();
 
@@ -626,6 +626,18 @@ class Patient_model extends CI_Model {
     public function getAria() {
 
         $sqlmonthlycount = 'SELECT location FROM `patient_master` GROUP BY location';
+
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2 = $query->result_array();
+
+
+
+        return $data2;
+    }
+    public function getAria2() {
+
+        $sqlmonthlycount = 'SELECT location FROM `camp_pationt_master` GROUP BY location';
 
         $query = $this->db->query($sqlmonthlycount);
 
