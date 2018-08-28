@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>MHU | New Registration</title>
         <?php $this->load->view('common_css');?>
+        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
         <style>
             .error{
                 outline: 0;
@@ -650,6 +651,16 @@
                 <p>Please wait...</p>
             </div>
         </div>
+        
+        <ul id="menu" class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
+	  <li class="mfb-component__wrap">
+	    <a href="/admin/healthcamp" class="mfb-component__button--main" data-mfb-label="Health Camp - Patient Registration">
+	      <i class="mfb-component__main-icon--resting ion-plus-round"></i>
+	      <i class="mfb-component__main-icon--active ion-close-round"></i>
+	    </a>
+	  </li>
+	</ul>
+        
         <?php $this->load->view('common_js');?>
         <script src="/assets/js/new_registration.js"></script>
 

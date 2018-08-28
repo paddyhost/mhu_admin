@@ -12,3 +12,4 @@
 <link href="/assets/css/app.min.1.css" rel="stylesheet">
 <link href="/assets/css/app.min.2.css" rel="stylesheet">
 <link href="/assets/css/c3.css" rel="stylesheet" type="text/css"/>
+<link href="/assets/css/mfb.css" rel="stylesheet" type="text/css"/>
