@@ -38,6 +38,7 @@
 <script src="/assets/vendors/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
 <script src="/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="/assets/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+<script src="/assets/js/mfb.min.js" type="text/javascript"></script>
 
 <!-- Placeholder for IE9 -->
 <!--[if IE 9 ]>
