@@ -13,6 +13,9 @@
                 border-width: 0 0 1px;
                 border-color: red
             }
+            .error_dd{
+                border-bottom : 1px solid red !important
+            }
         </style>
     </head>
     <body>
@@ -577,7 +580,7 @@
                                     </div>
                                 </div>
                                 <div class="row m-l-0 m-r-0 text-right">
-                                    <button class="btn btn-default previous">Previous</button>
+                                    <!--<button class="btn btn-default previous">Previous</button>-->
                                     <button class="btn btn-primary next m-l-10">Next</button>
                                     <button class="btn btn-success finish m-l-10" url="/patient/postTestAdvice" >Finish</button>
                                 </div>

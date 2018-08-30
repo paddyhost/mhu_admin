@@ -66,18 +66,22 @@ $(document).ready(function(){
                 $('.finish').show();
             }
         },
-//        onTabClick: function(tab, navigation, index) {
-//            alert('on tab click disabled');
-//            return false;
-//        },
+        onTabClick: function(tab, navigation, index) {
+            alert('tab click disabled');
+            return false;
+        },
         onNext: function(tab, navigation, index) {
             var current_tab = tab.children().attr('href');
             var url = tab.children().attr('url');
-            console.log(tab);
-            alert(index + ' ' + current_tab + url);
+//            console.log(tab);
+//            alert(index + ' ' + current_tab + url);
             
             var flag_next = 1;
-            //flag_next = validate_tab(index,current_tab);
+            flag_next = validate_tab(index,current_tab);
+            if(!flag_next){
+                alert('please enter the fields');
+                return false;
+            }
             
 //            if(index > 1 && $('#visit_master_id').val() == 0){
 //                alert('Patient info not availab;e')
@@ -254,18 +258,35 @@ function validate_tab(index, current_tab){
     var is_valid = 1;
     switch (index){
         case 1:
-            if(!validate_input()){
+            if(!validate_input('dor,fname,lname,city,area,location')){
                 is_valid = 0;
-            }else if(!validate_select()){
+            }else if(!validate_select('phase,patient_category,state,district')){
                 is_valid = 0;
+            }else if(!$('input[name=gender]:checked').val()){
+                is_valid = 0;
+                alert('please select gender');
             }
-            break;
+            break;            
     }
     
     return is_valid;
 }
 
 function validate_input(inputIDs){
+    var is_valid = 1;
+    var ids = inputIDs.split(',');
+    $.each(ids, function(k,v){
+        
+        var id = '#'+v;
+        if($(id).val() == ''){
+            $(id).addClass('error');
+            is_valid = 0;
+        }
+    })
+    return is_valid;
+}
+
+function validate_select(inputIDs){
     var is_valid = 1;
     var ids = inputIDs.split(',');
     $.each(ids, function(k,v){

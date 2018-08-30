@@ -530,11 +530,11 @@ class Patient_model extends CI_Model {
         $where=" ";
         if($location!='')
         {
-            $where=" WHERE `camp_pationt_master`.`location`='".$location."'";
-            
+            $where=" WHERE `patient_master`.`location`='".$location."'";
+
         }
 
-        $sqlmonthlycount = 'SELECT `camp_pationt_master`.`patient_category`,'
+        $sqlmonthlycount = 'SELECT `patient_master`.`patient_category`,'
                 //. '`patient_category`.name ,'
                 . 'CASE
                     WHEN patient_category = "PW" THEN "Pregnant Women"
@@ -543,10 +543,10 @@ class Patient_model extends CI_Model {
                     WHEN patient_category = "S" THEN "Senior Citizen-above 60 year of age"
                     ELSE "Others"
                 END as name, '
-                . 'COUNT(`camp_pationt_master`.`patient_category`) AS count FROM `camp_pationt_master` '
+                . 'COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` '
                 //.'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
                 //. 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`) '
-                .$where. ' GROUP BY `camp_pationt_master`.`patient_category`';
+                .$where. ' GROUP BY `patient_master`.`patient_category`';
         
        // echo $sqlmonthlycount;die();
 
@@ -556,6 +556,38 @@ class Patient_model extends CI_Model {
 
 
 
+        return $data2;
+    }
+    
+    
+    public function getTotalCampPatientCount($phase,$location='') {
+        
+        $where=" WHERE 1";
+        if($location!='')
+            $where.=" AND `camp_patient_master`.`location`='".$location."'";  
+        
+        if(!empty($phase))
+            $where.=" AND `camp_patient_master`.`phase`=".$phase. " ";  
+        
+        
+
+        $sqlmonthlycount = 'SELECT `camp_patient_master`.`patient_category`,'
+                //. '`patient_category`.name ,'
+                . 'CASE
+                    WHEN patient_category = "PW" THEN "Pregnant Women"
+                    WHEN patient_category = "LW" THEN "Lactating Women"
+                    WHEN patient_category = "C" THEN "Child Under-5 Year of Age"
+                    WHEN patient_category = "S" THEN "Senior Citizen-above 60 year of age"
+                    ELSE "Others"
+                END as name, '
+                . 'COUNT(`camp_patient_master`.`patient_category`) AS count FROM `camp_patient_master` '
+                //.'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+                //. 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`) '
+                .$where. ' GROUP BY `camp_patient_master`.`patient_category`';
+        
+        $query = $this->db->query($sqlmonthlycount);
+
+        $data2 = $query->result_array();
         return $data2;
     }
 
@@ -635,9 +667,10 @@ class Patient_model extends CI_Model {
 
         return $data2;
     }
+    
     public function getAria2() {
 
-        $sqlmonthlycount = 'SELECT location FROM `camp_pationt_master` GROUP BY location';
+        $sqlmonthlycount = 'SELECT location FROM `camp_patient_master` GROUP BY location';
 
         $query = $this->db->query($sqlmonthlycount);
 
@@ -700,7 +733,7 @@ class Patient_model extends CI_Model {
                    ' AND month(regitrationdate)='.$month.' '
                    . 'AND `patient_master`.`area`="'.$aria.'"';
             
-}
+        }
    
     
        $sqlmonthlycount='SELECT COUNT(`medicalconditionmaster` .chiefcomplaints1) count ,'
@@ -728,13 +761,62 @@ class Patient_model extends CI_Model {
 
         $data2= $query->result_array();
       
-         
-  
         return $data2;
         
-        
+    }
     
-}
+    public function getCampPatientList() {
+        $response = array();
+        $where_order = '';
+        $where_and = '';
+        $rows = 10;
+        $current = 1;
+        $limit_l = ($current * $rows) - ($rows);
+        $limit_h = $limit_l + $rows;
+
+        //Handles determines where in the paging count this result set falls in
+        if (isset($_REQUEST['rowCount']))
+            $rows = $_REQUEST['rowCount'];
+        //calculate the low and high limits for the SQL LIMIT x,y clause
+        if (isset($_REQUEST['current'])) {
+            $current = intval($_REQUEST['current']);
+            $limit_l = ($current * $rows) - ($rows);
+            $limit_h = $rows;
+        }
+        if ($rows == -1)
+            $limit = "0,18446744073709551615"; // 18446744073709551615 is max value of big int
+        else
+            $limit = " $limit_l,$limit_h ";
+
+        if (!empty($_POST['searchPhrase'])) {
+            $where_and .=" AND ( fname LIKE '%" . $_POST['searchPhrase'] . "%' OR lanme LIKE '%" . $_POST['searchPhrase'] . "%'  ) ";
+        }
+
+        /** Sorting * */
+        if (isset($_POST['sort'])) {
+            $arrSort = $_POST['sort'];
+            $sortkey = key($arrSort);
+            $sortval = $_POST['sort'][$sortkey];
+            $where_order .=" ORDER BY " . $sortkey . ' ' . $sortval;
+        } else {
+            $where_order .=" ORDER BY id DESC ";
+        }
+
+        $sql = "SELECT SQL_CALC_FOUND_ROWS *, CONCAT(fname, ' ',lanme) fname FROM camp_patient_master
+                WHERE 1 " . $where_and . $where_order . " 
+                LIMIT " . $limit;
+
+        $query1 = $this->db->query($sql);
+
+        $query2 = $this->db->query('SELECT FOUND_ROWS() as howmany');
+        $result2 = $query2->first_row();
+
+        $response['totalRecords'] = $result2->howmany;
+        $response['records'] = $query1->result();
+        $response['postdata'] = $_POST;
+
+        return $response;
+    }
 }
    
 

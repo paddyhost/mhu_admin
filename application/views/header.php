@@ -15,6 +15,9 @@
                 <li>
                     <a href="/admin/patientlist"><span class="tm-label">Patient List</span></a> 
                 </li>
+                <li>
+                    <a href="/admin/camp_patientlist"><span class="tm-label">Health Camp Patient List</span></a> 
+                </li>
                 <li class="dropdown">
                     <a href="javascript:void(0)" data-toggle="dropdown">
                     <span class="tm-label tm-icon">

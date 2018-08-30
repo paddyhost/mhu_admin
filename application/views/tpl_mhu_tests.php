@@ -17,7 +17,7 @@
                     <?php $attr = explode('|', $attribute_values);?>
                     <label><?= $attr[0]?></label>
                     <div class="fg-line">
-                        <input name="test[<?=$value->id?>][<?=$attr[1]?>]" type="text" class="form-control" value="<?= $attr[1]; ?>">
+                        <input name="test[<?=$value->id?>][<?=$attr[1]?>]" type="text" class="form-control" value=""> <!--<?= $attr[1]; ?>-->
                     </div>
                 </div>
             </div>

@@ -24,6 +24,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body card-padding">
+                            <form id="health_camp">
                             <div class="row">
                                 <div class="col-md- col-sm-2 col-xs-12">
                                     <label>Registration Date</label>
@@ -38,7 +39,9 @@
                                     <div class="form-group">
                                         <label>Phase</label>
                                         <select name="phase" id="phase" class="selectpicker" title="Select Phase">
-                                            <option></option>
+                                            <?php $i=1; while ($i<=100):?>
+                                                <option value="<?= $i?>"> Phase <?= $i?></option>
+                                            <?php $i++; endwhile;?>
                                         </select>
                                     </div>
                                 </div>
@@ -179,15 +182,24 @@
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label>Patient Problem</label>
-                                        <select name="district" id="district" class="selectpicker" title="Select Problem">
+                                    <!--<select name="district" id="district" class="selectpicker" title="Select Problem">
                                             <option>Cough</option>
-                                        </select>
+                                        </select>-->
+                                        <input type="text" id="problem" name='problem' class="form-control" placeholder="Problem">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Remarks</label>
+                                        <input type="text" id="remarks" name='remarks' class="form-control" placeholder="Remarks">                                        
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="row text-right m-l-0 m-r-0">
-                                <button type="button" class="btn btn-success">Submit</button>
+                                <button type="button" id="btn_submit" url="/patient/postHealthCamp" class="btn btn-success">Submit</button>
                             </div>
+                            </form>
                         </div>
                 </div>
                 </div>
@@ -205,6 +217,84 @@
         </div>
         
         <?php $this->load->view('common_js');?>
+        
+        <script type="text/javascript">
+            $(document).ready(function(){
+                
+                $("#btn_submit").click(function(){
+                    var url = $(this).attr('url');
+                    var is_valid = 1;                    
+                    var data = $('#health_camp').serializeArray();
+                    
+                    if(!validate_input('dor,fname,lname,city,area,location')){
+                        is_valid = 0;
+                    }else if(!validate_select('phase,patient_category,state,district')){
+                        is_valid = 0;
+                    }else if(!$('input[name=gender]:checked').val()){
+                        is_valid = 0;
+                        alert('please select gender');
+                    }
+//                    data.push({name: 'format', value: 'json'},
+//                              {name: 'unique_id', value: $('#unique_id').val()}
+//                    );
+                    if(data && is_valid){
+                        $.ajax({
+                            url: url,
+                            dataType: 'json',
+                            async: false,
+                            type: 'POST',
+                            data: data,
+                            success: function (response) {
+                                console.log(response)
+                                if(response){
+                                    alert(response.message);
+                                    location.reload();
+                                }else {
+                                    alert('Something went wrong');
+                                }
+                            }
+                        });
+                    }else {
+                        alert ('please provide details');
+                    }
+                });
+                
+            });
+            
+            function validate_input(inputIDs){
+                var is_valid = 1;
+                var ids = inputIDs.split(',');
+                $.each(ids, function(k,v){
+
+                    var id = '#'+v;
+                    if($(id).val() == ''){
+                        $(id).addClass('error');
+                        is_valid = 0;
+                    }
+                })
+                return is_valid;
+            }
+
+            function validate_select(inputIDs){
+                var is_valid = 1;
+                var ids = inputIDs.split(',');
+                $.each(ids, function(k,v){
+
+                    var id = '#'+v;
+                    if($(id).val() == ''){
+                        $(id).addClass('error');
+                        is_valid = 0;
+                    }
+                })
+                return is_valid;
+            }
+            
+            $(document).on('click', '.error', function(){
+                $(this).removeClass('error');
+            })
+
+        </script>
+        
     </body>
   </html>
 
