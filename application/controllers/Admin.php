@@ -43,21 +43,8 @@ class admin extends CI_Controller {
     
     public function healthcamp() {
 
-        //$data = array();
-        //$medicine_query = $this->db->get('medicine_master');
-        //$data['medicine'] = $medicine_query->result();
-
-//        $sql1 = "SELECT GROUP_CONCAT( mta.attribute_name, '|', mta.id ORDER BY mta.id SEPARATOR '--') as attribute_values,"
-//                . " GROUP_CONCAT(DISTINCT tm.test_name ORDER BY tm.id) as test_name, tm.id"
-//                . " FROM map_test_attribute mta "
-//                . " LEFT JOIN test_master tm ON (tm.id = mta.test_master_id) "
-//                . " GROUP BY tm.id";
-//        $query1 = $this->db->query($sql1);
-
-//        $data_view['mhu_test'] = $query1->result();
-//        $data['test_view'] = $this->load->view('tpl_mhu_tests', $data_view, TRUE);
-
-        $this->load->view('health_camp');
+        $data = array();
+        $this->load->view('health_camp', $data);
     }
 
     public function api($api) {
@@ -378,7 +365,7 @@ public function ajax_getTargetPopulationLocationt($phase) {
         $names=$data=$group=array();
         $j=0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getTotalpatientCount($phase,$value["location"]);
+                 $testdata=$this->patient_model->getTotalCampPatientCount($phase,$value["location"]);
                  
                  
                       
@@ -411,6 +398,30 @@ public function ajax_getTargetPopulationLocationt($phase) {
         
        echo json_encode($data);
         
+    }
+    
+    public function camp_patientlist() {
+
+        $this->load->view('camp_patient_list');
+    }
+
+    public function getCampPatientList() {
+        $records = $this->patient_model->getCampPatientList();
+
+        if (!isset($_POST['current'])) {
+            $current = 1;
+        } else {
+            $current = intval($_POST['current']);
+        }
+        $json_data = array(
+            "current" => $current,
+            "rowCount" => 10,
+            "total" => intval($records['totalRecords']),
+            "rows" => $records['records'], // total data array
+            "requestpost" => $_POST
+        );
+
+        die(json_encode($json_data));  // send data as json format
     }
 
 }

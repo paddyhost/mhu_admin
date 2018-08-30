@@ -333,4 +333,60 @@ class Patient extends CI_Controller {
         $response = array('code'=>$code, 'data'=>$data, 'message'=>$message);
         echo json_encode($response);
     }
+    
+    
+    public function postHealthCamp() {
+        // print_r($_POST); die();
+        
+        $dob = $this->input->post('dob'); 
+        $dor = $this->input->post('dor'); 
+        $arrdata = array(
+            'fname' => $this->input->get_post('fname'),
+            'lanme' => $this->input->get_post('lname'),
+            'dob' => date('Y-m-d',  strtotime($dob)),
+            'regitrationdate'=> date('Y-m-d',  strtotime($dor)),
+            'gender' => $this->input->get_post('gender'),
+            'mobile' => $this->input->get_post('mobile'),
+            //'address' => $this->input->get_post('location'),
+            'state' => $this->input->get_post('state'),
+            'district' => $this->input->get_post('district'),
+            'city' => $this->input->get_post('city'),
+            'area' => $this->input->get_post('area'),
+            'location' => $this->input->get_post('location'),
+            'patient_category' => $this->input->get_post('patient_category'),
+            'problem'=> $this->input->get_post('problem'),
+            'remarks'=> $this->input->get_post('remarks'),
+            'phase'=>$this->input->get_post('phase'),
+            'created_by' => $this->session_data[0]->id,
+        );
+        
+        if(isset($_POST['age'])){
+            $arrdata['age'] = $this->input->get_post('age');
+        }else {
+            if(isset($_POST['dob'])){
+                $dob = date('Y-m-d',  strtotime($dob));
+                $arrdata['age'] = date_diff(date_create($dob), date_create('today'))->y;
+            }
+        }
+        
+        if(!empty($arrdata)){
+            $this->db->insert('camp_patient_master', $arrdata);
+            $id = $this->db->insert_id();
+        }
+        
+        $data = array();
+        if ($id > 0) {
+            // $count = count($ridedetails);
+            $code = 201; //created
+            $data = $arrdata;
+            $message = 'Patient added successfully';
+        } else {
+            $code = '401';
+            $message = 'Patient Not added';
+        }
+        
+        $response = array('code'=>$code, 'data'=>$data, 'message'=>$message);
+        echo json_encode($response);
+        
+    }
 }
