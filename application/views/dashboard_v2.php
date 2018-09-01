@@ -615,7 +615,7 @@
                 empty: { label: { text: "No Data Available" } }       
             },
             legend: {
-                show: false
+                show: true
             },
             axis: {
                 x: {
