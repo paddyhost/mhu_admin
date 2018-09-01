@@ -135,6 +135,7 @@
                                     <select class="selectpicker" id="patient_complaintaria" title="Location">
                                          <?php
                                                 foreach ($aria as $key => $value) {
+                                                    $location[] = $value['location']; 
                                                     echo "<option>" . $value["location"] . "</option>";
                                                 }
                                                 ?>
@@ -164,20 +165,6 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Pediatric diagnosed diseases</h4>
-                            </div>
-                            <div class="card-body card-padding">
-                                <!--                            <div id="bar-chart" class="flot-chart"></div>
-                                                            <div class="flc-bar"></div>-->
-                                <div id="child_diseases"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="card">
-                            <div class="card-header">
                                 <h4>Lactating women symptoms</h4>
                                 <!--<h4>Lactating Women Complaints</h4>-->
                             </div>
@@ -185,18 +172,6 @@
                                 <!--                            <div id="bar-chart" class="flot-chart"></div>
                                                             <div class="flc-bar"></div>-->
                                 <div id="lactating_complaint"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Diagnosed diseases for Lactating women</h4>
-                            </div>
-                            <div class="card-body card-padding">
-                                <!--                            <div id="bar-chart" class="flot-chart"></div>
-                                                            <div class="flc-bar"></div>-->
-                                <div id="lactating_diseases"></div>
                             </div>
                         </div>
                     </div>
@@ -215,32 +190,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Gravida diagnosed diseases</h4>
-                            </div>
-                            <div class="card-body card-padding">
-                                <div id="pregnant_diseases"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="card">
-                            <div class="card-header">
                                 <h4>Geriatic symptoms</h4>
                             </div>
                             <div class="card-body card-padding">
                                 <div id="senior_complaint"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Geriatic diagnosed diseases</h4>
-                            </div>
-                            <div class="card-body card-padding">
-                                <div id="senior_disease"></div>
                             </div>
                         </div>
                     </div>

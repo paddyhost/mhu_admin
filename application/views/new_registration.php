@@ -77,7 +77,7 @@
                                                     <div class="form-group">
                                                         <label>Phase</label>
                                                         <select name="phase" id="phase" class="selectpicker" title="Select Phase">
-                                                            <?php $i=1; while ($i<=100):?>
+                                                            <?php $i=1; while ($i<=10):?>
                                                             <option value="<?= $i?>"> Phase <?= $i?></option>
                                                             <?php $i++; endwhile;?>
                                                         </select>
@@ -340,7 +340,7 @@
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <div class="fg-line">
-                                                            <input type="text" class="form-control" placeholder="Previous Hospital">
+                                                            <input type="text" name="prev_hospital" class="form-control" placeholder="Previous Hospital">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -348,7 +348,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-1"></i></span>
                                                         <div class="fg-line">
-                                                            <input class="form-control" placeholder="Previous Doctor" type="text">
+                                                            <input class="form-control" name="prev_doc1" placeholder="Previous Doctor" type="text">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -356,7 +356,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-2"></i></span>
                                                         <div class="fg-line">
-                                                            <input class="form-control" placeholder="Previous Doctor" type="text">
+                                                            <input class="form-control" name="prev_doc2" placeholder="Previous Doctor" type="text">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -367,7 +367,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-3"></i></span>
                                                         <div class="fg-line">
-                                                            <input class="form-control" placeholder="Previous Doctor" type="text">
+                                                            <input class="form-control" name="prev_doc3" placeholder="Previous Doctor" type="text">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -411,6 +411,17 @@
                                                             <i class="input-helper"></i>
                                                             Dont Know
                                                         </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row m-t-15">
+                                                <label class="m-l-15 m-r-15 m-b-15">Diagnosed disease</label>
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <div class="form-group">
+                                                        <div class="fg-line">
+                                                            <input type="text" name="disease" class="form-control" placeholder="Diagnosed disease">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

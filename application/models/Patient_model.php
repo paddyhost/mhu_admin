@@ -129,8 +129,6 @@ class Patient_model extends CI_Model {
 
     public function addMedicalcondition($insertArray) {
 
-
-
         $data = array(
             'chiefcomplaints1' => '',
             'chiefcomplaints2' => '',
@@ -142,6 +140,11 @@ class Patient_model extends CI_Model {
             'tratementtaken' => '',
             'anyimprovement' => '',
             'diagnosys' => '',
+            'disease' => '',
+            'prev_hospital' => '',
+            'prev_doc1' => '',
+            'prev_doc2' => '',
+            'prev_doc3' => '',
             'patient_id' => '',
             'registrationid' => '',
             'visit_master_id' => '',
@@ -159,6 +162,11 @@ class Patient_model extends CI_Model {
             'tratementtaken' => $tratementtaken,
             'anyimprovement' => $anyimprovement,
             'diagnosys' => $diagnosys,
+            'disease' => $disease,
+            'prev_hospital' => $prev_hospital,
+            'prev_doc1' => $prev_doc1,
+            'prev_doc2' => $prev_doc2,
+            'prev_doc3' => $prev_doc3,
             'patient_id' => $patient_id,
             'registrationid' => $registrationid,
             'visit_master_id' => $visit_master_id,
@@ -528,10 +536,8 @@ class Patient_model extends CI_Model {
     public function getTotalpatientCount($phase,$location='') {
         
         $where=" ";
-        if($location!='')
-        {
+        if($location!=''){
             $where=" WHERE `patient_master`.`location`='".$location."'";
-
         }
 
         $sqlmonthlycount = 'SELECT `patient_master`.`patient_category`,'
@@ -544,7 +550,7 @@ class Patient_model extends CI_Model {
                     ELSE "Others"
                 END as name, '
                 . 'COUNT(`patient_master`.`patient_category`) AS count FROM `patient_master` '
-                //.'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+                .'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
                 //. 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`) '
                 .$where. ' GROUP BY `patient_master`.`patient_category`';
         
@@ -586,7 +592,7 @@ class Patient_model extends CI_Model {
                 .$where. ' GROUP BY `camp_patient_master`.`patient_category`';
         
         $query = $this->db->query($sqlmonthlycount);
-
+        
         $data2 = $query->result_array();
         return $data2;
     }
@@ -624,17 +630,28 @@ class Patient_model extends CI_Model {
         $sqlmonthlycount = 'SELECT `medicalconditionmaster`.`chiefcomplaints1`,'
                 . 'count(`medicalconditionmaster`.`chiefcomplaints1`) as count  FROM `medicalconditionmaster` '
                 . 'LEFT JOIN `patient_master` ON(`patient_master`.id=`medicalconditionmaster`.`patient_id`) '
-                .' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
-               
-                . ' AND `patient_master`.`patient_category`="' . $cat . '" '
-                . 'GROUP BY `medicalconditionmaster`.`chiefcomplaints1` ORDER BY count DESC';
+                . ' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+                . ' AND `patient_master`.`patient_category`="' . $cat . '" AND `medicalconditionmaster`.`chiefcomplaints1` <> ""' 
+                . ' GROUP BY `medicalconditionmaster`.`chiefcomplaints1` ORDER BY count DESC';
 
         $query = $this->db->query($sqlmonthlycount);
-
         $data2 = $query->result_array();
 
+        return $data2;
+    }
+    
+    public function getDiseaseCountBy($cat,$phase) {
 
+        $sqlmonthlycount = 'SELECT `medicalconditionmaster`.`disease`,'
+                . 'count(`medicalconditionmaster`.`disease`) as count  FROM `medicalconditionmaster` '
+                . 'LEFT JOIN `patient_master` ON(`patient_master`.id=`medicalconditionmaster`.`patient_id`) '
+                . ' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
+                . ' AND `patient_master`.`patient_category`="' . $cat . '" AND `medicalconditionmaster`.`disease` <> ""' 
+                . ' GROUP BY `medicalconditionmaster`.`chiefcomplaints1` ORDER BY count DESC';
 
+        $query = $this->db->query($sqlmonthlycount);        
+        $data2 = $query->result_array();
+        
         return $data2;
     }
 
@@ -655,9 +672,12 @@ class Patient_model extends CI_Model {
     
     
     
-    public function getAria() {
+    public function getAria($phase = 1) {
 
-        $sqlmonthlycount = 'SELECT location FROM `patient_master` GROUP BY location';
+        $sqlmonthlycount = 'SELECT p.location FROM `patient_master` p'
+                . ' LEFT JOIN visit_master v ON (v.patient_master_id = p.id)'
+                . ' where v.phase = '.$phase
+                . ' GROUP BY p.location';
 
         $query = $this->db->query($sqlmonthlycount);
 
@@ -668,15 +688,13 @@ class Patient_model extends CI_Model {
         return $data2;
     }
     
-    public function getAria2() {
+    public function getAria2($phase = 1) {
 
-        $sqlmonthlycount = 'SELECT location FROM `camp_patient_master` GROUP BY location';
+        $sqlmonthlycount = 'SELECT location FROM `camp_patient_master` where phase = '.$phase.' GROUP BY location';
 
         $query = $this->db->query($sqlmonthlycount);
 
         $data2 = $query->result_array();
-
-
 
         return $data2;
     }
