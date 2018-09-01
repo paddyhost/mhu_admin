@@ -12,14 +12,17 @@ class admin extends CI_Controller {
         // Your own constructor code
     }
 
-    public function dashboard() {
-        $data["aria"] = $this->patient_model->getAria();
-        ;
-
-        
-        
-        
-        $this->load->view('dashboard', $data);
+    public function dashboard($phase = 1) {
+        $data["aria"] = $this->patient_model->getAria($phase);
+        $data['phase'] = $phase;
+        $camp_location = $this->patient_model->getAria2($phase);
+        $data["camp_location"] = array();
+        if(!empty($camp_location)){
+            $data["camp_location"] = array_column($camp_location, 'location' );
+        }
+//        $this->load->view('dashboard', $data);
+        $this->load->view('dashboard_v2', $data); //with diagnosed
+//        $this->load->view('dashboard_v3', $data); //without diagnosed page refersh
     }
 
     public function newregistration() {
@@ -213,10 +216,10 @@ class admin extends CI_Controller {
 
         echo json_encode($data);
     }
-          
-
+    
+    
       
-public function ajax_getTestList($phase) {
+    public function ajax_getTestList($phase) {
     
         
         $tests = $this->patient_model->getTestList();
@@ -354,52 +357,35 @@ public function ajax_getpatient_complaintby($phase) {
    
 }
 
-public function ajax_getTargetPopulationLocationt($phase) {
-          
-          //$cat = $this->input->get('cat');
-      
-
-        
-        
-        $type = $this->patient_model->getAria();
-        $names=$data=$group=array();
-        $j=0;
+    public function ajax_getTargetPopulationLocationt($phase) {
+        //$cat = $this->input->get('cat');
+        $type = $this->patient_model->getAria2($phase);
+        $names = $data = $group = array();
+        $j = 0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getTotalCampPatientCount($phase,$value["location"]);
-                 
-                 
-                      
-                 $arrayrow=array();
-                      
-                    $i=0;
-                 // $arrayrow[$i]=$value["test_name"];
-                 
-                  foreach ($testdata as $key1 => $value1) {
-                      
-                     
-                      
-                    $arrayrow[$i]=$value1["count"];
-                 
-                     $names[$i]=$value1["name"];
-                 $i++;
-              
-        }
-                 //echo json_encode($arrayrow);
+            $testdata = $this->patient_model->getTotalCampPatientCount($phase, $value["location"]);
+            $arrayrow = array();
+
+            $i = 0;
+            // $arrayrow[$i]=$value["test_name"];
+
+            foreach ($testdata as $key1 => $value1) {
+                $arrayrow[$i] = $value1["count"];
+                $names[$i] = $value1["name"];
+                $i++;
+            }
+            //echo json_encode($arrayrow);
             //$data[0]=$names;
-                 $data["x"]= $names;
-                $data[$value["location"]]=($arrayrow);
-                $group[$j]=$value["location"];
-                $j++;
-                
-              
+            $data["x"] = $names;
+            $data[$value["location"]] = ($arrayrow);
+            $group[$j] = $value["location"];
+            $j++;
         }
-        $data["groups"]=$group;
-         //echo json_encode($names);
-        
-       echo json_encode($data);
-        
+        $data["groups"] = $group;
+        //echo json_encode($names);
+        echo json_encode($data);
     }
-    
+
     public function camp_patientlist() {
 
         $this->load->view('camp_patient_list');
@@ -423,9 +409,20 @@ public function ajax_getTargetPopulationLocationt($phase) {
 
         die(json_encode($json_data));  // send data as json format
     }
+    
+    public function ajax_getDiseaseCountBy($phase) {
+        $cat = $this->input->get('cat');
+        $records = $this->patient_model->getDiseaseCountBy($cat,$phase);
+
+        $data = array();
+        $i = 0;
+        foreach ($records as $key => $value) {
+            $data[$value["disease"]] = intval($value["count"]);
+        }
+        echo json_encode($data);
+    }
 
 }
-
 
 
 /*

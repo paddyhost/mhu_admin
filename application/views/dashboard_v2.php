@@ -135,6 +135,7 @@
                                     <select class="selectpicker" id="patient_complaintaria" title="Location">
                                          <?php
                                                 foreach ($aria as $key => $value) {
+                                                    $location[] = $value['location']; 
                                                     echo "<option>" . $value["location"] . "</option>";
                                                 }
                                                 ?>
@@ -178,7 +179,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Lactating women symptoms</h4>
+                                <h4>Symptoms in Lactating women </h4>
                                 <!--<h4>Lactating Women Complaints</h4>-->
                             </div>
                             <div class="card-body card-padding">
@@ -191,7 +192,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Diagnosed diseases for Lactating women</h4>
+                                <h4>Lactating women diagnosed diseases</h4>
                             </div>
                             <div class="card-body card-padding">
                                 <!--                            <div id="bar-chart" class="flot-chart"></div>
@@ -205,7 +206,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Symptoms in Gravida</h4>
+                                <h4>Symptoms in Pregnant women</h4>
                             </div>
                             <div class="card-body card-padding">
                                 <div id="pregnant_complaint"></div>
@@ -215,7 +216,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Gravida diagnosed diseases</h4>
+                                <h4>Pregnant women diagnosed diseases</h4>
                             </div>
                             <div class="card-body card-padding">
                                 <div id="pregnant_diseases"></div>
@@ -240,7 +241,7 @@
                                 <h4>Geriatic diagnosed diseases</h4>
                             </div>
                             <div class="card-body card-padding">
-                                <div id="senior_disease"></div>
+                                <div id="senior_diseases"></div>
                             </div>
                         </div>
                     </div>
@@ -249,7 +250,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Blood investigations</h4>
+                                <h4>Blood investigations performed</h4>
                                 <!--<h4>Test Details</h4>-->
                             </div>
                             <div class="card-body card-padding">
@@ -399,11 +400,11 @@
                 }
             },
             bar: {
-                width: {
+                 width: {
                     ratio: 0.5 // this makes bar width 50% of length between ticks
-                }
+                 }
                 // or
-                //width: 100 // this makes bar width 100px
+                // width: 100 // this makes bar width 100px
             },
             onrendered: function () {  }
         });
@@ -609,7 +610,7 @@
                 type: 'bar',
                 groups: [
                 //["ADARSH NAGAR","Adarsh Vihar","ANIL VIHAR","AZAD VIHAR","BHARAT NAGAR","INDRA VIHAR","LOKPRIYA VIHAR","PRAGATI VIAHR","PRAGATI VIHAR","PREM VIHAR","RAJIV NAGAR","SANGAM VIHAR","SHIV PARK","VANDANA VIHAR","VANDNA VIHAR"]              
-                [<?php echo '"'.implode('","', $location).'"';?>]
+                [<?php echo '"'.implode('","', $camp_location).'"';?>]
                 ],
                 empty: { label: { text: "No Data Available" } }       
             },
@@ -635,6 +636,108 @@
             },
             onrendered: function () {  }
         });
+        
+        
+        //disease charts
+        var child_diseases = c3.generate({
+            bindto: '#child_diseases',
+            data: {
+                url: '/admin/ajax_getDiseaseCountBy/'+phase+'?cat=C',
+                type: 'bar',
+                mimeType: 'json',
+                empty: { label: { text: "No Data Available" } }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: [''],
+                    label: 'Complaints Categories'
+                },
+                y: {
+                    label: 'Child Complaint Count'
+                }
+            },
+            bar: {
+                width: 50
+            },
+             onrendered: function () {  }
+        });
+        
+        var lactating_diseases = c3.generate({
+            bindto: '#lactating_diseases',
+            data: {
+                url: '/admin/ajax_getDiseaseCountBy/'+phase+'?cat=LW',
+                type: 'bar',
+                mimeType: 'json',
+                empty: { label: { text: "No Data Available" } }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: [''],
+                    label: 'Complaints Categories'
+                },
+                y: {
+                    label: 'Lactating Woment Complaint Count'
+                }
+            },
+            bar: {
+                width: 50
+            },
+             onrendered: function () {  }
+        });
+        
+        
+        var pregnant_diseases = c3.generate({
+            bindto: '#pregnant_diseases',
+            data: {
+              url: '/admin/ajax_getDiseaseCountBy/'+phase+'?cat=PW',
+                type: 'bar',
+                mimeType: 'json',
+                empty: { label: { text: "No Data Available" } }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: [''],
+                    label: 'Complaints Categories'
+                },
+                y: {
+                    label: 'Pregnant Woment Complaint Count'
+                }
+            },
+            bar: {
+                width: 50
+            }, 
+            onrendered: function () {  }
+        });
+        
+        
+        var senior_diseases = c3.generate({
+            bindto: '#senior_diseases',
+            data: {
+                url: '/admin/ajax_getDiseaseCountBy/'+phase+'?cat=S',
+                type: 'bar',
+                mimeType: 'json',
+                empty: { label: { text: "No Data Available" } }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: [''],
+                    label: 'Complaints Categories'
+                },
+                y: {
+                    label: 'Senior Citizens Complaint Count'
+                }
+            },
+            bar: {
+                width: 50
+            }
+            ,
+             onrendered: function () {  }
+        });
+        
     }
     
     //load();
