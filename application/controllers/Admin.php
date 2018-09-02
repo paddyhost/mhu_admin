@@ -254,7 +254,7 @@ class admin extends CI_Controller {
         
         
         }
-        $data["groups"]=$group;
+        //$data["groups"]=$group;
          //echo json_encode($names);
         
        echo json_encode($data);
@@ -302,7 +302,7 @@ public function ajax_getpatient_complaint($phase) {
                 
               
         }
-        $data["groups"]=$group;
+      //  $data["groups"]=$group;
          //echo json_encode($names);
         
        echo json_encode($data);
@@ -350,7 +350,7 @@ public function ajax_getpatient_complaintby($phase) {
                  
                  
         }
-        $data["groups"]=$group;
+     //   $data["groups"]=$group;
          //echo json_encode($names);
         
        echo json_encode($data);
@@ -362,8 +362,10 @@ public function ajax_getpatient_complaintby($phase) {
         $type = $this->patient_model->getAria2($phase);
         $names = $data = $group = array();
         $j = 0;
+        
         foreach ($type as $key => $value) {
             $testdata = $this->patient_model->getTotalCampPatientCount($phase, $value["location"]);
+           
             $arrayrow = array();
 
             $i = 0;
@@ -381,7 +383,7 @@ public function ajax_getpatient_complaintby($phase) {
             $group[$j] = $value["location"];
             $j++;
         }
-        $data["groups"] = $group;
+       // $data["groups"] = $group;
         //echo json_encode($names);
         echo json_encode($data);
     }
