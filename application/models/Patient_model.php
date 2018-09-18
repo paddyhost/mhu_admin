@@ -577,22 +577,15 @@ class Patient_model extends CI_Model {
         
         
 
-        $sqlmonthlycount = 'SELECT `camp_patient_master`.`patient_category`,'
-                //. '`patient_category`.name ,'
-                . 'CASE
-                    WHEN patient_category = "PW" THEN "Pregnant Women"
-                    WHEN patient_category = "LW" THEN "Lactating Women"
-                    WHEN patient_category = "C" THEN "Child Under-5 Year of Age"
-                    WHEN patient_category = "S" THEN "Senior Citizen-above 60 year of age"
-                    ELSE "Others"
-                END as name, '
-                . 'COUNT(`camp_patient_master`.`patient_category`) AS count FROM `camp_patient_master` '
-                //.'LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
-                //. 'LEFT JOIN `patient_category` ON(`patient_category`.`code` =`patient_category`) '
-                .$where. ' GROUP BY `camp_patient_master`.`patient_category`';
+        $sqlmonthlycount = "SELECT name,code ,count(`camp_patient_master`.`patient_category`) count FROM `patient_category`"
+                . " LEFT OUTER JOIN ("
+                . "SELECT * FROM `camp_patient_master`"
+                //. " WHERE 1 AND `camp_patient_master`.`location`='anil vihar' AND `camp_patient_master`.`phase`=1"
+                .$where
+                . ") as camp_patient_master ON `patient_category`.code=`camp_patient_master`.`patient_category` GROUP BY code";
         
         $query = $this->db->query($sqlmonthlycount);
-        
+   
         $data2 = $query->result_array();
         return $data2;
     }

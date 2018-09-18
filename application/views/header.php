@@ -1,7 +1,7 @@
 <header id="header" class="clearfix" data-current-skin="blue">
     <ul class="header-inner">
         <li class="logo hidden-xs">
-            <a href="/admin/dashboard">Mobile Health Unit</a>
+            <a href="/admin/dashboard">Free Mobile Health Clinic</a>
         </li>
 
         <li class="pull-right">
@@ -17,6 +17,9 @@
                 </li>
                 <li>
                     <a href="/admin/camp_patientlist"><span class="tm-label">Health Camp Patient List</span></a> 
+                </li>
+                <li>
+                    <a href="/export"><span class="tm-label">Export</span></a> 
                 </li>
                 <li class="dropdown">
                     <a href="javascript:void(0)" data-toggle="dropdown">
