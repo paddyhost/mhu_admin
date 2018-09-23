@@ -32,7 +32,7 @@ class Export extends CI_Controller {
         extract($data);
         //$phase = 1;
         $filename = 'Patient_report_'.date('YmdH_i_s').'.csv'; 
-                
+              
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment;filename='.$filename);
         header('Content-Control: no-store, no-cache, must-revalidate');
@@ -43,18 +43,48 @@ class Export extends CI_Controller {
         $handle = fopen('php://output','w');
         
         fputcsv($handle,
-            ['Sr.no', 'date', 'Name', 'DOB', 'age', 'gender', 'category', 'mobile', 'city', 'area', 'district', 'state', 'location']
+            //['Sr.no', 'date', 'Name', 'DOB', 'age', 'gender', 'category', 'mobile', 'city', 'area', 'district', 'state', 'location']
+            [
+                'Sr.no', 'Registration Date', 'Patient Name', 'dob', 'Age', 'Gender', 'Patient Category', 'Conatct no.', 'Area', 'City', 'District', 'State', 'Location',
+                'Chief Complaint 1', 'Chief Complaint 2', 'Diagnosis', 'Disease Diagnosed' ,'Previous Investigations', 'Previous Treatment', 'Brief History 1','Brief History 2',
+                //prescribe dose & vaccination remains
+                'DPT', 'BCG', 'MEASLES', 'OPV', 'Hepatitis', 'TT', 'Others',
+            ]
         );
         
+        $this->db->select('patient_master.id, regitrationdate, fname, dob, age, gender, patient_category, mobile, area, city, district, state, location, '
+                . 'chiefcomplaints1, chiefcomplaints2, diagnosys, disease, investigation, tratementtaken, briefHistory1, briefHistory2,'
+                . 'dpt, bcg, measles, opv, hepatitis, ttt, other'
+                . '');
         
-        $this->db->select('patient_master.id, regitrationdate, fname, dob, age, gender, patient_category, mobile, city, area, district, state, location');
-        $this->db->join('visit_master', 'visit_master.patient_master_id = patient_master.id', 'left');
+        $this->db->join('visit_master', 'visit_master.patient_master_id = patient_master.id', 'right');
+        $this->db->join('medicalconditionmaster as m','m.visit_master_id = visit_master.id','left');
+        $this->db->join('vaccinationmaster as v','v.visit_master_id = visit_master.id','left');
+        
+//        $this->db->limit(100);
         $records = $this->db->get_where('patient_master', ['phase'=>$phase])->result_array();
         
         //print_r($records);
-            
+        
+        $gender = ['M'=>'Male','F'=>'Female',''=>'Other'];
+        $status = ['Y'=>'Yes','N'=>'No','DN'=>'Dont`t Know', ''=>'Dont`t Know'];
+        $vacc = ['Y'=>'Yes','N'=>'No',''=>''];
+        $cat = ['LW'=>'Lactating Woman','C'=>'Child Under 19 Years of age','S'=>'Senior Citizen above 60 years of age',
+            'O'=>'Others', 'PW'=>'Pregnant Woman'];
+        
         if(!empty($records)){
             foreach ($records as $key => $value) {
+//                $value['gender'] = $gender[$value['gender']];
+//                $value['patient_category'] = $cat[$value['patient_category']];
+//                $value['diagnosys'] = $status[$value['diagnosys']];
+                $value['investigation'] = $status[$value['investigation']]; 
+                $value['tratementtaken'] = $status[$value['tratementtaken']];
+//                $value['dpt'] = $vacc[$value['dpt']];
+//                $value['bcg'] = $vacc[$value['bcg']];
+//                $value['measles'] = $vacc[$value['measles']];
+//                $value['opv'] = $vacc[$value['opv']];
+//                $value['hepatitis'] = $vacc[$value['hepatitis']];
+//                $value['ttt'] = $vacc[$value['ttt']];
                 fputcsv($handle, $value);
             }
             fclose($handle);
@@ -77,7 +107,7 @@ class Export extends CI_Controller {
         $handle = fopen('php://output','w');
         
         fputcsv($handle,
-            ['Sr.no', 'date', 'Name', 'DOB', 'age', 'gender', 'category', 'mobile', 'city', 'area', 'district', 'state', 'location', 'problem','remarks']
+            ['Sr.no', 'Registration Date', 'Patient Name', 'dob', 'Age', 'Gender', 'Patient Category', 'Conatct no.', 'Area', 'City', 'District', 'State', 'Location', 'Problem','Remarks']
         );
         
         $this->db->select('id, regitrationdate, fname, dob, age, gender, patient_category, mobile, city, area, district, state, location, problem, remarks');
