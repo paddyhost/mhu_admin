@@ -23,24 +23,34 @@
         <?php //$this->load->view('sidebar'); ?>
         <section id="content">
             <div class="container " >
-            <!--<div class="row">-->
-                <div class="card col-md-5 col-sm-5 col-xs-12">
-                    <select id="phase" class="selectpicker" title="Select Phase">
-                        <?php $i=1; while ($i<=10):?>
-                        <option <?php echo ($i == $phase ? 'selected="selected"': ''); ?> value="<?= $i?>"> Phase <?= $i?></option>
-                        <?php $i++; endwhile;?>
-<!--                        <option value="1" selected="true">PHASE 1</option>
-                        <option value="2">PHASE 2</option>-->
-                    </select>
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    <div class="card p-l-10 p-r-10">
+                        <select id="phase" class="selectpicker" title="Select Phase">
+                            <?php $i = 1;
+                            while ($i <= 10): ?>
+                                <option <?php echo ($i == $phase ? 'selected="selected"' : ''); ?> value="<?= $i ?>"> Phase <?= $i ?></option>
+    <?php $i++;
+endwhile; ?>
+                            <!--                        <option value="1" selected="true">PHASE 1</option>
+                                                    <option value="2">PHASE 2</option>-->
+                        </select>
+                    </div>
                 </div>
-            <!--</div>-->
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                    
+                </div>
+            </div>
             </div>
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-sm-5 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Cases received</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Cases received</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                                 <!--<h4>Target Population</h4>-->
                             </div>
                             <div class="card-body card-padding">
@@ -54,12 +64,12 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-md-5 col-sm-5 col-xs-12">
                                         <h4>Zone wise cases received</h4>
                                         <!--<h4>Area & Month Wise Distribution</h4>-->
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="col-md-6 col-sm-6 col-xs-12 p-l-0">
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <div class="col-md-5 col-sm-5 col-xs-12 p-l-0">
                                             <select id="chart1" class="selectpicker" title="Month">
                                                 <option  selected value="1">January</option>
                                         <option value="2">February</option>
@@ -76,7 +86,7 @@
 
                                             </select>
                                         </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
+                                        <div class="col-md-5 col-sm-5 col-xs-12 p-r-0">
                                             <select id="chart1area" class="selectpicker" title="Location">
 
                                                 <?php
@@ -85,6 +95,9 @@
                                                 }
                                                 ?>
                                             </select>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-12 p-r-0">
+                                            <button class="btn btn-primary btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +112,10 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h4>Distribution of symptoms amongst cases</h4>
+                        <div class="row m-l-0 m-r-0">
+                            <h4 class="pull-left">Distribution of symptoms amongst cases</h4>
+                            <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                        </div>
                         <!--<h4>Overall Complaint Chart</h4>-->
                     </div>
                     <div class="card-body card-padding">
@@ -109,12 +125,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-5 col-sm-5 col-xs-12">
                                 <h4>Zone wise prevalence of diseases</h4>
                                 <!--<h4>Complaints Month wise & Area Wise</h4>-->
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12 p-l-0">
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                <div class="col-md-5 col-sm-5 col-xs-12 p-l-0">
                                     <select class="selectpicker" id="patient_complaintmonth" title="Month">
                                         <option value="1">January</option>
                                         <option value="2">February</option>
@@ -131,7 +147,7 @@
 
                                     </select>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 p-r-0">
+                                <div class="col-md-5 col-sm-5 col-xs-12 p-r-0">
                                     <select class="selectpicker" id="patient_complaintaria" title="Location">
                                          <?php
                                                 foreach ($aria as $key => $value) {
@@ -140,6 +156,9 @@
                                                 }
                                                 ?>
                                     </select>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12 p-r-0">
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +171,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Pediatric symptoms</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Pediatric symptoms</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                                 <!--<h4>Child Complaints</h4>-->
                             </div>
                             <div class="card-body card-padding">
@@ -165,7 +187,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Pediatric diagnosed diseases</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Pediatric diagnosed diseases</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                             </div>
                             <div class="card-body card-padding">
                                 <!--                            <div id="bar-chart" class="flot-chart"></div>
@@ -179,7 +204,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Symptoms in Lactating women </h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Symptoms in Lactating women </h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                                 <!--<h4>Lactating Women Complaints</h4>-->
                             </div>
                             <div class="card-body card-padding">
@@ -192,7 +220,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Lactating women diagnosed diseases</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Lactating women diagnosed diseases</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                             </div>
                             <div class="card-body card-padding">
                                 <!--                            <div id="bar-chart" class="flot-chart"></div>
@@ -206,7 +237,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Symptoms in Pregnant women</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Symptoms in Pregnant women</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                             </div>
                             <div class="card-body card-padding">
                                 <div id="pregnant_complaint"></div>
@@ -216,7 +250,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Pregnant women diagnosed diseases</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Pregnant women diagnosed diseases</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                             </div>
                             <div class="card-body card-padding">
                                 <div id="pregnant_diseases"></div>
@@ -228,7 +265,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Geriatic symptoms</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Geriatic symptoms</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                             </div>
                             <div class="card-body card-padding">
                                 <div id="senior_complaint"></div>
@@ -238,7 +278,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Geriatic diagnosed diseases</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Geriatic diagnosed diseases</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                             </div>
                             <div class="card-body card-padding">
                                 <div id="senior_diseases"></div>
@@ -250,7 +293,10 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Blood investigations performed</h4>
+                                <div class="row m-l-0 m-r-0">
+                                    <h4 class="pull-left">Blood investigations performed</h4>
+                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                </div>
                                 <!--<h4>Test Details</h4>-->
                             </div>
                             <div class="card-body card-padding">
@@ -261,7 +307,10 @@
                 </div>
                  <div class="card">
                     <div class="card-header">
-                        <h4>Target population achieve during health camp</h4>
+                        <div class="row m-l-0 m-r-0">
+                            <h4 class="pull-left">Target population achieve during health camp</h4>
+                            <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                        </div>
                     </div>
                     <div class="card-body card-padding">
                         <div id="TargetPopulationLocation"></div>
@@ -282,7 +331,10 @@
     </div>
 <?php $this->load->view('common_js'); ?>
     <script>
-        
+        /*spin loader button*/
+        $('.btn-load').click(function(){
+           $(this).addClass('btn-load-animate');
+        });
         
         var phase=1; 
         
