@@ -21,8 +21,9 @@ class admin extends CI_Controller {
             $data["camp_location"] = array_column($camp_location, 'location' );
         }
 //        $this->load->view('dashboard', $data);
-        $this->load->view('dashboard_v2', $data); //with diagnosed
+//        $this->load->view('dashboard_v2', $data); //with diagnosed
 //        $this->load->view('dashboard_v3', $data); //without diagnosed page refersh
+        $this->load->view('dashboard_v4', $data); //with loader btn page refersh
     }
 
     public function newregistration() {
@@ -263,98 +264,74 @@ class admin extends CI_Controller {
 
 
 
-public function ajax_getpatient_complaint($phase) {
-          
-          //$cat = $this->input->get('cat');
-      
-
-        
-        
+    public function ajax_getpatient_complaint($phase) {
+        //$cat = $this->input->get('cat');
         $type = $this->patient_model->category();
-        $names=$data=$group=array();
-        $j=0;
+        $names = $data = $group = array();
+        $j = 0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],null,null,$phase);
-                 
-                 
-                      
-                 $arrayrow=array();
-                      
-                    $i=0;
-                 // $arrayrow[$i]=$value["test_name"];
-                 
-                  foreach ($testdata as $key1 => $value1) {
-                      
-                     
-                      
-                    $arrayrow[$i]=$value1["count"];
-                 
-                     $names[$i]=$value1["name"];
-                 $i++;
-              
-        }
-                 //echo json_encode($arrayrow);
+            $testdata = $this->patient_model->getPationtBY($value["chiefcomplaints1"], null, null, $phase);
+            $arrayrow = array();
+            $i = 0;
+            // $arrayrow[$i]=$value["test_name"];
+            foreach ($testdata as $key1 => $value1) {
+                if(!empty($value1)){
+                    $arrayrow[$i] = $value1["count"];
+                    $names[$i] = $value1["name"];
+                    $i++;
+                }
+            }
+            //echo json_encode($arrayrow);
             //$data[0]=$names;
-                 $data["x"]= $names;
-                $data[$value["chiefcomplaints1"]]=($arrayrow);
-                $group[$j]=$value["chiefcomplaints1"];
+            
+            if(!empty($arrayrow)){
+                $data["x"] = $names;
+                $data[$value["chiefcomplaints1"]] = ($arrayrow);
+                $group[$j] = $value["chiefcomplaints1"];
                 $j++;
-                
-              
+            }
+            
         }
-      //  $data["groups"]=$group;
-         //echo json_encode($names);
-        
-       echo json_encode($data);
-        
-    }
-       
-public function ajax_getpatient_complaintby($phase) {
-        
-          //$cat = $this->input->get('cat');
- 
+        //  $data["groups"]=$group;
+        //echo json_encode($names);
 
+        echo json_encode($data);
+    }
+
+    public function ajax_getpatient_complaintby($phase) {
+          //$cat = $this->input->get('cat');
 
         $month = $this->input->get('month');
-          $aria = $this->input->get('aria');
+        $aria = $this->input->get('aria');
 
         $type = $this->patient_model->category();
         $names=$data=$group=array();
         $j=0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],$month,$aria,$phase);
-
-          
-       
-                 $arrayrow=array();
-                      
-                 $i=0;
-                 // $arrayrow[$i]=$value["test_name"];
-                 
-                  foreach ($testdata as $key1 => $value1) {
-                      
-                     
-                      
-                    $arrayrow[$i]=$value1["count"];
-                 
-                     $names[$i]=$value1["name"];
+            $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],$month,$aria,$phase);
+            $arrayrow=array();
+            $i=0;
+            // $arrayrow[$i]=$value["test_name"];
+            foreach ($testdata as $key1 => $value1) {
+                if(!empty($value1)){
+                    $arrayrow[$i]=$value1["count"];                 
+                    $names[$i]=$value1["name"];
                     $i++;
-              
-                  }
-                 //echo json_encode($arrayrow);
+                }
+            }
+             //echo json_encode($arrayrow);
             //$data[0]=$names;
-                 $data["x"]= $names;
+            if(!empty($arrayrow)){
+                $data["x"]= $names;
                 $data[$value["chiefcomplaints1"]]=($arrayrow);
                 $group[$j]=$value["chiefcomplaints1"];
                 $j++;
-                 
-                 
+            }
+                                 
         }
-     //   $data["groups"]=$group;
-         //echo json_encode($names);
-        
+//        $data["groups"]=$group;
+//        echo json_encode($names);
        echo json_encode($data);
-   
 }
 
     public function ajax_getTargetPopulationLocationt($phase) {
@@ -423,7 +400,7 @@ public function ajax_getpatient_complaintby($phase) {
         }
         echo json_encode($data);
     }
-
+    
 }
 
 
