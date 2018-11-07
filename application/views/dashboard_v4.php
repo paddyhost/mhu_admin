@@ -170,12 +170,19 @@
                         <div id="patient_complaint2"></div>
                     </div>
                 </div>
+                
+                <div class="m-b-20"> 
+                    <h3 class="text-center">Trends in Diagnosed Diseases</h3> 
+                    <div class="col-md-6 col-sm-6 col-xs-12 text-center"><h4>GENERAL</h4></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 text-center"><h4>SPECIFIC</h4></div>
+                </div>
+                
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Pediatric symptoms</h4>
+                                    <h4 class="pull-left">Pediatric General Diseases</h4> <!-- symptoms => General -->
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                                 <!--<h4>Child Complaints</h4>-->
@@ -191,7 +198,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Pediatric diagnosed diseases</h4>
+                                    <h4 class="pull-left">Pediatric Specific Diseases</h4> <!-- diagnosed => specific -->
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
@@ -208,7 +215,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Symptoms in Lactating women </h4>
+                                    <h4 class="pull-left">General Diseases in Lactating Women </h4>
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                                 <!--<h4>Lactating Women Complaints</h4>-->
@@ -224,7 +231,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Lactating women diagnosed diseases</h4>
+                                    <h4 class="pull-left">Lactating Women Specific Diseases</h4>
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
@@ -241,7 +248,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Symptoms in Pregnant women</h4>
+                                    <h4 class="pull-left">General Diseases in Pregnant Women</h4>
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
@@ -254,7 +261,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Pregnant women diagnosed diseases</h4>
+                                    <h4 class="pull-left">Pregnant Women Specific Diseases</h4>
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
@@ -269,7 +276,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Geriatic symptoms</h4>
+                                    <h4 class="pull-left">Geriatic General Diseases</h4>
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
@@ -282,7 +289,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
-                                    <h4 class="pull-left">Geriatic diagnosed diseases</h4>
+                                    <h4 class="pull-left">Geriatic Specific Diseases</h4>
                                     <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>

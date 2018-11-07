@@ -41,13 +41,24 @@ class admin extends CI_Controller {
 
         $data_view['mhu_test'] = $query1->result();
         $data['test_view'] = $this->load->view('tpl_mhu_tests', $data_view, TRUE);
-
+        
+        #state array
+        $state_query = $this->db->get('state_master');
+        if($state_query->num_rows() >= 1){
+            $data['state'] = $state_query->result();
+        }
+        
         $this->load->view('new_registration', $data);
     }
     
     public function healthcamp() {
 
         $data = array();
+        #state array
+        $state_query = $this->db->get('state_master');
+        if($state_query->num_rows() >= 1){
+            $data['state'] = $state_query->result();
+        }
         $this->load->view('health_camp', $data);
     }
 
@@ -401,8 +412,94 @@ class admin extends CI_Controller {
         echo json_encode($data);
     }
     
-}
+    
+    function ajax_get_district($state_id = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($state_id))
+            $where_arr['state_id'] = $state_id;
+        
+        if(!empty($where_arr)){    
+            $dstrict_query = $this->db->get_where('district_master',$where_arr);
+            $district_rs = $dstrict_query->result();
 
+            if(!empty($district_rs)){
+                foreach ($district_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
+    function ajax_get_city($state = 0,$dist = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($state))
+            $where_arr['state_id'] = $state;
+        if(!empty($dist))
+            $where_arr['district_id'] = $dist;
+
+        if(!empty($where_arr)){    
+            $city_query = $this->db->get_where('city_master',$where_arr);
+            $city_rs = $city_query->result();
+
+            if(!empty($city_rs)){
+                foreach ($city_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
+    function ajax_get_area($city_id = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($city_id))
+            $where_arr['city_id'] = $city_id;
+        
+        if(!empty($where_arr)){    
+            $area_query = $this->db->get_where('area_master',$where_arr);
+            $area_rs = $area_query->result();
+
+            if(!empty($area_rs)){
+                foreach ($area_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
+    function ajax_get_location($area_id = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($area_id))
+            $where_arr['aria_id'] = $area_id;
+        
+        if(!empty($where_arr)){    
+            $location_query = $this->db->get_where('locations_master',$where_arr);
+            $location_rs = $location_query->result();
+
+            if(!empty($location_rs)){
+                foreach ($location_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
+}
 
 /*
  * 

@@ -13,8 +13,8 @@
                 border-width: 0 0 1px;
                 border-color: red
             }
-            .error_dd{
-                border-bottom : 1px solid red !important
+            .error_sel{
+                border-bottom: 1px solid red;
             }
         </style>
     </head>
@@ -161,16 +161,21 @@
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>State</label>
-                                                        <select name="state" id="state" class="selectpicker" title="Select State">
-                                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                        <input type="hidden" name="state" id="state" value="">
+                                                        <select name="state_id" id="state_id" class="selectpicker" title="Select State">
+                                                            <!--<option value="Uttar Pradesh">Uttar Pradesh</option>-->
+                                                            <?php foreach ($state as $key => $value):?>
+                                                            <option value="<?= $value->id; ?>"> <?= $value->name; ?></option>
+                                                            <?php endforeach;?>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>District</label>
-                                                        <select name="district" id="district" class="selectpicker" title="Select District">
-                                                            <option value="Ghaziabad">Ghaziabad</option>
+                                                        <input type="hidden" name="district" id="district" value="">
+                                                        <select name="district_id" id="district_id" class="selectpicker" title="Select District">
+                                                            <!--<option value="Ghaziabad">Ghaziabad</option>-->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -179,40 +184,43 @@
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>City</label>
-                                                        <!--<select name="city" class="selectpicker" title="Select City">
-                                                            <option></option>
-                                                        </select>-->
-                                                        <div class="form-group">
+                                                        <input type="hidden" name="city" id="city" value="">
+                                                        <select name="city_id" id="city_id" class="selectpicker" title="Select City">
+                                                            <!--<option></option>-->
+                                                        </select>
+                                                        <!--<div class="form-group">
                                                             <div class="fg-line">
                                                                 <input type="text" id="city" name="city" class="form-control" placeholder="City">
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>Area</label>
-                                                        <!--<select name="city" class="selectpicker" title="Select Area">
-                                                            <option></option>
-                                                        </select>-->
-                                                        <div class="form-group">
+                                                        <input type="hidden" name="area" id="area" value="">
+                                                        <select name="area_id" id="area_id" class="selectpicker" title="Select Area">
+                                                            <!--<option></option>-->
+                                                        </select>
+                                                        <!--<div class="form-group">
                                                             <div class="fg-line">
                                                                 <input type="text" id="area" name="area" class="form-control" placeholder="Area">
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
                                                         <label>Location</label>
-                                                        <!--<select name="lcoation" class="selectpicker" title="Select Location">
-                                                            <option></option>
-                                                        </select>-->
-                                                        <div class="form-group">
+                                                        <input type="hidden" name="location" id="location" value="">
+                                                        <select name="location_id" id="location_id" class="selectpicker" title="Select Location">
+                                                            <!--<option></option>-->
+                                                        </select>
+                                                        <!--<div class="form-group">
                                                             <div class="fg-line">
                                                                 <input type="text" id="location" name='location' class="form-control" placeholder="Location">
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -414,14 +422,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row m-t-15">
-                                                <label class="m-l-15 m-r-15 m-b-15">Diagnosed disease</label>
+                                            <div class="row">
+                                                <label class="m-l-15 m-r-15 m-b-15">Select Diagnosed disease</label>
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="form-group">
-                                                        <div class="fg-line">
-                                                            <input type="text" name="disease" class="form-control" placeholder="Diagnosed disease">
-                                                        </div>
+                                                        <select name='diseases_master_id' id="diagnosed_diseases" class="selectpicker"  title="Select patient category">
+                                                            <option value="">other's</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12 other_div" style="display:none">
+                                                    <div class="fg-line">
+                                                        <input type="text" name="disease" id="disease" class="form-control" placeholder="Others Details">
                                                     </div>
                                                 </div>
                                             </div>
