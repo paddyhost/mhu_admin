@@ -21,8 +21,9 @@ class admin extends CI_Controller {
             $data["camp_location"] = array_column($camp_location, 'location' );
         }
 //        $this->load->view('dashboard', $data);
-        $this->load->view('dashboard_v2', $data); //with diagnosed
+//        $this->load->view('dashboard_v2', $data); //with diagnosed
 //        $this->load->view('dashboard_v3', $data); //without diagnosed page refersh
+        $this->load->view('dashboard_v4', $data); //with loader btn page refersh
     }
 
     public function newregistration() {
@@ -40,13 +41,24 @@ class admin extends CI_Controller {
 
         $data_view['mhu_test'] = $query1->result();
         $data['test_view'] = $this->load->view('tpl_mhu_tests', $data_view, TRUE);
-
+        
+        #state array
+        $state_query = $this->db->get('state_master');
+        if($state_query->num_rows() >= 1){
+            $data['state'] = $state_query->result();
+        }
+        
         $this->load->view('new_registration', $data);
     }
     
     public function healthcamp() {
 
         $data = array();
+        #state array
+        $state_query = $this->db->get('state_master');
+        if($state_query->num_rows() >= 1){
+            $data['state'] = $state_query->result();
+        }
         $this->load->view('health_camp', $data);
     }
 
@@ -263,98 +275,74 @@ class admin extends CI_Controller {
 
 
 
-public function ajax_getpatient_complaint($phase) {
-          
-          //$cat = $this->input->get('cat');
-      
-
-        
-        
+    public function ajax_getpatient_complaint($phase) {
+        //$cat = $this->input->get('cat');
         $type = $this->patient_model->category();
-        $names=$data=$group=array();
-        $j=0;
+        $names = $data = $group = array();
+        $j = 0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],null,null,$phase);
-                 
-                 
-                      
-                 $arrayrow=array();
-                      
-                    $i=0;
-                 // $arrayrow[$i]=$value["test_name"];
-                 
-                  foreach ($testdata as $key1 => $value1) {
-                      
-                     
-                      
-                    $arrayrow[$i]=$value1["count"];
-                 
-                     $names[$i]=$value1["name"];
-                 $i++;
-              
-        }
-                 //echo json_encode($arrayrow);
+            $testdata = $this->patient_model->getPationtBY($value["chiefcomplaints1"], null, null, $phase);
+            $arrayrow = array();
+            $i = 0;
+            // $arrayrow[$i]=$value["test_name"];
+            foreach ($testdata as $key1 => $value1) {
+                if(!empty($value1)){
+                    $arrayrow[$i] = $value1["count"];
+                    $names[$i] = $value1["name"];
+                    $i++;
+                }
+            }
+            //echo json_encode($arrayrow);
             //$data[0]=$names;
-                 $data["x"]= $names;
-                $data[$value["chiefcomplaints1"]]=($arrayrow);
-                $group[$j]=$value["chiefcomplaints1"];
+            
+            if(!empty($arrayrow)){
+                $data["x"] = $names;
+                $data[$value["chiefcomplaints1"]] = ($arrayrow);
+                $group[$j] = $value["chiefcomplaints1"];
                 $j++;
-                
-              
+            }
+            
         }
-      //  $data["groups"]=$group;
-         //echo json_encode($names);
-        
-       echo json_encode($data);
-        
-    }
-       
-public function ajax_getpatient_complaintby($phase) {
-        
-          //$cat = $this->input->get('cat');
- 
+        //  $data["groups"]=$group;
+        //echo json_encode($names);
 
+        echo json_encode($data);
+    }
+
+    public function ajax_getpatient_complaintby($phase) {
+          //$cat = $this->input->get('cat');
 
         $month = $this->input->get('month');
-          $aria = $this->input->get('aria');
+        $aria = $this->input->get('aria');
 
         $type = $this->patient_model->category();
         $names=$data=$group=array();
         $j=0;
         foreach ($type as $key => $value) {
-                 $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],$month,$aria,$phase);
-
-          
-       
-                 $arrayrow=array();
-                      
-                 $i=0;
-                 // $arrayrow[$i]=$value["test_name"];
-                 
-                  foreach ($testdata as $key1 => $value1) {
-                      
-                     
-                      
-                    $arrayrow[$i]=$value1["count"];
-                 
-                     $names[$i]=$value1["name"];
+            $testdata=$this->patient_model->getPationtBY($value["chiefcomplaints1"],$month,$aria,$phase);
+            $arrayrow=array();
+            $i=0;
+            // $arrayrow[$i]=$value["test_name"];
+            foreach ($testdata as $key1 => $value1) {
+                if(!empty($value1)){
+                    $arrayrow[$i]=$value1["count"];                 
+                    $names[$i]=$value1["name"];
                     $i++;
-              
-                  }
-                 //echo json_encode($arrayrow);
+                }
+            }
+             //echo json_encode($arrayrow);
             //$data[0]=$names;
-                 $data["x"]= $names;
+            if(!empty($arrayrow)){
+                $data["x"]= $names;
                 $data[$value["chiefcomplaints1"]]=($arrayrow);
                 $group[$j]=$value["chiefcomplaints1"];
                 $j++;
-                 
-                 
+            }
+                                 
         }
-     //   $data["groups"]=$group;
-         //echo json_encode($names);
-        
+//        $data["groups"]=$group;
+//        echo json_encode($names);
        echo json_encode($data);
-   
 }
 
     public function ajax_getTargetPopulationLocationt($phase) {
@@ -423,9 +411,95 @@ public function ajax_getpatient_complaintby($phase) {
         }
         echo json_encode($data);
     }
+    
+    
+    function ajax_get_district($state_id = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($state_id))
+            $where_arr['state_id'] = $state_id;
+        
+        if(!empty($where_arr)){    
+            $dstrict_query = $this->db->get_where('district_master',$where_arr);
+            $district_rs = $dstrict_query->result();
 
+            if(!empty($district_rs)){
+                foreach ($district_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
+    function ajax_get_city($state = 0,$dist = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($state))
+            $where_arr['state_id'] = $state;
+        if(!empty($dist))
+            $where_arr['district_id'] = $dist;
+
+        if(!empty($where_arr)){    
+            $city_query = $this->db->get_where('city_master',$where_arr);
+            $city_rs = $city_query->result();
+
+            if(!empty($city_rs)){
+                foreach ($city_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
+    function ajax_get_area($city_id = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($city_id))
+            $where_arr['city_id'] = $city_id;
+        
+        if(!empty($where_arr)){    
+            $area_query = $this->db->get_where('area_master',$where_arr);
+            $area_rs = $area_query->result();
+
+            if(!empty($area_rs)){
+                foreach ($area_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
+    function ajax_get_location($area_id = 0) {
+        $opt = '';
+        //$opt_other = '<option value=""> Other </option>';
+                    
+        if(!empty($area_id))
+            $where_arr['aria_id'] = $area_id;
+        
+        if(!empty($where_arr)){    
+            $location_query = $this->db->get_where('locations_master',$where_arr);
+            $location_rs = $location_query->result();
+
+            if(!empty($location_rs)){
+                foreach ($location_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        // $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+    
 }
-
 
 /*
  * 

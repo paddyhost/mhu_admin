@@ -12,6 +12,9 @@
                 border-width: 0 0 1px;
                 border-color: red
             }
+            .error_sel{
+                border-bottom: 1px solid red;
+            }
         </style>
     </head>
     <body>
@@ -123,16 +126,21 @@
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label>State</label>
-                                        <select name="state" id="state" class="selectpicker" title="Select State">
-                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <input type="hidden" name="state" id="state" value="">
+                                        <select name="state_id" id="state_id" class="selectpicker" title="Select State">
+                                            <!--<option value="Uttar Pradesh">Uttar Pradesh</option>-->
+                                            <?php foreach ($state as $key => $value):?>
+                                            <option value="<?= $value->id; ?>"> <?= $value->name; ?></option>
+                                            <?php endforeach;?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label>District</label>
-                                        <select name="district" id="district" class="selectpicker" title="Select District">
-                                            <option value="Ghaziabad">Ghaziabad</option>
+                                        <input type="hidden" name="district" id="district" value="">
+                                        <select name="district_id" id="district_id" class="selectpicker" title="Select District">
+                                            <!--<option value="Ghaziabad">Ghaziabad</option>-->
                                         </select>
                                     </div>
                                 </div>
@@ -141,40 +149,43 @@
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label>City</label>
-                                        <!--<select name="city" class="selectpicker" title="Select City">
-                                            <option></option>
-                                        </select>-->
-                                        <div class="form-group">
+                                        <input type="hidden" name="city" id="city" value="">
+                                        <select name="city_id" id="city_id" class="selectpicker" title="Select City">
+                                            <!--<option></option>-->
+                                        </select>
+                                        <!--<div class="form-group">
                                             <div class="fg-line">
                                                 <input type="text" id="city" name="city" class="form-control" placeholder="City">
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label>Area</label>
-                                        <!--<select name="city" class="selectpicker" title="Select Area">
-                                            <option></option>
-                                        </select>-->
-                                        <div class="form-group">
+                                        <input type="hidden" name="area" id="area" value="">
+                                        <select name="area_id" id="area_id" class="selectpicker" title="Select Area">
+                                            <!--<option></option>-->
+                                        </select>
+                                        <!--<div class="form-group">
                                             <div class="fg-line">
                                                 <input type="text" id="area" name="area" class="form-control" placeholder="Area">
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         <label>Location</label>
-                                        <!--<select name="lcoation" class="selectpicker" title="Select Location">
-                                            <option></option>
-                                        </select>-->
-                                        <div class="form-group">
+                                        <input type="hidden" name="location" id="location" value="">
+                                        <select name="location_id" id="location_id" class="selectpicker" title="Select Location">
+                                            <!--<option></option>-->
+                                        </select>
+                                        <!--<div class="form-group">
                                             <div class="fg-line">
                                                 <input type="text" id="location" name='location' class="form-control" placeholder="Location">
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +239,7 @@
                     
                     if(!validate_input('dor,fname,lname,city,area,location')){
                         is_valid = 0;
-                    }else if(!validate_select('phase,patient_category,state,district')){
+                    }else if(!validate_select('phase,patient_category,state_id,district_id,city_id,area_id,location_id')){
                         is_valid = 0;
                     }else if(!$('input[name=gender]:checked').val()){
                         is_valid = 0;
@@ -259,7 +270,93 @@
                     }
                 });
                 
+                // on change state dd populate city dd
+                $(document).on('change', '#state_id, #district_id', function(e){
+                    var target = e.target.id;
+                    var state_id = $('#state_id').val();
+                    var district_id = $('#district_id').val();
+                    var url = '/admin/ajax_get_city/'+state_id+'/'+district_id;
+                    if( state_id >= 1 || district_id >=1){
+
+                        //populate district dd if state changed
+                        if(target === 'state_id'){
+                            var url2 = '/admin/ajax_get_district/'+state_id;
+                            var district_opt = getData(url2);
+                            if(district_opt !== false){
+                                $("#district_id").empty().append(district_opt);
+                                $("#district_id").selectpicker('refresh');
+                            }                
+                        }// if target state_id
+
+                        var city_opt = getData(url);
+                        if(city_opt !== false){
+                            $("#city_id").empty().append(city_opt);
+                            $("#city_id").selectpicker('refresh');
+
+                            if(state_id >=1){
+                                var state = $("#state_id option:selected").text();
+                                $("#state").val(state.toLowerCase().trim());
+                            }
+                            if(district_id >=1){
+                                var district = $("#district_id option:selected").text();
+                                $("#district").val(district.toLowerCase().trim());
+                            }                    
+                        }// if city!=false 
+
+                    }
+                });
+
+                // on change city dd populate area dd
+                $(document).on('change', '#city_id', function(){
+                    var city_id = $(this).val();
+                    var url = '/admin/ajax_get_area/'+city_id;
+                    if( city_id >= 1){
+                        var area_opt = getData(url);
+                        if(area_opt !== false){
+                            $("#area_id").empty().append(area_opt);
+                            $("#area_id").selectpicker('refresh');
+                            var city = $("#city_id option:selected").text();
+                            $("#city").val(city.toLowerCase().trim());
+                        }
+                    }
+                });
+
+                // on change area dd location area dd
+                $(document).on('change', '#area_id', function(){
+                    var area_id = $(this).val();
+                    var url = '/admin/ajax_get_location/'+area_id;
+                    if( area_id >= 1){
+                        var location_opt = getData(url);
+                        if(location_opt !== false){
+                            $("#location_id").empty().append(location_opt);
+                            $("#location_id").selectpicker('refresh');
+                            var area = $("#area_id option:selected").text();
+                            $("#area").val(area.toLowerCase().trim());
+                        }
+                    }
+                });
+
+                $(document).on('change', '#location_id', function(){
+                    var location = $("#location_id option:selected").text();
+                    $("#location").val(location.toLowerCase().trim());
+                });
+                
             });
+            
+            function getData(url){
+                var result = false;
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    async: false,
+                    type: 'POST',
+                    success: function (response) {
+                        result = response;
+                    }
+                });
+
+                return result;
+            }
             
             function validate_input(inputIDs){
                 var is_valid = 1;
@@ -282,15 +379,15 @@
 
                     var id = '#'+v;
                     if($(id).val() == ''){
-                        $(id).addClass('error');
+                        $(id).next().addClass('error_sel');
                         is_valid = 0;
                     }
                 })
                 return is_valid;
             }
             
-            $(document).on('click', '.error', function(){
-                $(this).removeClass('error');
+            $(document).on('click', '.error, .error_sel', function(){
+                $(this).removeClass('error error_sel');
             })
 
         </script>

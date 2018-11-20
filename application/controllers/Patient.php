@@ -31,6 +31,11 @@ class Patient extends CI_Controller {
             'city' => $this->input->get_post('city'),
             'area' => $this->input->get_post('area'),
             'location' => $this->input->get_post('location'),
+            'state_id' => $this->input->get_post('state_id'),
+            'district_id' => $this->input->get_post('district_id'),
+            'city_id' => $this->input->get_post('city_id'),
+            'area_id' => $this->input->get_post('area_id'),
+            'location_id' => $this->input->get_post('location_id'),
             'patient_category' => $this->input->get_post('patient_category'),
             'created_by' => $this->session_data[0]->id,
         );
@@ -128,6 +133,7 @@ class Patient extends CI_Controller {
             'tratementtaken' => $this->input->get_post('tratementtaken'),
             'anyimprovement' => $this->input->get_post('anyimprovement'),
             'diagnosys' => $this->input->get_post('diagnosys'),
+            'diseases_master_id' => $this->input->get_post('diseases_master_id'),
             'disease' => $this->input->get_post('disease'),
             'prev_hospital' => $this->input->get_post('prev_hospital'),
             'prev_doc1' => $this->input->get_post('prev_doc1'),
@@ -358,6 +364,11 @@ class Patient extends CI_Controller {
             'city' => $this->input->get_post('city'),
             'area' => $this->input->get_post('area'),
             'location' => $this->input->get_post('location'),
+            'state_id' => $this->input->get_post('state_id'),
+            'district_id' => $this->input->get_post('district_id'),
+            'city_id' => $this->input->get_post('city_id'),
+            'area_id' => $this->input->get_post('area_id'),
+            'location_id' => $this->input->get_post('location_id'),
             'patient_category' => $this->input->get_post('patient_category'),
             'problem'=> $this->input->get_post('problem'),
             'remarks'=> $this->input->get_post('remarks'),
@@ -394,4 +405,22 @@ class Patient extends CI_Controller {
         echo json_encode($response);
         
     }
+    
+    function ajax_get_diseases($type = '') {
+        $opt = '';
+        $opt_other = '<option value=""> Other </option>';
+        if($type != ''){
+            $diseases_query = $this->db->get_where('diseases_master',['type'=>$type]);
+            $diseases_rs = $diseases_query->result();
+
+            if(!empty($diseases_rs)){
+                foreach ($diseases_rs as $key => $value) {
+                    $opt .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+                }
+            }            
+        }
+        $opt .= $opt_other; 
+        echo json_encode($opt);
+    }
+
 }
