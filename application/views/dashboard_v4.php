@@ -86,7 +86,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-5 col-sm-5 col-xs-12 p-r-0">
-                                            <select id="chart1area" class="selectpicker" title="Location">
+                                            <select id="chart1area" class="selectpicker" title="Location"  data-live-search="true">
 
                                                 <?php
                                                 foreach ($aria as $key => $value) {
@@ -149,7 +149,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-5 col-sm-5 col-xs-12 p-r-0">
-                                    <select class="selectpicker" id="patient_complaintaria" title="Location">
+                                    <select class="selectpicker" id="patient_complaintaria" title="Location"  data-live-search="true">
                                          <?php
                                                 foreach ($aria as $key => $value) {
                                                     $location[] = $value['location']; 

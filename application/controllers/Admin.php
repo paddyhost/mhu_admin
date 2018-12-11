@@ -457,12 +457,15 @@ class admin extends CI_Controller {
         echo json_encode($opt);
     }
     
-    function ajax_get_area($city_id = 0) {
+    function ajax_get_area($city_id = 0, $phase_id = 0) {
         $opt = '';
-        //$opt_other = '<option value=""> Other </option>';
+        //$opt = '<option value=""> Select Area </option>';
                     
         if(!empty($city_id))
             $where_arr['city_id'] = $city_id;
+        
+        if(!empty($phase_id))
+            $where_arr['phase_id'] = $phase_id;
         
         if(!empty($where_arr)){    
             $area_query = $this->db->get_where('area_master',$where_arr);
@@ -478,12 +481,15 @@ class admin extends CI_Controller {
         echo json_encode($opt);
     }
     
-    function ajax_get_location($area_id = 0) {
+    function ajax_get_location($area_id = 0, $phase_id = 0) {
         $opt = '';
         //$opt_other = '<option value=""> Other </option>';
                     
         if(!empty($area_id))
             $where_arr['aria_id'] = $area_id;
+        
+        if(!empty($phase_id))
+            $where_arr['phase_id'] = $phase_id;
         
         if(!empty($where_arr)){    
             $location_query = $this->db->get_where('locations_master',$where_arr);

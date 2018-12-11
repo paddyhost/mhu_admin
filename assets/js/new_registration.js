@@ -74,7 +74,7 @@ $(document).ready(function(){
         },
         onTabClick: function(tab, navigation, index) {
             alert('tab click disabled');
-            return false;
+            //return false;
         },
         onNext: function(tab, navigation, index) {
             var current_tab = tab.children().attr('href');
@@ -145,15 +145,21 @@ $(document).ready(function(){
         $('#prescribe_dose .selectpicker').each(function(i,e){
             if($(this).val() == ''){
                 is_valid = false;
+                $(this).next().addClass('error_sel');
             }
             
         })
-        $('#prescribe_dose input').each(function(i,e){
+        /*$('#prescribe_dose input').each(function(i,e){
             if($(this).val() == ''){
                 is_valid = false;
                 $(this).addClass('error');
             }
-        })
+        })*/
+        var days = $('#days').val();
+        if( days == '' || isNaN(days)){
+            is_valid = false;
+            $('#days').addClass('error');
+        }
         
         if(!is_valid){
             alert('please provide data');
@@ -170,7 +176,8 @@ $(document).ready(function(){
             success: function (response) {
                 if(response.code == 200){
                     $("#prescribe_dose_table tbody").append(response.data);
-                    reset('prescribe_dose');
+                    $("#prescribe_dose #name, #frequency, #days").val('').selectpicker('refresh');
+                    $("input[name='aftermeal']").prop('checked',false);
                     $('#modalPrescription').modal('hide');
                 }
             }
@@ -229,7 +236,14 @@ $(document).ready(function(){
     // on change city dd populate area dd
     $(document).on('change', '#city_id', function(){
         var city_id = $(this).val();
-        var url = '/admin/ajax_get_area/'+city_id;
+        var phase_id = $("#phase").val();
+        if(phase_id === ''){
+            $(this).val('').selectpicker('refresh')
+            $("#phase").next().addClass('error_sel');
+            alert('please select phase for ease of location');
+            return false;
+        }
+        var url = '/admin/ajax_get_area/'+city_id+'/'+phase_id;
         if( city_id >= 1){
             var area_opt = getData(url);
             if(area_opt !== false){
@@ -244,7 +258,8 @@ $(document).ready(function(){
     // on change area dd location area dd
     $(document).on('change', '#area_id', function(){
         var area_id = $(this).val();
-        var url = '/admin/ajax_get_location/'+area_id;
+        var phase_id = $("#phase").val();
+        var url = '/admin/ajax_get_location/'+area_id+'/'+phase_id;
         if( area_id >= 1){
             var location_opt = getData(url);
             if(location_opt !== false){
@@ -259,6 +274,10 @@ $(document).ready(function(){
     $(document).on('change', '#location_id', function(){
         var location = $("#location_id option:selected").text();
         $("#location").val(location.toLowerCase().trim());
+    });
+    
+    $(document).on('change', '#phase', function(){
+        $("#state_id, #district_id, #city_id, #area_id, #location_id").val('').selectpicker('refresh');
     });
     
 });

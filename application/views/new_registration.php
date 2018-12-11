@@ -625,7 +625,7 @@
                         <form id="prescribe_dose" name="prescribe_dose">
                             <div class="form-group">
                                 <label>Medicine Name</label>
-                                <select name="name" id="name" class="selectpicker" title="Select Medicine">
+                                <select name="name" id="name" class="selectpicker" title="Select Medicine"  data-live-search="true">
                                     <option value="">Select</option>
                                     <?php foreach ($medicine as $key => $value):?>
                                         <option value="<?= $value->id.'_'.$value->name;?>"><?= $value->name;?></option>
