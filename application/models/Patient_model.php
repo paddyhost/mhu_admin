@@ -631,17 +631,28 @@ class Patient_model extends CI_Model {
     }
 
     public function getComplentCountBy($cat,$phase) {
-
-        $sqlmonthlycount = 'SELECT `medicalconditionmaster`.`chiefcomplaints1`,'
+        
+        #commented part retrive dataaccording to vishals chief complaint1
+        /*$sqlmonthlycount = 'SELECT `medicalconditionmaster`.`chiefcomplaints1`,'
                 . 'count(`medicalconditionmaster`.`chiefcomplaints1`) as count  FROM `medicalconditionmaster` '
                 . 'LEFT JOIN `patient_master` ON(`patient_master`.id=`medicalconditionmaster`.`patient_id`) '
                 . ' LEFT JOIN `visit_master` ON `visit_master`.`patient_master_id`=`patient_master`.`id` WHERE `visit_master`.`phase`='.$phase
                 . ' AND `patient_master`.`patient_category`="' . $cat . '" AND `medicalconditionmaster`.`chiefcomplaints1` <> ""' 
-                . ' GROUP BY `medicalconditionmaster`.`chiefcomplaints1` ORDER BY count DESC';
+                . ' GROUP BY `medicalconditionmaster`.`chiefcomplaints1` ORDER BY count DESC';*/
+        
+        #new one retrive other disease from disease diagnosed
+        $sqlmonthlycount = 'SELECT `medicalconditionmaster`.`disease`, COUNT(1) AS count 
+            FROM `medicalconditionmaster` LEFT JOIN `patient_master` ON (`patient_master`.id = `medicalconditionmaster`.`patient_id`)
+            LEFT JOIN `visit_master` ON `visit_master`.`id` = `medicalconditionmaster`.`visit_master_id`
+            WHERE `visit_master`.`phase` = "' . $phase . '"  AND `patient_master`.`patient_category` = "' . $cat . '" 
+            AND (`medicalconditionmaster`.`diseases_master_id` = 0 OR ISNULL(`medicalconditionmaster`.`diseases_master_id`))
+            GROUP BY `medicalconditionmaster`.`disease`
+            ORDER BY COUNT DESC';
 
         $query = $this->db->query($sqlmonthlycount);
         $data2 = $query->result_array();
-
+        
+//         echo $this->db->last_query();
         return $data2;
     }
     
@@ -662,7 +673,8 @@ class Patient_model extends CI_Model {
                 AND v.phase = ".$phase."
                 AND p.patient_category = '".$cat."'
                 GROUP BY mm.diseases_master_id";
-
+        
+        // echo $this->db->last_query();
         $query = $this->db->query($sqlmonthlycount); 
         $data2 = $query->result_array();
         
