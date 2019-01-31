@@ -48,6 +48,34 @@ $(document).ready(function(){
                 }
             }
         }
+        else {
+            // set the localStorage value to the select 
+            if(localStorage.userdata){
+                ls_userdata = JSON.parse(localStorage.userdata);
+                if(ls_userdata.phase)
+                    $('#phase').val(ls_userdata.phase).trigger('change').selectpicker('refresh');
+                if(ls_userdata.state_id){
+                    $('#state_id').val(ls_userdata.state_id).trigger('change').selectpicker('refresh');
+                    $('#state').val(ls_userdata.state)
+                }
+                if(ls_userdata.district_id){
+                    $('#district_id').val(ls_userdata.district_id).trigger('change').selectpicker('refresh');
+                    $('#district').val(ls_userdata.district)
+                }
+                if(ls_userdata.city_id){
+                    $('#city_id').val(ls_userdata.city_id).trigger('change').selectpicker('refresh');
+                    $('#city').val(ls_userdata.city)
+                }
+                if(ls_userdata.area_id){
+                    $('#area_id').val(ls_userdata.area_id).trigger('change').selectpicker('refresh');
+                    $('#area').val(ls_userdata.area)
+                }
+                if(ls_userdata.location_id){
+                    $('#location_id').val(ls_userdata.location_id).selectpicker('refresh');
+                    $('#location').val(ls_userdata.location)
+                }
+            }
+        }
         
         $('#uidDiv').hide();
         $('#form_registration').show();
@@ -109,6 +137,38 @@ $(document).ready(function(){
                             $('#registration_no').val(result.registration_no);
                             $('#pid').val(result.id);
                             $('#visit_master_id').val(result.visit_master_id);
+
+                            // add localStorage stuff
+                            if (typeof(Storage) !== "undefined") {
+                                // Code for localStorage/sessionStorage.
+                                var set_localStorage = true;
+                                if(localStorage.userdata){
+                                    userdata = JSON.parse(localStorage.userdata);
+                                    if(userdata.location_id == $("location_id").val())
+                                    set_localStorage = false;
+                                }
+                                if(set_localStorage){
+                                    localStorage.setItem("userdata", 
+                                        JSON.stringify(
+                                        {'phase':$("#phase").val(), 
+                                        'state_id':$("#state_id").val(),
+                                        'district_id':$("#district_id").val(),
+                                        'city_id':$("#city_id").val(),
+                                        'area_id':$("#area_id").val(),
+                                        'location_id':$("#location_id").val(),
+                                        'state':$("#state").val(),
+                                        'district':$("#district").val(),
+                                        'city':$("#city").val(),
+                                        'area':$("#area").val(),
+                                        'location':$("#location").val()
+                                        })
+                                    );
+                                }
+                                // console.log(localStorage.userdata);
+                            } else {
+                            // Sorry! No Web Storage support..
+                                alert ("Warning : Please update your browser for better performance.")
+                            }
                             
                         break;
                         

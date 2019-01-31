@@ -500,13 +500,19 @@ class admin extends CI_Controller {
         //$opt = '<option value=""> Select Area </option>';
                     
         if(!empty($city_id))
-            $where_arr['city_id'] = $city_id;
+            // $where_arr['city_id'] = $city_id;
+            $where_arr['am.city_id'] = $city_id;
         
         if(!empty($phase_id))
-            $where_arr['phase_id'] = $phase_id;
+            // $where_arr['phase_id'] = $phase_id;
+            $where_arr['map.phase_id'] = $phase_id;
         
         if(!empty($where_arr)){    
-            $area_query = $this->db->get_where('area_master',$where_arr);
+            // $area_query = $this->db->get_where('area_master',$where_arr);
+            $area_query = $this->db->select('am.name, map.area_id as id')->from('map_area_phase map')
+            ->where($where_arr)
+            ->join('area_master as am', 'am.id = map.area_id', 'left')->get();
+
             $area_rs = $area_query->result();
 
             if(!empty($area_rs)){
