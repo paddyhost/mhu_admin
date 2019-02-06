@@ -48,6 +48,34 @@ $(document).ready(function(){
                 }
             }
         }
+        else {
+            // set the localStorage value to the select 
+            if(localStorage.userdata){
+                ls_userdata = JSON.parse(localStorage.userdata);
+                if(ls_userdata.phase)
+                    $('#phase').val(ls_userdata.phase).trigger('change').selectpicker('refresh');
+                if(ls_userdata.state_id){
+                    $('#state_id').val(ls_userdata.state_id).trigger('change').selectpicker('refresh');
+                    $('#state').val(ls_userdata.state)
+                }
+                if(ls_userdata.district_id){
+                    $('#district_id').val(ls_userdata.district_id).trigger('change').selectpicker('refresh');
+                    $('#district').val(ls_userdata.district)
+                }
+                if(ls_userdata.city_id){
+                    $('#city_id').val(ls_userdata.city_id).trigger('change').selectpicker('refresh');
+                    $('#city').val(ls_userdata.city)
+                }
+                if(ls_userdata.area_id){
+                    $('#area_id').val(ls_userdata.area_id).trigger('change').selectpicker('refresh');
+                    $('#area').val(ls_userdata.area)
+                }
+                if(ls_userdata.location_id){
+                    $('#location_id').val(ls_userdata.location_id).selectpicker('refresh');
+                    $('#location').val(ls_userdata.location)
+                }
+            }
+        }
         
         $('#uidDiv').hide();
         $('#form_registration').show();
@@ -74,7 +102,7 @@ $(document).ready(function(){
         },
         onTabClick: function(tab, navigation, index) {
             alert('tab click disabled');
-            return false;
+            //return false;
         },
         onNext: function(tab, navigation, index) {
             var current_tab = tab.children().attr('href');
@@ -109,6 +137,38 @@ $(document).ready(function(){
                             $('#registration_no').val(result.registration_no);
                             $('#pid').val(result.id);
                             $('#visit_master_id').val(result.visit_master_id);
+
+                            // add localStorage stuff
+                            if (typeof(Storage) !== "undefined") {
+                                // Code for localStorage/sessionStorage.
+                                var set_localStorage = true;
+                                if(localStorage.userdata){
+                                    userdata = JSON.parse(localStorage.userdata);
+                                    if(userdata.location_id == $("location_id").val())
+                                    set_localStorage = false;
+                                }
+                                if(set_localStorage){
+                                    localStorage.setItem("userdata", 
+                                        JSON.stringify(
+                                        {'phase':$("#phase").val(), 
+                                        'state_id':$("#state_id").val(),
+                                        'district_id':$("#district_id").val(),
+                                        'city_id':$("#city_id").val(),
+                                        'area_id':$("#area_id").val(),
+                                        'location_id':$("#location_id").val(),
+                                        'state':$("#state").val(),
+                                        'district':$("#district").val(),
+                                        'city':$("#city").val(),
+                                        'area':$("#area").val(),
+                                        'location':$("#location").val()
+                                        })
+                                    );
+                                }
+                                // console.log(localStorage.userdata);
+                            } else {
+                            // Sorry! No Web Storage support..
+                                alert ("Warning : Please update your browser for better performance.")
+                            }
                             
                         break;
                         
@@ -145,15 +205,21 @@ $(document).ready(function(){
         $('#prescribe_dose .selectpicker').each(function(i,e){
             if($(this).val() == ''){
                 is_valid = false;
+                $(this).next().addClass('error_sel');
             }
             
         })
-        $('#prescribe_dose input').each(function(i,e){
+        /*$('#prescribe_dose input').each(function(i,e){
             if($(this).val() == ''){
                 is_valid = false;
                 $(this).addClass('error');
             }
-        })
+        })*/
+        var days = $('#days').val();
+        if( days == '' || isNaN(days)){
+            is_valid = false;
+            $('#days').addClass('error');
+        }
         
         if(!is_valid){
             alert('please provide data');
@@ -170,7 +236,8 @@ $(document).ready(function(){
             success: function (response) {
                 if(response.code == 200){
                     $("#prescribe_dose_table tbody").append(response.data);
-                    reset('prescribe_dose');
+                    $("#prescribe_dose #name, #frequency, #days").val('').selectpicker('refresh');
+                    $("input[name='aftermeal']").prop('checked',false);
                     $('#modalPrescription').modal('hide');
                 }
             }
@@ -229,7 +296,14 @@ $(document).ready(function(){
     // on change city dd populate area dd
     $(document).on('change', '#city_id', function(){
         var city_id = $(this).val();
-        var url = '/admin/ajax_get_area/'+city_id;
+        var phase_id = $("#phase").val();
+        if(phase_id === ''){
+            $(this).val('').selectpicker('refresh')
+            $("#phase").next().addClass('error_sel');
+            alert('please select phase for ease of location');
+            return false;
+        }
+        var url = '/admin/ajax_get_area/'+city_id+'/'+phase_id;
         if( city_id >= 1){
             var area_opt = getData(url);
             if(area_opt !== false){
@@ -244,7 +318,8 @@ $(document).ready(function(){
     // on change area dd location area dd
     $(document).on('change', '#area_id', function(){
         var area_id = $(this).val();
-        var url = '/admin/ajax_get_location/'+area_id;
+        var phase_id = $("#phase").val();
+        var url = '/admin/ajax_get_location/'+area_id+'/'+phase_id;
         if( area_id >= 1){
             var location_opt = getData(url);
             if(location_opt !== false){
@@ -259,6 +334,10 @@ $(document).ready(function(){
     $(document).on('change', '#location_id', function(){
         var location = $("#location_id option:selected").text();
         $("#location").val(location.toLowerCase().trim());
+    });
+    
+    $(document).on('change', '#phase', function(){
+        $("#state_id, #district_id, #city_id, #area_id, #location_id").val('').selectpicker('refresh');
     });
     
 });

@@ -309,7 +309,14 @@
                 // on change city dd populate area dd
                 $(document).on('change', '#city_id', function(){
                     var city_id = $(this).val();
-                    var url = '/admin/ajax_get_area/'+city_id;
+                    var phase_id = $("#phase").val();
+                    if(phase_id === ''){
+                        $(this).val('').selectpicker('refresh')
+                        $("#phase").next().addClass('error_sel');
+                        alert('please select phase for ease of location');
+                        return false;
+                    }
+                    var url = '/admin/ajax_get_area/'+city_id+'/'+phase_id;
                     if( city_id >= 1){
                         var area_opt = getData(url);
                         if(area_opt !== false){
@@ -324,7 +331,8 @@
                 // on change area dd location area dd
                 $(document).on('change', '#area_id', function(){
                     var area_id = $(this).val();
-                    var url = '/admin/ajax_get_location/'+area_id;
+                    var phase_id = $("#phase").val();
+                    var url = '/admin/ajax_get_location/'+area_id+'/'+phase_id;
                     if( area_id >= 1){
                         var location_opt = getData(url);
                         if(location_opt !== false){

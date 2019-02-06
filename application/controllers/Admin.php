@@ -212,20 +212,49 @@ class admin extends CI_Controller {
 
         $cat = $this->input->get('cat');
         $records = $this->patient_model->getComplentCountBy($cat,$phase);
-
-
+        
+        #add specfic data
+        $specific_records = $this->ajax_getDiseaseCountBy($phase, TRUE);
+        $specific_records = json_decode($specific_records, TRUE);
+        if(isset($specific_records['Others']))
+            unset($specific_records['Others']);
+        
         $data = array();
-        $i = 0;
+        /* old logic
+         * $i = 0;
         foreach ($records as $key => $value) {
             $data[$value["chiefcomplaints1"]] = intval($value["count"]);
-
             if ($i == 4) {
                 break;
             }
-
             $i++;
+        }*/
+        
+        foreach ($records as $key => $value) {
+            if(in_array($value['disease'],  array_keys($data))){
+                $data[$value["disease"]] = intval($data[$value["disease"]]+$value["count"]);
+            }else {
+                $data[$value["disease"]] = intval($value["count"]);
+            }
         }
-
+        
+        if(isset($data[""])){
+            $empty_count = $data[""];
+            unset($data[""]);
+            $data["Others"] = $empty_count;
+        }
+        
+//        print_r($data);
+//        print_r($specific_records); exit;
+        
+        if(!empty($specific_records))
+            $data = ($data + $specific_records);
+        
+        
+        #sort with desc and slice only 10 records
+        arsort($data);
+        $data = array_slice($data, 0, 10, TRUE);
+        
         echo json_encode($data);
     }
     
@@ -400,16 +429,25 @@ class admin extends CI_Controller {
         die(json_encode($json_data));  // send data as json format
     }
     
-    public function ajax_getDiseaseCountBy($phase) {
+    public function ajax_getDiseaseCountBy($phase, $return = FALSE) {
         $cat = $this->input->get('cat');
         $records = $this->patient_model->getDiseaseCountBy($cat,$phase);
 
         $data = array();
         $i = 0;
         foreach ($records as $key => $value) {
-            $data[$value["disease"]] = intval($value["count"]);
+            if(in_array($value['disease'],  array_keys($data))){
+                $data[$value["disease"]] = intval($data[$value["disease"]]+$value["count"]);
+            }else {
+                $data[$value["disease"]] = intval($value["count"]);
+            }
         }
-        echo json_encode($data);
+        if($return){
+            return json_encode($data);
+        }else {
+            echo json_encode($data);
+        }
+        
     }
     
     
@@ -457,15 +495,24 @@ class admin extends CI_Controller {
         echo json_encode($opt);
     }
     
-    function ajax_get_area($city_id = 0) {
+    function ajax_get_area($city_id = 0, $phase_id = 0) {
         $opt = '';
-        //$opt_other = '<option value=""> Other </option>';
+        //$opt = '<option value=""> Select Area </option>';
                     
         if(!empty($city_id))
-            $where_arr['city_id'] = $city_id;
+            // $where_arr['city_id'] = $city_id;
+            $where_arr['am.city_id'] = $city_id;
+        
+        if(!empty($phase_id))
+            // $where_arr['phase_id'] = $phase_id;
+            $where_arr['map.phase_id'] = $phase_id;
         
         if(!empty($where_arr)){    
-            $area_query = $this->db->get_where('area_master',$where_arr);
+            // $area_query = $this->db->get_where('area_master',$where_arr);
+            $area_query = $this->db->select('am.name, map.area_id as id')->from('map_area_phase map')
+            ->where($where_arr)
+            ->join('area_master as am', 'am.id = map.area_id', 'left')->get();
+
             $area_rs = $area_query->result();
 
             if(!empty($area_rs)){
@@ -478,12 +525,15 @@ class admin extends CI_Controller {
         echo json_encode($opt);
     }
     
-    function ajax_get_location($area_id = 0) {
+    function ajax_get_location($area_id = 0, $phase_id = 0) {
         $opt = '';
         //$opt_other = '<option value=""> Other </option>';
                     
         if(!empty($area_id))
             $where_arr['aria_id'] = $area_id;
+        
+        if(!empty($phase_id))
+            $where_arr['phase_id'] = $phase_id;
         
         if(!empty($where_arr)){    
             $location_query = $this->db->get_where('locations_master',$where_arr);

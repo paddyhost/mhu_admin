@@ -40,6 +40,11 @@
                             <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (!empty($medical->diagnosys) ? $medical->diagnosys : 'NA') ?></p>
                         </div>
                         <hr>
+                        <div class="row">
+                            <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Diagnosed disease</label>
+                            <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (!empty($medical->disease) ? $medical->disease : 'NA') ?></p>
+                        </div>
+                        <hr>
                         <div class="row m-l-0 m-r-0">
                             <label class="col-md-3 col-sm-3 col-xs-12 m-t-0 p-l-0 p-r-0">Prescribed Dose</label>
                             <div class="clearfix"></div><br>
