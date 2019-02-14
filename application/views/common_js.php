@@ -14,6 +14,7 @@
 <script src="/assets/js/chart_area.js" type="text/javascript"></script>
 <script src="/assets/js/api_data_color.js" type="text/javascript"></script>
 <script src="/assets/js/chart_combination.js" type="text/javascript"></script>
+
 <!--<script src="/assets/js/data_stringx.js" type="text/javascript"></script>-->
 <!--/>
 
@@ -51,6 +52,7 @@
 <script src="/assets/js/flot-charts/pie-chart.js"></script>
 
 <script src="/assets/js/charts.js"></script>-->
+<script src="/assets/vendors/fileinput/fileinput.min.js"></script>
 <script src="/assets/js/functions.js"></script>
 <script src="/assets/js/demo.js"></script>
 
