@@ -30,10 +30,9 @@
                             <?php $i = 1;
                             while ($i <= 10): ?>
                                 <option <?php echo ($i == $phase ? 'selected="selected"' : ''); ?> value="<?= $i ?>"> Phase <?= $i ?></option>
-    <?php $i++;
-endwhile; ?>
-                            <!--                        <option value="1" selected="true">PHASE 1</option>
-                                                    <option value="2">PHASE 2</option>-->
+                            <?php $i++;
+                            endwhile; ?>
+                            
                         </select>
                     </div>
                 </div>
@@ -49,7 +48,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Cases received</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                                 <!--<h4>Target Population</h4>-->
                             </div>
@@ -96,9 +95,9 @@ endwhile; ?>
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-12 p-r-0">
+<!--                                        <div class="col-md-2 col-sm-2 col-xs-12 p-r-0">
                                             <button class="btn btn-primary btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +113,9 @@ endwhile; ?>
                     <div class="card-header">
                         <div class="row m-l-0 m-r-0">
                             <h4 class="pull-left">Distribution of symptoms amongst cases</h4>
-                            <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                            <button class="btn btn-primary pull-right btn-load" id="load_patient_complaint">
+                                <i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i>
+                            </button>
                         </div>
                         <!--<h4>Overall Complaint Chart</h4>-->
                     </div>
@@ -158,7 +159,9 @@ endwhile; ?>
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12 p-r-0">
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <button class="btn btn-primary pull-right btn-load" id="load_patient_complaint2">
+                                        <i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +176,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Pediatric symptoms</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                                 <!--<h4>Child Complaints</h4>-->
                             </div>
@@ -189,7 +192,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Pediatric diagnosed diseases</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
                             <div class="card-body card-padding">
@@ -206,7 +209,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Symptoms in Lactating women </h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                                 <!--<h4>Lactating Women Complaints</h4>-->
                             </div>
@@ -222,7 +225,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Lactating women diagnosed diseases</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
                             <div class="card-body card-padding">
@@ -239,7 +242,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Symptoms in Pregnant women</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
                             <div class="card-body card-padding">
@@ -252,7 +255,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Pregnant women diagnosed diseases</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
                             <div class="card-body card-padding">
@@ -267,7 +270,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Geriatic symptoms</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
                             <div class="card-body card-padding">
@@ -280,7 +283,7 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Geriatic diagnosed diseases</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <!--<button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>-->
                                 </div>
                             </div>
                             <div class="card-body card-padding">
@@ -295,7 +298,9 @@ endwhile; ?>
                             <div class="card-header">
                                 <div class="row m-l-0 m-r-0">
                                     <h4 class="pull-left">Blood investigations performed</h4>
-                                    <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                                    <button class="btn btn-primary pull-right btn-load" id="load_test">
+                                        <i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i>
+                                    </button>
                                 </div>
                                 <!--<h4>Test Details</h4>-->
                             </div>
@@ -309,7 +314,9 @@ endwhile; ?>
                     <div class="card-header">
                         <div class="row m-l-0 m-r-0">
                             <h4 class="pull-left">Target population achieve during health camp</h4>
-                            <button class="btn btn-primary pull-right btn-load"><i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i></button>
+                            <button class="btn btn-primary pull-right btn-load" id="load_target_population">
+                                <i class="zmdi zmdi-refresh-alt zmdi-hc-fw"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="card-body card-padding">
@@ -425,79 +432,94 @@ endwhile; ?>
             general_chart2.unload();
         });
         
-        
-        var patient_complaint = c3.generate({
-            bindto: '#patient_complaint',
-            data: {
-                x:'x',
-                url:'/admin/ajax_getpatient_complaint/'+phase,
-                mimeType: 'json',
-                type: 'bar',
-                groups: [
-                   ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
-                 ],
-                empty: { label: { text: "No Data Available" } }     
-                },
-            legend: {
-                show: false
-            },
-            axis: {
-                x: {
-                    type: 'category',
-                    //categories: ['Fever', 'Bodyache', 'Cough', 'Cough Cold', 'Allergic', 'Abdominal Pain', 'Ranalcalkulus', 'Joint Pain', 'Gastritis', 'Knee Pain'],
-                    label: 'Patient Categories'
-                },
-                y: {
-                    label: 'Complaints Count'
-                }
-            },
-            bar: {
-                 width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
-                 }
-                // or
-                // width: 100 // this makes bar width 100px
-            },
-            onrendered: function () {  }
-        });
-        
-        
-        var patient_complaint2 = c3.generate({
-            bindto: '#patient_complaint2',
+        $(document).on("click","#load_patient_complaint", function(){
+            $btn_obj = $(this);
+            var patient_complaint = c3.generate({
+                bindto: '#patient_complaint',
+                data: {
+                    x:'x',
+                    url:'/admin/ajax_getpatient_complaint/'+phase,
+                    mimeType: 'json',
+                    type: 'bar',
+                    groups: [
+                       ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
+                     ],
+                    empty: { label: { text: "No Data Available" } }     
+                    },
                 legend: {
                     show: false
                 },
-            data: {
-                x:'x',
-                url:'/admin/ajax_getpatient_complaint/'+phase,
-                mimeType: 'json',
-                type: 'bar',
-                groups: [
-                   ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
-                 ],
-                empty: { label: { text: "No Data Available" } }
-            },
-            axis: {
-                x: {
-                    type: 'category',
-                    //categories: ['Fever', 'Bodyache', 'Cough', 'Cough Cold', 'Allergic', 'Abdominal Pain', 'Ranalcalkulus', 'Joint Pain', 'Gastritis', 'Knee Pain'],
-                    label: 'Patient Categories'
+                axis: {
+                    x: {
+                        type: 'category',
+                        //categories: ['Fever', 'Bodyache', 'Cough', 'Cough Cold', 'Allergic', 'Abdominal Pain', 'Ranalcalkulus', 'Joint Pain', 'Gastritis', 'Knee Pain'],
+                        label: 'Patient Categories'
+                    },
+                    y: {
+                        label: 'Complaints Count',
+                        min : 1,
+                        padding : {
+                            bottom : 0
+                        }
+                    }
+                    
                 },
-                y: {
-                    label: 'Complaints Count'
+                bar: {
+                     width: {
+                        ratio: 0.5 // this makes bar width 50% of length between ticks
+                     }
+                    // or
+                    // width: 100 // this makes bar width 100px
+                },
+                onrendered: function () { 
+                    $btn_obj.removeClass('btn-load-animate');
                 }
-            },
-            bar: {
-                width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
-                }
-                // or
-                //width: 100 // this makes bar width 100px
-            },
-             onrendered: function () {  }
+            });
         });
         
-        
+        $(document).on("click","#load_patient_complaint2", function(){
+            var patient_complaint2 = c3.generate({
+                bindto: '#patient_complaint2',
+                    legend: {
+                        show: false
+                    },
+                data: {
+                    x:'x',
+                    url:'/admin/ajax_getpatient_complaint/'+phase,
+                    mimeType: 'json',
+                    type: 'bar',
+                    groups: [
+                       ["A\/C","A\/p","Abdominal Pain","AC","Acane","ACEE","ACGE","Achme","Acidity","ACN","Acne","AD","Adima","AEG","AEGE","AFA","AFI","AFT","AGE","ALBA","Alergic\/Anemic","Allergic","Alser","Aminoria","ANC","ANC Profile","Anemic","Animia","Anxity","Apatite","ARI","Asthama","Aztomla","B\/C","B\/COA","BA","Backache","Bary Bary","BD","Bleeding","Blood In Isputam","Bloodgroup","Bluered Vision","Blunt Troma","Body Alergy","Bodyache","Boils","BPH","Breathlessness","Bronchial","Bronchintis","Burn","Burning Eyes","Burning Mituration","C\/S","Calcium DEF","CBA","Cervical Pain","Chest Congection","Chest Pain","Chestconjection","CLW","CNS","Cold","colic","Colitis","Conjuctivitis","Constipation","COPD","Corn","Costipation","Cough","Cough and alergic","Cough Cold","Cough\/Pruritis","CRI","CRIF\/AFI","CS","CST","D-D3","Darma","Dehydration","Dendruff","Dermatitis","Diarrhoea","Dispepsia","Dizzeness","DMT2","Dry Cough","Dysmanuria","Ear Discharge","Ear infection","Ear itching","Ear Pain","Ear Problum","Ear Wax","Earache","Eardisoder","EFI","Elbo Pain","Epitaxis","Eye Discharge","Eye Disoder","Eye Eaching","Eye Iching","Eye Infaction","Eye infection","Eye Pain","Eye Problum","eye redness","Eye Sweling","Eyeinfaction","EyePain","Facetroma","FBA","FBI","Fever","FLU","Fungle Infection","Fungos","Gastritis","Gout","Hadache","Haemoroid","Hairfall","Hand Pain","Hand Swelling","Harpees","Harpes","HDN","Heart burn","Hematuria","Hepatite","Hepatomegaly","Hert burn","Heumorrhoid","High Urination","himaturia","Hipatomigalig","HP","HPN","HTM","HTN","HTN\/Cold","Hydrosil","Hypertenson","Hypo","Hypothiroid","Hypothiroxin","I-Durma","Indigetion","Infection","Injury","insomnia","Irregular Periods","Itching","Joint Pain","K\/C\/O","KFI","Kidney Ston","Knee Pain","lag sweeling","LBA","LBC","LBI","LBS","Leg Pain","Leucorrhea","Limpnod","Lipoma","Livecoma","Loosmotion","low apetite","Low Urinaton","Low VC","low Vit.","Low Vitamin","LRTI","Lucodurma","Lucoria","Measeles","Migrain","Mouth Allerge","Mouth Alsar","MP","N\/C","Nack pain","Nasal Allergie","NazelAllergic","NBA","Neckpain","Nesal Bloodin","Neucorrhean","No","Nosetrits","numbness","OA","OA&HTN","OD","ODEMA","Oedma","Oral Alsur","P\/V","Pain","Pain in Hand","Pain In Legs","Palpitation","Patches","Pheringitis","Piles","Pruritis","PV","Pyrexia","RA","Ranalcalkulus","Ranalcolic","RBS","Ring Worm","roc","Running Nose","Scabiz","Seizere","Shoulder Pain","Shugar","Skin Infection","Skin Prob","skin rednss","SkinInfection","SOB","Sore Throt","STN","Stomache","Stonetitis","Strain","Survical","Swelling","Syphilis","T.Corp","T2DM","Thorex","Throd Infaction","Throt pain","TLDM","Tomslitic","Tooth pain","Touncils","TRI","Tscal","UBA","UPT","Ureen","URI","Urination","URTI","Urticarea","Urticarin","UTI","UTRI","V-B12","Vansh","VB Deficiency","VD Deff","Vertigo","Vit C Def","Vit-DEF","Vomiting","VTI","W.D","W\/D","Weeknes","Weekness\/Cold","white Discharge ","White Spots","Worms","Wound"]
+                     ],
+                    empty: { label: { text: "No Data Available" } }
+                },
+                axis: {
+                    x: {
+                        type: 'category',
+                        //categories: ['Fever', 'Bodyache', 'Cough', 'Cough Cold', 'Allergic', 'Abdominal Pain', 'Ranalcalkulus', 'Joint Pain', 'Gastritis', 'Knee Pain'],
+                        label: 'Patient Categories'
+                    },
+                    y: {
+                        label: 'Complaints Count',
+                        min : 1,
+                        padding : {
+                            bottom : 0
+                        }
+                    }
+                },
+                bar: {
+                    width: {
+                        ratio: 0.5 // this makes bar width 50% of length between ticks
+                    }
+                    // or
+                    //width: 100 // this makes bar width 100px
+                },
+                onrendered: function () { 
+                    $btn_obj.removeClass('btn-load-animate');
+                }
+            });
+        });
+
         var child_complaint = c3.generate({
             bindto: '#child_complaint',
             data: {
@@ -597,44 +619,51 @@ endwhile; ?>
              onrendered: function () {  }
         });
         
-        
-        var test = c3.generate({
-            bindto: '#test',
-            data: 
-                {
-                    x:'x',
-                   url:'/admin/ajax_getTestList/'+phase,
-                   mimeType: 'json',
-                   type: 'bar',
-                   groups: [
-                       ["Complete Blood Count (CBC)\/ Homogram (Hgm)","Liver Function Test (LFT)","Kidney Function Test","Lipid Profile","Glucose Profile (BSR)","WIDAL","TYPHIDOT","Malaria Serology","RA Factor","HBSAG (Hepatitis B AG)","Urine Examination","CRP","Anti HCV","HIV","VDRL","GCT","ABO RH (Blood Group)"]
+        $(document).on("click","#load_test", function(){
+            var $btn_obj = $(this);
+            var test = c3.generate({
+                bindto: '#test',
+                data: 
+                    {
+                        x:'x',
+                       url:'/admin/ajax_getTestList/'+phase,
+                       mimeType: 'json',
+                       type: 'bar',
+                       groups: [
+                           ["Complete Blood Count (CBC)\/ Homogram (Hgm)","Liver Function Test (LFT)","Kidney Function Test","Lipid Profile","Glucose Profile (BSR)","WIDAL","TYPHIDOT","Malaria Serology","RA Factor","HBSAG (Hepatitis B AG)","Urine Examination","CRP","Anti HCV","HIV","VDRL","GCT","ABO RH (Blood Group)"]
 
-                    ],
-                    empty: { label: { text: "No Data Available" } }
+                        ],
+                        empty: { label: { text: "No Data Available" } }
+                    },
+                axis: {
+                    x: {
+                        type: 'category',
+                       categories: ['CBC', 'LFT', 'KFT', 'Lipid Profile', 'BSR', 'Widal', 'Typhoid', 'Maleria Serology', 'RA Factor', 'HBSAG'],
+                        label: 'Test Name'
+                    },
+                    y: {
+                        label: 'Patient Count',
+                        min : 1,
+                        padding : {
+                            bottom : 0
+                        }
+                    }
                 },
-            axis: {
-                x: {
-                    type: 'category',
-                   categories: ['CBC', 'LFT', 'KFT', 'Lipid Profile', 'BSR', 'Widal', 'Typhoid', 'Maleria Serology', 'RA Factor', 'HBSAG'],
-                    label: 'Test Name'
-                },
-                y: {
-                    label: 'Patient Count'
+                bar: {
+                    width: {
+                        ratio: 0.5 // this makes bar width 50% of length between ticks
+                    }
+                    // or
+                    //width: 100 // this makes bar width 100px
                 }
-            },
-            bar: {
-                width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
+                , 
+                onrendered: function () { 
+                    $btn_obj.removeClass('btn-load-animate');
                 }
-                // or
-                //width: 100 // this makes bar width 100px
-            }
-            , 
-            onrendered: function () {  }
+            });
         });
-        
-        
-        $( "#patient_complaintaria" ).change(function() {
+
+        $( "#patient_complaintaria").change(function() {
             var month= $( "#patient_complaintmonth option:selected" ).val();
             var aria=  $( "#patient_complaintaria option:selected" ).val();
 
@@ -648,48 +677,55 @@ endwhile; ?>
         });
 
         $( "#patient_complaintmonth" ).change(function() {
-
             $( "#patient_complaintaria option:selected" ).removeAttr("selected");
             patient_complaint2.unload();
         });
 
-        var TargetPopulationLocation = c3.generate({
-            bindto: '#TargetPopulationLocation',
-            data: {
-                x:'x',
-                url:'/admin/ajax_getTargetPopulationLocationt/'+phase,
-                mimeType: 'json',
-                type: 'bar',
-                groups: [
-                //["ADARSH NAGAR","Adarsh Vihar","ANIL VIHAR","AZAD VIHAR","BHARAT NAGAR","INDRA VIHAR","LOKPRIYA VIHAR","PRAGATI VIAHR","PRAGATI VIHAR","PREM VIHAR","RAJIV NAGAR","SANGAM VIHAR","SHIV PARK","VANDANA VIHAR","VANDNA VIHAR"]              
-                [<?php echo '"'.implode('","', $camp_location).'"';?>]
-                ],
-                empty: { label: { text: "No Data Available" } }       
-            },
-            legend: {
-                show: true
-            },
-            axis: {
-                x: {
-                    type: 'category',
-                    //categories: ['Fever', 'Bodyache', 'Cough', 'Cough Cold', 'Allergic', 'Abdominal Pain', 'Ranalcalkulus', 'Joint Pain', 'Gastritis', 'Knee Pain'],
-                    label: 'Patient Categories'
+        $(document).on("click","#load_target_population", function(){
+            var $btn_obj = $(this);
+            var TargetPopulationLocation = c3.generate({
+                bindto: '#TargetPopulationLocation',
+                data: {
+                    x:'x',
+                    url:'/admin/ajax_getTargetPopulationLocationt/'+phase,
+                    mimeType: 'json',
+                    type: 'bar',
+                    groups: [
+                    //["ADARSH NAGAR","Adarsh Vihar","ANIL VIHAR","AZAD VIHAR","BHARAT NAGAR","INDRA VIHAR","LOKPRIYA VIHAR","PRAGATI VIAHR","PRAGATI VIHAR","PREM VIHAR","RAJIV NAGAR","SANGAM VIHAR","SHIV PARK","VANDANA VIHAR","VANDNA VIHAR"]              
+                    [<?php echo '"'.implode('","', $camp_location).'"';?>]
+                    ],
+                    empty: { label: { text: "No Data Available" } }       
                 },
-                y: {
-                    label: 'Complaints Count'
+                legend: {
+                    show: true
+                },
+                axis: {
+                    x: {
+                        type: 'category',
+                        //categories: ['Fever', 'Bodyache', 'Cough', 'Cough Cold', 'Allergic', 'Abdominal Pain', 'Ranalcalkulus', 'Joint Pain', 'Gastritis', 'Knee Pain'],
+                        label: 'Patient Categories'
+                    },
+                    y: {
+                        label: 'Complaints Count',
+                        min : 1,
+                        padding : {
+                            bottom : 0
+                        }
+                    }
+                },
+                bar: {
+                    width: {
+                        ratio: 0.5 // this makes bar width 50% of length between ticks
+                    }
+                    // or
+                    //width: 100 // this makes bar width 100px
+                },
+                onrendered: function () { 
+                    $btn_obj.removeClass('btn-load-animate');
                 }
-            },
-            bar: {
-                width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
-                }
-                // or
-                //width: 100 // this makes bar width 100px
-            },
-            onrendered: function () {  }
+            });
         });
-        
-        
+
         //disease charts
         var child_diseases = c3.generate({
             bindto: '#child_diseases',

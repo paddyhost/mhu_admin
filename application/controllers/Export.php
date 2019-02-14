@@ -121,3 +121,15 @@ class Export extends CI_Controller {
         }
     }
 }
+
+/*
+ *sql for export 
+SELECT     `patient_master`.`id`,     `regitrationdate`,     `fname`,     `dob`,     `age`,     `gender`,     `patient_category`,     `mobile`,     `area`,     `city`,     `district`,     `state`,     `location`,     `chiefcomplaints1`,     `chiefcomplaints2`,     `diagnosys`,     `disease`,     `investigation`,     `tratementtaken`,     `briefHistory1`,     `briefHistory2`,     `dpt`,     `bcg`,     `measles`,     `opv`,     `hepatitis`,     `ttt`,     `other`, 	COALESCE(`disease`,`d`.`name`) as specific FROM
+`patient_master`
+RIGHT JOIN `visit_master` ON `visit_master`.`patient_master_id` = `patient_master`.`id`
+LEFT JOIN `medicalconditionmaster` AS `m` ON `m`.`visit_master_id` = `visit_master`.`id`
+LEFT JOIN `diseases_master` AS `d` ON `d`.`id` = `m`.`disease_master_id`
+LEFT JOIN `vaccinationmaster` AS `v` ON `v`.`visit_master_id` = `visit_master`.`id`
+WHERE `visit_master`.`created_at` BETWEEN '2018-09-01 00:00:00.000000' AND '2018-12-12 00:00:00.000000'
+ * 
+ */

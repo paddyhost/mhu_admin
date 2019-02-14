@@ -287,13 +287,13 @@
                                     <div class="tab-pane fade" id="medical">
                                         <form>
                                             <div class="row">
-                                                <label class="m-l-15 m-r-15 m-b-15">Chief Conmplaint</label>
+                                                <label class="m-l-15 m-r-15 m-b-15">Symptoms</label> <!--Chief Conmplaint-->
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-1"></i></span>
                                                         <div class="fg-line">
-                                                            <input name="chiefcomplaints1" id="chiefcomplaints1" class="form-control" placeholder="" type="text">
+                                                            <input name="chiefcomplaints1" id="chiefcomplaints1" class="form-control" placeholder="Symptom 1" type="text">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -301,20 +301,20 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-2"></i></span>
                                                         <div class="fg-line">
-                                                            <input name="chiefcomplaints2" id="chiefcomplaints2" class="form-control" placeholder="" type="text">
+                                                            <input name="chiefcomplaints2" id="chiefcomplaints2" class="form-control" placeholder="Symptom 2" type="text">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <!-- <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon p-l-0 p-r-0"><i class="zmdi zmdi-collection-item-3"></i></span>
                                                         <div class="fg-line">
                                                             <input name="chiefcomplaints3" id="chiefcomplaints3" class="form-control" placeholder="" type="text">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
-                                            <div class="row m-t-15">
+                                            <!-- <div class="row m-t-15">
                                                 <label class="m-l-15 m-r-15 m-b-15">Brief History</label>
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
@@ -341,8 +341,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row m-t-15">
+                                            </div> -->
+                                            <!-- <div class="row m-t-15">
                                                 <label class="m-l-15 m-r-15 m-b-15">Previous Records</label>
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
@@ -368,8 +368,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row m-t-15">
+                                            </div> -->
+                                            <!-- <div class="row m-t-15">
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                                     <label>&nbsp;</label>
                                                     <div class="input-group">
@@ -421,8 +421,8 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
+                                            </div> -->
+                                            <div class="row m-t-20">
                                                 <label class="m-l-15 m-r-15 m-b-15">Select Diagnosed disease</label>
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
@@ -437,7 +437,7 @@
                                                         <input type="text" name="disease" id="disease" class="form-control" placeholder="Others Details">
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> 
                                             <hr>
                                             <div class="row m-l-0 m-r-0 m-b-15">
                                                 <label>Prescription</label>
@@ -625,7 +625,7 @@
                         <form id="prescribe_dose" name="prescribe_dose">
                             <div class="form-group">
                                 <label>Medicine Name</label>
-                                <select name="name" id="name" class="selectpicker" title="Select Medicine" data-live-search="true">
+                                <select name="name" id="name" class="selectpicker" title="Select Medicine"  data-live-search="true">
                                     <option value="">Select</option>
                                     <?php foreach ($medicine as $key => $value):?>
                                         <option value="<?= $value->id.'_'.$value->name;?>"><?= $value->name;?></option>
