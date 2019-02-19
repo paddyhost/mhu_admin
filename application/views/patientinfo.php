@@ -4,8 +4,9 @@
         <div class="row">
         <div class="col-md-8 col-sm-8 col-xs-12">
             <div class="card m-b-20">
-                <div class="card-header">
-                    <h4>Medical Condition</h4>
+                <div class="card-header" style="overflow: hidden">
+                    <h4 class="pull-left">Medical Condition</h4>
+                    <button class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalMedicalcondition">Edit</button>
                 </div>
                 <!-- <pre><?php //print_r($medical);?></pre> -->
                 <div class="card-body card-padding">
@@ -101,8 +102,9 @@
             </div>
             <div class="card m-b-20">
                 <div class="card-header">
-                    <h4>Test conducted by MHU</h4>
-                </div>
+                    <h4 class="pull-left">Test conducted by MHU</h4>
+                    <button data-toggle="modal" data-target="#modalTestMhu" class="btn btn-primary pull-right">Edit</button>
+                </div><div class="clearfix"></div>
                 <div class="card-body card-padding">
                     <?php $test = $patient_record['test']; //print_r($patient_record['test']); ?>
                     <?php if (!empty($test)): ?>
@@ -210,8 +212,9 @@
         <div class="col-md-4 col-sm-4 col-xs-12">
             <div class="card m-b-20">
                 <div class="card-header">
-                    <h4>Vital Information</h4>
-                </div>
+                    <h4 class="pull-left">Vital Information</h4>
+                    <button data-toggle="modal" data-target="#modalVitalinfo" class="btn btn-primary pull-right">Edit</button>
+                </div><div class="clearfix"></div>
                 <div class="card-body card-padding">
                     <?php $vital = $patient_record['vital']; //print_r($patient_record['vital']); ?>
     <?php if (!empty($vital)): ?>
@@ -243,8 +246,9 @@
             </div>
             <div class="card m-b-20">
                 <div class="card-header">
-                    <h4>Vaccination Record</h4>
-                </div>
+                    <h4 class="pull-left">Vaccination Record</h4>
+                    <button data-toggle="modal" data-target="#modalVaccinationRecord" class="btn btn-primary pull-right">Edit</button>
+                </div><div class="clearfix"></div>
                 <div class="card-body card-padding">
                     <?php
                     $vaccination = $patient_record['vaccination']; //print_r($patient_record['vaccination']);

@@ -21,6 +21,9 @@
                 <li>
                     <a href="/export"><span class="tm-label">Export</span></a> 
                 </li>
+                <li>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#modalImport"><span class="tm-label">Import Patient Data</span></a> 
+                </li>
                 <li class="dropdown">
                     <a href="javascript:void(0)" data-toggle="dropdown">
                     <span class="tm-label tm-icon">

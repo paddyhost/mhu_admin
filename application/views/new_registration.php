@@ -213,7 +213,7 @@
                                                     <div class="form-group">
                                                         <label>Location</label>
                                                         <input type="hidden" name="location" id="location" value="">
-                                                        <select name="location_id" id="location_id" class="selectpicker" title="Select Location">
+                                                        <select name="location_id" id="location_id" class="selectpicker" title="Select Location" data-live-search="true">
                                                             <!--<option></option>-->
                                                         </select>
                                                         <!--<div class="form-group">

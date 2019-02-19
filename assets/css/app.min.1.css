@@ -7754,7 +7754,11 @@ button.close {
 
 @media (min-width: 992px) {
   .modal-lg {
-    width: 900px;
+    width: 80%;
+  }
+  .modal-lg .modal-content{
+      max-height: 500px;
+      overflow-y: scroll;
   }
 }
 
