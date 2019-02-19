@@ -7,6 +7,7 @@
                 <div class="card-header">
                     <h4>Medical Condition</h4>
                 </div>
+                <!-- <pre><?php //print_r($medical);?></pre> -->
                 <div class="card-body card-padding">
                     <?php if (!empty($medical)): ?>
                         <div class="row">
@@ -42,7 +43,7 @@
                         <hr>
                         <div class="row">
                             <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Diagnosed disease</label>
-                            <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (!empty($medical->disease) ? $medical->disease : 'NA') ?></p>
+                            <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (!empty($medical->disease) ? $medical->disease : $medical->specific_disease) ?></p>
                         </div>
                         <hr>
                         <div class="row m-l-0 m-r-0">
