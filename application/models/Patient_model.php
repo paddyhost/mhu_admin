@@ -29,6 +29,7 @@ class Patient_model extends CI_Model {
             'location_id' => '',
             // 'unique_id' => random_string('numeric', 20),
             'patient_category' => '',
+            'age' => '',
             'created_by' => '',
         );
         $data = array_merge($data, $insertArray);
@@ -54,6 +55,7 @@ class Patient_model extends CI_Model {
             'location_id' => $location_id,
             // 'unique_id' => $unique_id,
             'patient_category' => $patient_category,
+            'age' => $age,
             'created_by' => $created_by,
         );
 
@@ -439,7 +441,14 @@ class Patient_model extends CI_Model {
     public function getOneByTable($table, $whereArr) {
         $result = FALSE;
         if (!empty($whereArr)) {
-            $query = $this->db->get_where($table, $whereArr);
+            if($table == 'medicalconditionmaster'){
+                $query = $this->db->select('m.*, d.name as specific_disease')->from('medicalconditionmaster as m')
+                ->where($whereArr)
+                ->join('diseases_master as d', 'd.id = m.diseases_master_id', 'left')->get();
+            }else {
+                $query = $this->db->get_where($table, $whereArr);    
+            }
+            
             if ($query->num_rows() >= 1) {
                 $result = $query->first_row();
             }
