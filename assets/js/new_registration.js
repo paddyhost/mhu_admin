@@ -422,9 +422,11 @@ function validate_tab(index, current_tab){
     var is_valid = 1;
     switch (index){
         case 1:
-            if(!validate_input('dor,fname,lname,city,area,location')){
+            if(!validate_input('dor,fname,lname')){
                 is_valid = 0;
             }else if(!validate_select('phase,patient_category,state_id,district_id,city_id,area_id,location_id')){
+                is_valid = 0;
+            }else if(!validate_input('city,area,location')){
                 is_valid = 0;
             }else if(!$('input[name=gender]:checked').val()){
                 is_valid = 0;

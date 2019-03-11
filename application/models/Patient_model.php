@@ -29,6 +29,7 @@ class Patient_model extends CI_Model {
             'location_id' => '',
             // 'unique_id' => random_string('numeric', 20),
             'patient_category' => '',
+            'age' => '',
             'created_by' => '',
         );
         $data = array_merge($data, $insertArray);
@@ -54,6 +55,7 @@ class Patient_model extends CI_Model {
             'location_id' => $location_id,
             // 'unique_id' => $unique_id,
             'patient_category' => $patient_category,
+            'age' => $age,
             'created_by' => $created_by,
         );
 
@@ -416,14 +418,15 @@ class Patient_model extends CI_Model {
             $sql1 = "SELECT GROUP_CONCAT( CONCAT( mta.attribute_name , ' = ' , "
                     . " COALESCE(IF(mtav.reading = '','NA',mtav.reading), 'NA'), ' - ' , "
                     . " COALESCE(IF(mtav.reference_value = '','NA',mtav.reference_value), 'NA')"
-                    . ") ORDER BY mtav.test_master_id SEPARATOR '--') as attribute_values,"
+                    . ") ORDER BY mtav.map_test_attribute_id SEPARATOR '--') as attribute_values,"
                     . " GROUP_CONCAT(DISTINCT tm.test_name ORDER BY mtav.test_master_id) as test_name"
                     . " FROM map_test_attribute_values mtav "
                     . " LEFT JOIN map_test_attribute mta ON (mta.id = mtav.map_test_attribute_id) "
                     . " LEFT JOIN test_master tm ON (tm.id = mtav.test_master_id) "
                     . " WHERE mtav.visit_master_id = " . $visit_master_id . " GROUP BY mtav.test_master_id";
             $query1 = $this->db->query($sql1);
-//            echo $this->db->last_query(); die();
+            // group concat order by -- ORDER BY mtav.test_master_id
+            // echo $this->db->last_query(); die();
             if ($query1->num_rows() >= 1) {
                 $result = $query1->result();
                 $temp = array();
@@ -436,10 +439,46 @@ class Patient_model extends CI_Model {
         return $result;
     }
 
+    public function gettestvaluesForEdit($visit_master_id = 0) {
+        $result = FALSE;
+        if ($visit_master_id >= 1) {
+            $sql1 = "SELECT GROUP_CONCAT( CONCAT( mta.id , '=' , "
+                    . " COALESCE(IF(mtav.reading = '','',mtav.reading), '')"
+                    . ") ORDER BY mtav.map_test_attribute_id SEPARATOR '--') as attribute_values,"
+                    . " GROUP_CONCAT(DISTINCT tm.id ORDER BY mtav.test_master_id) as test_id"
+                    . " FROM map_test_attribute_values mtav "
+                    . " LEFT JOIN map_test_attribute mta ON (mta.id = mtav.map_test_attribute_id) "
+                    . " LEFT JOIN test_master tm ON (tm.id = mtav.test_master_id) "
+                    . " WHERE mtav.visit_master_id = " . $visit_master_id . " GROUP BY mtav.test_master_id";
+            $query1 = $this->db->query($sql1);
+        //    echo $this->db->last_query(); die();
+            if ($query1->num_rows() >= 1) {
+                $result = $query1->result();
+                $temp = array();
+                foreach ($result as $key => $value) {
+                    foreach(explode('--', $value->attribute_values) as $attr){
+                        $temp_arr = explode('=', $attr);
+                        $temp[$value->test_id][$temp_arr[0]] = $temp_arr[1];
+                    }
+                }
+                $result = $temp;
+            }
+        }
+        return $result;
+    }
+
+
     public function getOneByTable($table, $whereArr) {
         $result = FALSE;
         if (!empty($whereArr)) {
-            $query = $this->db->get_where($table, $whereArr);
+            if($table == 'medicalconditionmaster'){
+                $query = $this->db->select('m.*, d.name as specific_disease')->from('medicalconditionmaster as m')
+                ->where($whereArr)
+                ->join('diseases_master as d', 'd.id = m.diseases_master_id', 'left')->get();
+            }else {
+                $query = $this->db->get_where($table, $whereArr);    
+            }
+            
             if ($query->num_rows() >= 1) {
                 $result = $query->first_row();
             }

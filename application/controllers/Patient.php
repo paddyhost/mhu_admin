@@ -16,12 +16,15 @@ class Patient extends CI_Controller {
         // print_r($_POST); die();
         
         $dob = $this->input->post('dob'); 
+        if(!empty($dob)){
+            $dob = date('Y-m-d',  strtotime($dob));
+        }
         $dor = $this->input->post('dor'); 
         $unique_id = $this->input->post('unique_id'); 
         $arrdata = array(
             'fname' => $this->input->get_post('fname'),
             'lanme' => $this->input->get_post('lname'),
-            'dob' => date('Y-m-d',  strtotime($dob)),
+            'dob' => $dob,
             'regitrationdate'=> date('Y-m-d',  strtotime($dor)),
             'gender' => $this->input->get_post('gender'),
             'mobile' => $this->input->get_post('mobile'),
@@ -39,6 +42,15 @@ class Patient extends CI_Controller {
             'patient_category' => $this->input->get_post('patient_category'),
             'created_by' => $this->session_data[0]->id,
         );
+
+        if(isset($_POST['age']) and !empty($_POST['age'])){
+            $arrdata['age'] = $this->input->get_post('age');
+        }else {
+            if(isset($_POST['dob']) and !empty($_POST['dob'])){
+                $dob = date('Y-m-d',  strtotime($dob));
+                $arrdata['age'] = date_diff(date_create($dob), date_create('today'))->y;
+            }
+        }
 
         $insert = $this->input->get_post('insert');
         if($insert){
@@ -249,15 +261,19 @@ class Patient extends CI_Controller {
         extract($_POST);
         $map_test_attr = [];
         foreach ($test as $test_id => $attributes) {
-            foreach ($attributes as $attr_key => $attr_val) {
-                $map_test_attr[] = array(
-                    'test_master_id'=>$test_id,
-                    'map_test_attribute_id'=>$attr_key,
-                    'reading'=>(!(empty($attr_val)) ? $attr_val : NULL),
-                    'patient_id'=>$pid,
-                    'registeration_id'=>$registration_no,
-                    'visit_master_id'=>$visit_master_id,                    
-                );
+            $filtered_arr = array_filter($attributes);
+            if(!empty($filtered_arr)){
+            // foreach ($attributes as $attr_key => $attr_val) {
+                foreach ($filtered_arr as $attr_key => $attr_val) {
+                    $map_test_attr[] = array(
+                        'test_master_id'=>$test_id,
+                        'map_test_attribute_id'=>$attr_key,
+                        'reading'=>(!(empty($attr_val)) ? $attr_val : NULL),
+                        'patient_id'=>$pid,
+                        'registeration_id'=>$registration_no,
+                        'visit_master_id'=>$visit_master_id,                    
+                    );
+                }
             }
         }
         
@@ -274,8 +290,13 @@ class Patient extends CI_Controller {
             $data = $result;
             $message = 'Tests added successfully';
         } else {
-            $code = '401';
-            $message = 'Oops Please try again';
+            if(empty($map_test_attr)){
+                $code = '201';
+                $message = 'Empty records';
+            }else{
+                $code = '401';
+                $message = 'Oops Please try again';
+            }
         }
         
         $response = array('code'=>$code, 'data'=>$data, 'message'=>$message);
@@ -350,11 +371,14 @@ class Patient extends CI_Controller {
         // print_r($_POST); die();
         
         $dob = $this->input->post('dob'); 
+        if(!empty($dob)){
+            $dob = date('Y-m-d',  strtotime($dob));
+        }
         $dor = $this->input->post('dor'); 
         $arrdata = array(
             'fname' => $this->input->get_post('fname'),
             'lanme' => $this->input->get_post('lname'),
-            'dob' => date('Y-m-d',  strtotime($dob)),
+            'dob' => $dob,
             'regitrationdate'=> date('Y-m-d',  strtotime($dor)),
             'gender' => $this->input->get_post('gender'),
             'mobile' => $this->input->get_post('mobile'),
@@ -376,10 +400,10 @@ class Patient extends CI_Controller {
             'created_by' => $this->session_data[0]->id,
         );
         
-        if(isset($_POST['age'])){
+        if(isset($_POST['age']) and !empty($_POST['age'])){
             $arrdata['age'] = $this->input->get_post('age');
         }else {
-            if(isset($_POST['dob'])){
+            if(isset($_POST['dob']) and !empty($_POST['dob'])){
                 $dob = date('Y-m-d',  strtotime($dob));
                 $arrdata['age'] = date_diff(date_create($dob), date_create('today'))->y;
             }
@@ -421,6 +445,246 @@ class Patient extends CI_Controller {
         }
         $opt .= $opt_other; 
         echo json_encode($opt);
+    }
+
+
+    #import functionality 
+    /*
+    @use: to check format of csv  
+    @param:
+    @return: redirect to addmultiplestaff function if csv data if csv in proper format  
+    */
+    public function upload_csv() {
+        $fileName = time() . "-" . $_FILES['upload_csv']['name'];
+        move_uploaded_file($_FILES['upload_csv']['tmp_name'], "./assets/patient_csv/" . $fileName);
+
+        if ($fileName != "") {
+            $csv = array_map('str_getcsv', file("./assets/patient_csv/" . $fileName));
+            // echo "<pre>";print_r($csv); die();
+            $col1 = (isset($csv[0][0]) ? $csv[0][0] : "");
+            $col2 = (isset($csv[0][1]) ? $csv[0][1] : "");
+            $col3 = (isset($csv[0][2]) ? $csv[0][2] : "");
+            $col4 = (isset($csv[0][3]) ? $csv[0][3] : "");
+            $col5 = (isset($csv[0][4]) ? $csv[0][4] : "");
+            $col6 = (isset($csv[0][5]) ? $csv[0][5] : "");
+            $col7 = (isset($csv[0][6]) ? $csv[0][6] : "");
+            $col8 = (isset($csv[0][7]) ? $csv[0][7] : "");
+            $col9 = (isset($csv[0][8]) ? $csv[0][8] : "");
+            $col10 = (isset($csv[0][9]) ? $csv[0][9] : "");
+            $col11 = (isset($csv[0][10]) ? $csv[0][10] : "");
+            $col12 = (isset($csv[0][11]) ? $csv[0][11] : "");
+            $col13 = (isset($csv[0][12]) ? $csv[0][12] : "");
+            $col14 = (isset($csv[0][13]) ? $csv[0][13] : "");
+            $col15 = (isset($csv[0][14]) ? $csv[0][14] : ""); 
+            $col16 = (isset($csv[0][15]) ? $csv[0][15] : ""); 
+            $col17 = (isset($csv[0][16]) ? $csv[0][16] : ""); 
+            $col18 = (isset($csv[0][17]) ? $csv[0][17] : ""); 
+            
+            if ($col1 == "Sr.no" && $col2 == "Registration Date" && $col3 == "Patient Name" && $col4 == "DOB" 
+            && $col5 == "Age" && $col6 == "Gender" && $col7 == "Patient Category" && $col8 == "Conatct no."
+            && $col9 == "State" && $col10 == "District" && $col11 == "City" && $col12 == "Area" && $col13 == "Location" 
+            && $col14 == "Symptom 1" && $col15 == "Symptom 2" && $col16 == "Disease Diagnosed" && $col17 == "Patient ID"
+            && $col18 == 'Phase') {
+                //echo "<pre>";print_r($csv);die("....csv.......");
+                redirect(site_url('patient/addmultiplepatient/' . $fileName), 'refresh');
+            } else {
+                    $csv_session_data = array(
+                        'csv_error_msg' => "Please update your selected CSV file according to given format."
+                    );
+                $this->session->set_userdata($csv_session_data);
+                redirect(site_url('patient/csv_error'));
+            }
+        }
+    }
+
+    /*
+    @use: to download csv file  
+    @param:
+    @return: downloaded csv file
+    */
+    public function download_User_csv() {
+        if (isset($this->data['has_right']['User View'])) {
+            $this->load->helper('download');
+            $data = file_get_contents(base_url("assets/user_csv") . "/user_sample.csv"); // Read the file's contents
+            $name = 'user_sample.csv';
+            force_download($name, $data);
+        } else {
+            $this->load->view('access_denied');
+        }
+    }
+    
+    /*
+     @use: to display csv data
+     @param: csv filename
+     @return: view of user_add_multiple
+     */
+    public function addmultiplepatient($fileName = "") {
+        $data = array();
+        $data['csv_upload'] = $fileName;
+        $this->db->select('id,name,type');
+        $query = $this->db->get('diseases_master');
+        $data['diseases_arr'] = $query->result();
+
+        $query_state = $this->db->get('state_master');
+        $data['state_arr'] = $query_state->result();
+
+        $query_district = $this->db->get('district_master');
+        $data['district_arr'] = $query_district->result();
+
+        $query_city = $this->db->get('city_master');
+        $data['city_arr'] = $query_city->result();
+
+                
+        // $query= array('table' => 'dieases_master',
+        //         'attributes' => 'distinct id,name,type',
+        //         'order_by' => 'id asc');
+        // $data['diseases_rs'] = $this->common_lib->get_specific($query);
+
+        // $query = array('attributes' => 'distinct id, user_type_title','table' => 'user_type');
+        // $data['type_rs'] = $this->common_lib->get_specific($query);
+        // echo "<pre>";print_r($data);die();
+        
+        $this->load->view('patient_multiple_view', $data);
+        
+    }
+    
+    /*
+     @use: to insert multiple user at a time in database
+     @param:
+     @return: 
+     */
+    public function insert_multiple() {
+
+        $dob = $this->input->post('dob'); 
+        if(!empty($dob)){
+            $date = DateTime::createFromFormat('m/d/Y', $dob);
+            $dob = $date->format('Y-m-d');
+        }
+        
+        $regitrationdate = $this->input->post('regitrationdate'); 
+        $date = DateTime::createFromFormat('m/d/Y', $regitrationdate);
+        $regitrationdate = $date->format('Y-m-d');
+
+
+        $unique_id = $this->input->post('unique_id'); 
+
+
+        $arrdata = array(
+            'fname' => $this->input->get_post('fname'),
+            'lanme' => $this->input->get_post('lname'),
+            'dob' => $dob,
+            'regitrationdate'=> $regitrationdate,
+            'gender' => $this->input->get_post('gender'),
+            'mobile' => $this->input->get_post('mobile'),
+            'address' => $this->input->get_post('address'),
+            'state' => $this->input->get_post('state'),
+            'district' => $this->input->get_post('district'),
+            'city' => $this->input->get_post('city'),
+            'area' => $this->input->get_post('area'),
+            'location' => $this->input->get_post('location'),
+            'state_id' => $this->input->get_post('state_id'),
+            'district_id' => $this->input->get_post('district_id'),
+            'city_id' => $this->input->get_post('city_id'),
+            'area_id' => $this->input->get_post('area_id'),
+            'location_id' => $this->input->get_post('location_id'),
+            'patient_category' => $this->input->get_post('patient_category'),
+            'created_by' => $this->session_data[0]->id,
+        );
+
+        if(isset($_POST['age']) and !empty($_POST['age'])){
+            $arrdata['age'] = $this->input->get_post('age');
+        }else {
+            if(isset($_POST['dob']) and !empty($_POST['dob'])){
+                // $dob = date('Y-m-d',  strtotime($dob));
+                $arrdata['age'] = date_diff(date_create($dob), date_create('today'))->y;
+            }
+        }
+
+        // print_r($arrdata); exit;
+
+        $pid = $this->input->get_post('pid');
+        if(empty($pid)){
+            $id = $this->patient_model->addPatient($arrdata);
+        }else {
+            $id = $this->input->get_post('pid');
+            // $registration_no = $this->input->get_post('registration_no');
+            $query_patient = $this->db->get_where('patient_master',['id'=>$id]);
+            $patient_rs = $query_patient->first_row();
+            if($query_patient->num_rows() == 1 && !empty($id) ){
+            // if (!empty($id) && !empty($registration_no)) {
+                $this->db->update('patient_master', $arrdata, 
+                ['id' => $id, 'registration_no' => $patient_rs->registration_no]);
+            }
+        }
+        
+        $data = array();
+        if ($id > 0) {
+            $result = $this->patient_model->getPatient($id);
+            $phase = $this->input->get_post('phase');
+            $visit_arr = ['patient_master_id'=>$id, 'user_id'=> $this->session_data[0]->id, 'phase'=>$phase];
+            $this->db->insert('visit_master',$visit_arr);
+            $visit_master_id = $this->db->insert_id();
+            
+            // insert medical connditon data
+            $diseases_diagnosed = $this->input->post('disease_diagnosed');
+            $patient_category = $this->input->get_post('patient_category');
+            $query_disease = $this->db->get_where('diseases_master', 
+            ['name'=>$diseases_diagnosed, 'type'=>$patient_category]);
+
+            $diseases_diagnosed_rs = $query_disease->first_row();
+            
+            $diseases_master_id = 0;
+            if($query_disease->num_rows() == 1){
+                $diseases_master_id = $diseases_diagnosed_rs->id;
+            }
+
+            $data1 = array(
+                'chiefcomplaints1' => $this->input->post('symptom1'),
+                'chiefcomplaints2' => $this->input->post('symptom2'),
+                'diseases_master_id' => $diseases_master_id,
+                'disease' => $diseases_diagnosed,
+                'patient_id' => $id,
+                'registrationid' => $result->registration_no,
+                'visit_master_id' => $visit_master_id,
+            );
+            // print_r($data1); exit;
+            $medicalcondition_query = $this->db->insert('medicalconditionmaster', $data1);
+    
+            $code = 201; 
+            $data = $result;
+            // $message = ($insert == 1?'Patient added successfully':'Patient updated');
+        } 
+
+        echo json_encode($data);    
+    }
+    
+    /*
+     @use: to append gigen number of rows while adding multiple user 
+     @param: total number of rows
+     @return: view of ajax_add_multiple_staff
+     */
+    public function ajax_add_multiple_patient($total_rows, $phase) {
+        $data = array();
+        $this->db->select('id,name,type');
+        $query = $this->db->get('diseases_master');
+        $data['diseases_arr'] = $query->result();
+
+        $query_state = $this->db->get('state_master');
+        $data['state_arr'] = $query_state->result();
+
+        $query_district = $this->db->get('district_master');
+        $data['district_arr'] = $query_district->result();
+
+        $query_city = $this->db->get('city_master');
+        $data['city_arr'] = $query_city->result();
+
+        $data['total_rows'] = $total_rows;
+        $data['phase'] = $phase;
+        $this->load->view('ajax_add_multiple_patient', $data);
+    }
+
+    public function csv_error(){
+        $this->load->view('csv_error');
     }
 
 }

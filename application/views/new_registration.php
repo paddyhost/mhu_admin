@@ -153,7 +153,7 @@
                                                         <label>Age</label>
                                                         <div class="form-group">
                                                             <div class="fg-line">
-                                                                <input type="text" class="form-control" placeholder="Age">
+                                                                <input type="text" name="age" class="form-control" placeholder="Age">
                                                             </div>
                                                         </div>
                                                     </div>
