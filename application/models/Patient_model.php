@@ -418,14 +418,15 @@ class Patient_model extends CI_Model {
             $sql1 = "SELECT GROUP_CONCAT( CONCAT( mta.attribute_name , ' = ' , "
                     . " COALESCE(IF(mtav.reading = '','NA',mtav.reading), 'NA'), ' - ' , "
                     . " COALESCE(IF(mtav.reference_value = '','NA',mtav.reference_value), 'NA')"
-                    . ") ORDER BY mtav.test_master_id SEPARATOR '--') as attribute_values,"
+                    . ") ORDER BY mtav.map_test_attribute_id SEPARATOR '--') as attribute_values,"
                     . " GROUP_CONCAT(DISTINCT tm.test_name ORDER BY mtav.test_master_id) as test_name"
                     . " FROM map_test_attribute_values mtav "
                     . " LEFT JOIN map_test_attribute mta ON (mta.id = mtav.map_test_attribute_id) "
                     . " LEFT JOIN test_master tm ON (tm.id = mtav.test_master_id) "
                     . " WHERE mtav.visit_master_id = " . $visit_master_id . " GROUP BY mtav.test_master_id";
             $query1 = $this->db->query($sql1);
-//            echo $this->db->last_query(); die();
+            // group concat order by -- ORDER BY mtav.test_master_id
+            // echo $this->db->last_query(); die();
             if ($query1->num_rows() >= 1) {
                 $result = $query1->result();
                 $temp = array();
@@ -437,6 +438,35 @@ class Patient_model extends CI_Model {
         }
         return $result;
     }
+
+    public function gettestvaluesForEdit($visit_master_id = 0) {
+        $result = FALSE;
+        if ($visit_master_id >= 1) {
+            $sql1 = "SELECT GROUP_CONCAT( CONCAT( mta.id , '=' , "
+                    . " COALESCE(IF(mtav.reading = '','',mtav.reading), '')"
+                    . ") ORDER BY mtav.map_test_attribute_id SEPARATOR '--') as attribute_values,"
+                    . " GROUP_CONCAT(DISTINCT tm.id ORDER BY mtav.test_master_id) as test_id"
+                    . " FROM map_test_attribute_values mtav "
+                    . " LEFT JOIN map_test_attribute mta ON (mta.id = mtav.map_test_attribute_id) "
+                    . " LEFT JOIN test_master tm ON (tm.id = mtav.test_master_id) "
+                    . " WHERE mtav.visit_master_id = " . $visit_master_id . " GROUP BY mtav.test_master_id";
+            $query1 = $this->db->query($sql1);
+        //    echo $this->db->last_query(); die();
+            if ($query1->num_rows() >= 1) {
+                $result = $query1->result();
+                $temp = array();
+                foreach ($result as $key => $value) {
+                    foreach(explode('--', $value->attribute_values) as $attr){
+                        $temp_arr = explode('=', $attr);
+                        $temp[$value->test_id][$temp_arr[0]] = $temp_arr[1];
+                    }
+                }
+                $result = $temp;
+            }
+        }
+        return $result;
+    }
+
 
     public function getOneByTable($table, $whereArr) {
         $result = FALSE;

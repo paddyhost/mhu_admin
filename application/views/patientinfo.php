@@ -6,7 +6,7 @@
             <div class="card m-b-20">
                 <div class="card-header" style="overflow: hidden">
                     <h4 class="pull-left">Medical Condition</h4>
-                    <button class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalMedicalcondition">Edit</button>
+                    <!-- <button class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalMedicalcondition">Edit</button> -->
                 </div>
                 <!-- <pre><?php //print_r($medical);?></pre> -->
                 <div class="card-body card-padding">
@@ -75,20 +75,6 @@
                                             </tr>
                                         <?php endforeach; ?>
 
-            <!--                <tr>
-            <td>1</td>
-            <td>sdfasdf</td>
-            <td>sdfasdf</td>
-            <td>3</td>
-            <td>3</td>
-            </tr>
-            <tr>
-            <td>2</td>
-            <td>sdfasdf</td>
-            <td>sdfasdf</td>
-            <td>3</td>
-            <td>3</td>
-            </tr>-->
                                     </tbody>
                                 </table>
                             <?php else: ?>
@@ -103,7 +89,7 @@
             <div class="card m-b-20">
                 <div class="card-header">
                     <h4 class="pull-left">Test conducted by MHU</h4>
-                    <button data-toggle="modal" data-target="#modalTestMhu" class="btn btn-primary pull-right">Edit</button>
+                    <button data-toggle="modal" data-url="/patient_edit/testByMhu" class="loadModal btn btn-primary pull-right">Edit</button><!--data-target="#modalTestMhu" -->
                 </div><div class="clearfix"></div>
                 <div class="card-body card-padding">
                     <?php $test = $patient_record['test']; //print_r($patient_record['test']); ?>
@@ -130,77 +116,14 @@
                                             $ref_read = explode('-', $valuename[1]);
                                             ?>
                                             <td><?php echo $valuename[0]; ?></td>
-                                            <td><?php echo $ref_read[0]; ?></td>
                                             <td><?php echo $ref_read[1]; ?></td>
+                                            <td><?php echo $ref_read[0]; ?></td>
                                         </tr>
-            <?php endforeach; ?>
+                                        <?php endforeach; ?>
                                     <!--</td>-->
                                     </tr>
         <?php endforeach; ?>
-                    <!--            <tr><td>1</td><td><strong>Complete Blood Count (CBC)/ Homogram (Hgm)</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>CBB/ Hgm</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Hb</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>TLC</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>DLC</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>PCV</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>RBC count</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Platelet count</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>MCV/MCH/MCHC</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>ESR</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>AEC</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>2</td><td><strong>Liver Function Test (LFT)</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>D Bil</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>ID Bil</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>T - Bil</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>T-Prot</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>A/G Rat</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>ALT</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>AST</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>ALP</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Comp. LFT</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>GGT</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Alb</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>3</td><td><strong>Kidney Function Test</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Urea</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Creat.</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Uric Acid</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Electrolyte (Na, K. Cl)</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>T Prot</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>A1b</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>A1b/Cr Ratio</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Micro Albumin</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Comp.KFT</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>4</td><td><strong>Lipid Profile</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Cholesterol</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>TAG</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>HDL</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Complete Lipid Profile (TCHOL, TAG, HDL, LDL, VLDL)</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>5</td><td><strong>Glucose Profile (BSR)</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>FBG</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>2 Hr</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Random</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>GTT (0,1,2,3 Hrs)</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>HbA1c</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Urinary Micro Albumin</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Insulin F/PP</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>6</td><td><strong>WIDAL</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>7</td><td><strong>TYPHIDOT</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>8</td><td><strong>Malaria Serology</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>9</td><td><strong>RA Factor</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>10</td><td><strong>HBSAG (Hepatitis B AG)</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>11</td><td><strong>Urine Examination</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Routine & Microsocopic</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Protein</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Sugar</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Ketone Bodies</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Bile salt/ bile Pigments</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>&nbsp;</td><td>Urine Pregnancy Test</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>12</td><td><strong>CRP</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>13</td><td><strong>Anti HCV</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>14</td><td><strong>HIV</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>15</td><td><strong>VDRL</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>16</td><td><strong>GCT</strong></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                                <tr><td>17</td><td><strong>ABO RH (Blood Group)</strong></td><td>&nbsp;</td><td></td></tr>-->
+
                             </tbody>
                         </table>
                     <?php else: ?>
@@ -213,7 +136,7 @@
             <div class="card m-b-20">
                 <div class="card-header">
                     <h4 class="pull-left">Vital Information</h4>
-                    <button data-toggle="modal" data-target="#modalVitalinfo" class="btn btn-primary pull-right">Edit</button>
+                    <!-- <button data-toggle="modal" data-target="#modalVitalinfo" class="btn btn-primary pull-right">Edit</button> -->
                 </div><div class="clearfix"></div>
                 <div class="card-body card-padding">
                     <?php $vital = $patient_record['vital']; //print_r($patient_record['vital']); ?>
@@ -247,7 +170,7 @@
             <div class="card m-b-20">
                 <div class="card-header">
                     <h4 class="pull-left">Vaccination Record</h4>
-                    <button data-toggle="modal" data-target="#modalVaccinationRecord" class="btn btn-primary pull-right">Edit</button>
+                    <!-- <button data-toggle="modal" data-target="#modalVaccinationRecord" class="btn btn-primary pull-right">Edit</button> -->
                 </div><div class="clearfix"></div>
                 <div class="card-body card-padding">
                     <?php
@@ -277,62 +200,7 @@
             <?php endif; ?>
         <?php endforeach; ?>
 
-        <!--        <tr>
-        <td>
-           DPT
-        </td>
-        <td>
-           Yes
-        </td>
-        </tr>
-        <tr>
-        <td>
-           BCG
-        </td>
-        <td>
-           Yes
-        </td>
-        </tr>
-        <tr>
-        <td>
-           Measles
-        </td>
-        <td>
-           Yes
-        </td>
-        </tr>
-        <tr>
-        <td>
-           OPV
-        </td>
-        <td>
-           Yes
-        </td>
-        </tr>
-        <tr>
-        <td>
-           Hepatitis B
-        </td>
-        <td>
-           Yes
-        </td>
-        </tr>
-        <tr>
-        <td>
-           TT
-        </td>
-        <td>
-           Yes
-        </td>
-        </tr>
-        <tr>
-        <td>
-           Any Other
-        </td>
-        <td>
-           -
-        </td>
-        </tr>-->
+        
                         </table>
     <?php else: ?>
                         <p>No vaccination information available</p>
@@ -346,25 +214,3 @@
 <p style="text-align: center">No details available </p>
 <?php endif; ?>
 
-<!--    <h4 class="m-b-20">Previous Records</h4>
-    <div class="row">
-        <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Previous Doctor Name</label>
-        <p class="col-md-9 col-sm-9 col-xs-12">asdfasdfasdf</p>
-    </div>
-    <div class="row">
-        <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Previous Hospital</label>
-        <p class="col-md-9 col-sm-9 col-xs-12">asdfasdfasdf</p>
-    </div>
-    <div class="row">
-        <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Test Prescribed</label>
-        <p class="col-md-9 col-sm-9 col-xs-12">asdfasdfasdf ssdfsdfsdfsdf</p>
-    </div>
-    <div class="row">
-        <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Referred</label>
-        <p class="col-md-9 col-sm-9 col-xs-12">asdfasdfasdf</p>
-    </div>
-    <div class="row">
-        <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Remarks</label>
-        <p class="col-md-9 col-sm-9 col-xs-12">asdfasdfasdf asdfasdf asdfasdf</p>
-    </div>
-</div>-->
