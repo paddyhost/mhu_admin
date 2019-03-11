@@ -167,7 +167,7 @@ $(document).on('change', '.state_id, .district_id', function(e){
     var state_id = parenttr.find('select[name = "state_id[]"]').val();
     var district_id = parenttr.find('select[name = "district_id[]"]').val();
     var url = '/admin/ajax_get_city/'+state_id+'/'+district_id;
-    alert(url);
+    // alert(url);
     if( state_id >= 1 || district_id >=1){
         
         //populate district dd if state changed
