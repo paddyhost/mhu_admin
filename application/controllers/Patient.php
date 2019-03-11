@@ -16,12 +16,15 @@ class Patient extends CI_Controller {
         // print_r($_POST); die();
         
         $dob = $this->input->post('dob'); 
+        if(!empty($dob)){
+            $dob = date('Y-m-d',  strtotime($dob));
+        }
         $dor = $this->input->post('dor'); 
         $unique_id = $this->input->post('unique_id'); 
         $arrdata = array(
             'fname' => $this->input->get_post('fname'),
             'lanme' => $this->input->get_post('lname'),
-            'dob' => date('Y-m-d',  strtotime($dob)),
+            'dob' => $dob,
             'regitrationdate'=> date('Y-m-d',  strtotime($dor)),
             'gender' => $this->input->get_post('gender'),
             'mobile' => $this->input->get_post('mobile'),
@@ -43,7 +46,7 @@ class Patient extends CI_Controller {
         if(isset($_POST['age']) and !empty($_POST['age'])){
             $arrdata['age'] = $this->input->get_post('age');
         }else {
-            if(isset($_POST['dob'])){
+            if(isset($_POST['dob']) and !empty($_POST['dob'])){
                 $dob = date('Y-m-d',  strtotime($dob));
                 $arrdata['age'] = date_diff(date_create($dob), date_create('today'))->y;
             }
@@ -258,15 +261,19 @@ class Patient extends CI_Controller {
         extract($_POST);
         $map_test_attr = [];
         foreach ($test as $test_id => $attributes) {
-            foreach ($attributes as $attr_key => $attr_val) {
-                $map_test_attr[] = array(
-                    'test_master_id'=>$test_id,
-                    'map_test_attribute_id'=>$attr_key,
-                    'reading'=>(!(empty($attr_val)) ? $attr_val : NULL),
-                    'patient_id'=>$pid,
-                    'registeration_id'=>$registration_no,
-                    'visit_master_id'=>$visit_master_id,                    
-                );
+            $filtered_arr = array_filter($attributes);
+            if(!empty($filtered_arr)){
+            // foreach ($attributes as $attr_key => $attr_val) {
+                foreach ($filtered_arr as $attr_key => $attr_val) {
+                    $map_test_attr[] = array(
+                        'test_master_id'=>$test_id,
+                        'map_test_attribute_id'=>$attr_key,
+                        'reading'=>(!(empty($attr_val)) ? $attr_val : NULL),
+                        'patient_id'=>$pid,
+                        'registeration_id'=>$registration_no,
+                        'visit_master_id'=>$visit_master_id,                    
+                    );
+                }
             }
         }
         
@@ -283,8 +290,13 @@ class Patient extends CI_Controller {
             $data = $result;
             $message = 'Tests added successfully';
         } else {
-            $code = '401';
-            $message = 'Oops Please try again';
+            if(empty($map_test_attr)){
+                $code = '201';
+                $message = 'Empty records';
+            }else{
+                $code = '401';
+                $message = 'Oops Please try again';
+            }
         }
         
         $response = array('code'=>$code, 'data'=>$data, 'message'=>$message);
@@ -359,11 +371,14 @@ class Patient extends CI_Controller {
         // print_r($_POST); die();
         
         $dob = $this->input->post('dob'); 
+        if(!empty($dob)){
+            $dob = date('Y-m-d',  strtotime($dob));
+        }
         $dor = $this->input->post('dor'); 
         $arrdata = array(
             'fname' => $this->input->get_post('fname'),
             'lanme' => $this->input->get_post('lname'),
-            'dob' => date('Y-m-d',  strtotime($dob)),
+            'dob' => $dob,
             'regitrationdate'=> date('Y-m-d',  strtotime($dor)),
             'gender' => $this->input->get_post('gender'),
             'mobile' => $this->input->get_post('mobile'),
@@ -385,10 +400,10 @@ class Patient extends CI_Controller {
             'created_by' => $this->session_data[0]->id,
         );
         
-        if(isset($_POST['age'])){
+        if(isset($_POST['age']) and !empty($_POST['age'])){
             $arrdata['age'] = $this->input->get_post('age');
         }else {
-            if(isset($_POST['dob'])){
+            if(isset($_POST['dob']) and !empty($_POST['dob'])){
                 $dob = date('Y-m-d',  strtotime($dob));
                 $arrdata['age'] = date_diff(date_create($dob), date_create('today'))->y;
             }
@@ -541,8 +556,11 @@ class Patient extends CI_Controller {
     public function insert_multiple() {
 
         $dob = $this->input->post('dob'); 
-        $date = DateTime::createFromFormat('m/d/Y', $dob);
-        $dob = $date->format('Y-m-d');
+        if(!empty($dob)){
+            $date = DateTime::createFromFormat('m/d/Y', $dob);
+            $dob = $date->format('Y-m-d');
+        }
+        
         $regitrationdate = $this->input->post('regitrationdate'); 
         $date = DateTime::createFromFormat('m/d/Y', $regitrationdate);
         $regitrationdate = $date->format('Y-m-d');
@@ -576,7 +594,7 @@ class Patient extends CI_Controller {
         if(isset($_POST['age']) and !empty($_POST['age'])){
             $arrdata['age'] = $this->input->get_post('age');
         }else {
-            if(isset($_POST['dob'])){
+            if(isset($_POST['dob']) and !empty($_POST['dob'])){
                 // $dob = date('Y-m-d',  strtotime($dob));
                 $arrdata['age'] = date_diff(date_create($dob), date_create('today'))->y;
             }
