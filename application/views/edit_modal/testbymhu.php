@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-url="/patient_edit/udpateTestValues" id="updateTest">Save changes</button>
+                <button type="button" class="updatebtn btn btn-success" data-url="/patient_edit/udpateTestValues" id="updateTest">Save changes</button>
                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
             </div>
         <!-- </div>
