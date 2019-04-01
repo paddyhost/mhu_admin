@@ -6,7 +6,7 @@
             <div class="card m-b-20">
                 <div class="card-header" style="overflow: hidden">
                     <h4 class="pull-left">Medical Condition</h4>
-                    <!-- <button class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalMedicalcondition">Edit</button> -->
+                    <button data-url="/patient_edit/medicalCondition" class="loadModal btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalMedicalcondition">Edit</button>
                 </div>
                 <!-- <pre><?php //print_r($medical);?></pre> -->
                 <div class="card-body card-padding">
@@ -16,18 +16,18 @@
                             <p class="col-md-9 col-sm-9 col-xs-12">
                                 1: <?php echo (!empty($medical->chiefcomplaints1) ? $medical->chiefcomplaints1 : 'NA') ?><br>
                                 2: <?php echo (!empty($medical->chiefcomplaints2) ? $medical->chiefcomplaints2 : 'NA') ?><br>
-                                3: <?php echo (!empty($medical->chiefcomplaints3) ? $medical->chiefcomplaints3 : 'NA') ?>
+                                <!-- 3: <?php //echo (!empty($medical->chiefcomplaints3) ? $medical->chiefcomplaints3 : 'NA') ?> -->
                             </p>
                         </div>
-                        <hr>
+                        <!-- <hr>
                         <div class="row">
                             <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Brief History</label>
                             <p class="col-md-9 col-sm-9 col-xs-12">
-                                1: <?php echo (!empty($medical->briefHistory1) ? $medical->briefHistory1 : 'NA') ?><br>
-                                2: <?php echo (!empty($medical->briefHistory2) ? $medical->briefHistory2 : 'NA') ?><br>
-                                3: <?php echo (!empty($medical->briefHistory3) ? $medical->briefHistory3 : 'NA') ?>
+                                1: <?php //echo (!empty($medical->briefHistory1) ? $medical->briefHistory1 : 'NA') ?><br>
+                                2: <?php //echo (!empty($medical->briefHistory2) ? $medical->briefHistory2 : 'NA') ?><br>
+                                3: <?php //echo (!empty($medical->briefHistory3) ? $medical->briefHistory3 : 'NA') ?>
                             </p>
-                        </div>
+                        </div> -->
                         <hr>
                         <div class="row">
                             <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Previous Investigation</label>
@@ -58,7 +58,7 @@
                                     <th>Dose</th>
                                     <th>Dosage Time</th>
                                     <th>After Meal</th>
-                                    <th>Frequency</th>
+                                    <!-- <th>Frequency</th> -->
                                     <th>Days</th>
                                     </thead>
                                     <tbody>
@@ -71,7 +71,7 @@
                                                 <td><?php echo (isset($value->time) ? $value->time : 'NA'); ?></td>
                                                 <td><?php echo $value->aftermeal; ?></td>
                                                 <td><?php echo $value->days; ?></td>
-                                                <td><?php echo $value->medicalconditionid; ?></td>
+                                                <!-- <td><?php //echo $value->medicalconditionid; ?></td> -->
                                             </tr>
                                         <?php endforeach; ?>
 

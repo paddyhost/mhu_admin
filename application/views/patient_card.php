@@ -39,7 +39,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-1 col-sm-1 col-xs-12 text-right">
-                                    <!-- <button class="btn btn-primary waves-effect" data-toggle="modal" data-target="#modalGeninfo">Edit</button> -->
+                                    <button data-url="/patient_edit/generalInfo" class="loadModal btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalGeninfo">Edit</button>
                                 </div>
                             </div>
                             <hr>
@@ -170,7 +170,7 @@
             var data = $(this).data('url')
             var pid = <?php echo $patient->id; ?> ;
             var visit= $("#loadvisitinfo").val();
-            if(visit){
+            if(visit || pid){
                 var url = data +'/'+ pid +'/'+ visit ;
                 $.ajax({
                     url: url,
@@ -181,21 +181,35 @@
                     success: function (response) {
                         $('#modalContent').empty().html(response);
                         $("#modalTestMhu").modal('show')
+                        $(".selectpicker").selectpicker()
+                        $('.date-picker').datetimepicker({
+                            format: 'DD-MM-YYYY'
+                        });
                     }
                 });
             }
         });
 
-        $(document).on('click','#updateTest',function(){
+        $(document).on('click','.updatebtn',function(){
+            var id = $(this).attr('id');
             var pid = <?php echo $patient->id; ?> ;
             var reg = '<?php echo $patient->registration_no; ?>' ;
             var visit= $("#loadvisitinfo").val();
-            var postData = $("#testByMhuBody input").serializeArray()
+            var visit_not_applicable = false
+            if(id == 'updateTest'){
+                var postData = $("#testByMhuBody input").serializeArray()
+            }else if(id == 'updateMedical'){
+                var postData = $("#medicalcondition input, select").serializeArray()
+            }else if(id == 'updateGenral'){
+                visit_not_applicable = true
+                var postData = $("#generaInfo input, select").serializeArray()
+            }
+            
             postData.push({name: 'pid', value: pid});
             postData.push({name: 'visit_master_id', value: visit});
             postData.push({name: 'registration_id', value: reg});
 
-            if(visit){
+            if(visit || visit_not_applicable){
                 $.ajax({
                     url: $(this).data('url'),
                     dataType: 'json',
@@ -204,7 +218,7 @@
                     data: postData,
                     success: function (response) {
                         alert(response.message)
-                        if(response.code == 201){
+                        if(response.code == 201 || response.code == 204){
                             $("#modalTestMhu").modal('hide')
                             window.location.reload();
                         }
@@ -214,7 +228,51 @@
                 });
             }
         });
+
+        $(document).on('change', '#diagnosed_diseases', function(){
+            $(".other_div").hide();
+            var selected = $(this).val()
+            if( selected === ''){
+                $(".other_div").show();
+            }
+        });
+
+        // on change area dd location area dd
+        $(document).on('change', '#area_id', function(){
+            var area_id = $(this).val();
+            var phase_id = $("#phase").val();
+            var url = '/admin/ajax_get_location/'+area_id+'/'+phase_id;
+            if( area_id >= 1){
+                var location_opt = getData(url);
+                if(location_opt !== false){
+                    $("#location_id").empty().append(location_opt);
+                    $("#location_id").selectpicker('refresh');
+                    var area = $("#area_id option:selected").text();
+                    $("#area").val(area.toLowerCase().trim());
+                }
+            }
+        });
         
+        $(document).on('change', '#location_id', function(){
+            var location = $("#location_id option:selected").text();
+            $("#location").val(location.toLowerCase().trim());
+        });
+        
+        function getData(url){
+            var result = false;
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                async: false,
+                type: 'POST',
+                success: function (response) {
+                    result = response;
+                }
+            });
+            
+            return result;
+        }
+
     </script>
 </body>
 </html>
