@@ -160,6 +160,9 @@
                     data: {id:id},
                     success: function (response) {
                         $('#loadinfo').empty().html(response.view);
+                        $(".selectpicker").selectpicker()
+                        // hide presccribe add button
+                        $("#prescribeDoseBtn").hide();
                     }
                 });
             }
@@ -203,6 +206,8 @@
             }else if(id == 'updateGenral'){
                 visit_not_applicable = true
                 var postData = $("#generaInfo input, select").serializeArray()
+            }else if(id== 'prescribeDoseBtn'){
+                var postData = $("#prescribe_form input").serializeArray()
             }
             
             postData.push({name: 'pid', value: pid});
@@ -272,6 +277,51 @@
             
             return result;
         }
+
+        // function for prescribe dose 
+        $(document).on('click', '#btn_prescrib_struct', function(){
+            var is_valid = true;
+            $('#prescribe_dose .selectpicker').each(function(i,e){
+                if($(this).val() == ''){
+                    is_valid = false;
+                    $(this).next().addClass('error_sel');
+                }
+                
+            })
+            var days = $('#days').val();
+            if( days == '' || isNaN(days)){
+                is_valid = false;
+                $('#days').addClass('error');
+            }
+            
+            if(!is_valid){
+                alert('please provide data');
+                return false;
+            }
+            
+            var url = $(this).attr('url');
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                async: false,
+                type: 'POST',
+                data: $('#prescribe_dose').serializeArray(),
+                success: function (response) {
+                    if(response.code == 200){
+                        $("#prescribe_dose_table tbody").append(response.data);
+                        $("#prescribe_dose #name, #frequency, #days").val('').selectpicker('refresh');
+                        $("input[name='aftermeal']").prop('checked',false);
+                        $('#modalPrescription').modal('hide');
+                        $("#prescribeDoseBtn").show()
+                    }
+                }
+            });
+        });
+        
+        $(document).on('click', '.remove', function(){
+            $(this).closest('tr').remove();
+        });
+        
 
     </script>
 </body>

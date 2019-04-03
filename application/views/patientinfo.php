@@ -49,9 +49,14 @@
                         <hr>
                         <div class="row m-l-0 m-r-0">
                             <label class="col-md-3 col-sm-3 col-xs-12 m-t-0 p-l-0 p-r-0">Prescribed Dose</label>
+                            <!-- <button data-url="/patient_edit/prescribeDose" class="loadModal btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalPrescribeDose">Add</button> -->
+                            <button type="button" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalPrescription"><i class="zmdi zmdi-plus"></i>Add Prescription</button>
+
                             <div class="clearfix"></div><br>
                             <?php if (!empty($medical->prescribe_dose)): ?>
-                                <table class="table table-bordered">
+                                <form name="prescribe_form" id="prescribe_form">
+                                <input type="hidden" name="medicalcondition_id" value="<?= $medical->id?>">
+                                <table id="prescribe_dose_table" class="table table-bordered">
                                     <thead>
                                     <th>Sr.No.</th>
                                     <th>Medicine</th>
@@ -77,6 +82,9 @@
 
                                     </tbody>
                                 </table>
+                                </form>
+                                <button type="button" style="display:block; margin-top:5px" class="updatebtn btn btn-success waves-effect pull-right" data-url="/patient_edit/updatePrescribeDose" id="prescribeDoseBtn">Save Prescription</button>
+                                
                             <?php else: ?>
                                 <p style="text-align: center">NA</p>
                             <?php endif; ?>
@@ -214,3 +222,5 @@
 <p style="text-align: center">No details available </p>
 <?php endif; ?>
 
+<?php // $this->load->view('edit_modal/prescribe_dose', );?>
+<?php echo $prescribe_dose_html;?>

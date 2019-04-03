@@ -208,5 +208,47 @@ class patient_edit extends CI_Controller {
         echo json_encode($response);
     }
 
+    public function prescribeDose(){
+        $data = array();
+        $medicine_query = $this->db->get('medicine_master');
+        $data['medicine'] = $medicine_query->result();
+
+        $this->load->view('edit_modal/prescribe_dose', $data);
+    }
+
+    public function updatePrescribeDose(){
+        extract($_POST);
+        // print_r($_POST);
+        
+        if(!empty($medicalcondition_id)){
+            foreach ($id as $iterator => $medicine_id) {
+                $prescribe_dose[] = array(
+                    'name'=>$name[$iterator],
+                    'medicine_id'=>$medicine_id,
+                    'frequency'=>$frequency[$iterator],
+                    'days'=>$days[$iterator],
+                    'aftermeal'=>$aftermeal[$iterator],
+                    'medicalconditionid'=>$medicalcondition_id
+                );
+            }
+        }
+        
+        $data = array();
+        if (!empty($prescribe_dose) && $medicalcondition_id > 0) {
+            // print_r($prescribe_dose); exit;
+            $result = $this->db->insert_batch('priscribedose',$prescribe_dose);
+            
+            $code = 201; //created
+            $data = $result;
+            $message = 'Prescription saved successfully';
+        } else {
+            $code = '401';
+            $message = 'Oops Please try again';
+        }
+        
+        $response = array('code'=>$code, 'data'=>$data, 'message'=>$message);
+        echo json_encode($response);
+    }
+
 
 }
