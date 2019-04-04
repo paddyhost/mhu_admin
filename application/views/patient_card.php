@@ -294,6 +294,10 @@
                 $('#days').addClass('error');
             }
             
+            if(!$('input[name=aftermeal]:checked').val()){
+                is_valid = false;
+            }
+            
             if(!is_valid){
                 alert('please provide data');
                 return false;

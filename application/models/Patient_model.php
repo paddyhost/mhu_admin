@@ -536,7 +536,7 @@ class Patient_model extends CI_Model {
             $where_order .=" ORDER BY id DESC ";
         }
 
-        $sql = "SELECT SQL_CALC_FOUND_ROWS *,CONCAT(fname, ' ',lanme) fname FROM patient_master
+        $sql = "SELECT SQL_CALC_FOUND_ROWS *, CONCAT(fname, if(lanme IS NULL, '' , CONCAT(' ', lanme))) AS fname FROM patient_master
                 WHERE 1 " . $where_and . $where_order . " 
                 LIMIT " . $limit;
 
