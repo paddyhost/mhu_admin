@@ -209,6 +209,9 @@ $(document).ready(function(){
             }
             
         })
+        if(!$('input[name=aftermeal]:checked').val()){
+            is_valid = false;
+        }
         /*$('#prescribe_dose input').each(function(i,e){
             if($(this).val() == ''){
                 is_valid = false;

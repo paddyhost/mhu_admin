@@ -155,8 +155,14 @@ class admin extends CI_Controller {
             $patient_record['vaccination'] = $this->patient_model->getOneByTable('vaccinationmaster', ['visit_master_id' => $visit_master_id]);
 //            $patient_record['history'] = $this->patient_model->getOneByTable('patient_history', ['visit_master_id'=>$visit_master_id]);
             $patient_record['test'] = $this->patient_model->gettestvalues($visit_master_id);
+
+            // to add prescribtion
+            $medicine_query = $this->db->get('medicine_master');
+            $medicine_data = array();
+            $medicine_data['medicine'] = $medicine_query->result();
+            $prescribe_dose_html = $this->load->view('edit_modal/prescribe_dose', $medicine_data, true);
         }
-        $data['view'] = $this->load->view('patientinfo', ['patient_record' => $patient_record], TRUE);
+        $data['view'] = $this->load->view('patientinfo', ['patient_record' => $patient_record, 'prescribe_dose_html'=> $prescribe_dose_html], TRUE);
         $data['message'] = 1;
         echo json_encode($data);
     }

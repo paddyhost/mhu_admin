@@ -205,7 +205,7 @@ class Patient extends CI_Controller {
 //    }
     
     
-    public function add_prescribe_struct() {
+    public function add_prescribe_struct($edit = 0) {
         extract($_POST);
         $medicine = explode('_', $name);
         $tr['data'] = array('id'=>$medicine[0],
@@ -214,11 +214,12 @@ class Patient extends CI_Controller {
                 'frequency'=>$frequency,
                 'aftermeal'=>$aftermeal,
             );
-        $tr['frequency'] = [1=>'Once a day', 2=>'Twice a day',3=>'Thrice a day',4=>'Four times a day'];
+        $tr['frequency'] = [1=>'Once a day', 2=>'Twice a day',3=>'3 times/day',4=>'4 times/day'];
         $tr['aftermeal'] = ['Yes'=>'After meal', 'No'=>'Before meal'];
+        $tr['edit'] = $edit;
         $view = $this->load->view('tr_prescribe_dose', $tr, TRUE);
         
-        $response = ['code'=>200, 'data'=>$view];
+        $response = ['code'=>200, 'data'=>$view, 'edit'=>$edit];
         echo json_encode($response);
         
     }
@@ -556,14 +557,16 @@ class Patient extends CI_Controller {
     public function insert_multiple() {
 
         $dob = $this->input->post('dob'); 
-        if(!empty($dob)){
+        if($_POST['dob'] && !empty($dob)){
             $date = DateTime::createFromFormat('m/d/Y', $dob);
             $dob = $date->format('Y-m-d');
         }
         
         $regitrationdate = $this->input->post('regitrationdate'); 
+        if($_POST['regitrationdate'] && !empty($regitrationdate)){
         $date = DateTime::createFromFormat('m/d/Y', $regitrationdate);
         $regitrationdate = $date->format('Y-m-d');
+        }
 
 
         $unique_id = $this->input->post('unique_id'); 
