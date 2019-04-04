@@ -44,7 +44,7 @@
                         <hr>
                         <div class="row">
                             <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Diagnosed disease</label>
-                            <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (!empty($medical->disease) ? $medical->disease : $medical->specific_disease) ?></p>
+                            <p class="col-md-9 col-sm-9 col-xs-12"><?php echo (empty($medical->diseases_master_id) ? $medical->disease : $medical->specific_disease) ?></p>
                         </div>
                         <hr>
                         <div class="row m-l-0 m-r-0">
@@ -53,7 +53,6 @@
                             <button type="button" class="btn btn-primary waves-effect pull-right" data-toggle="modal" data-target="#modalPrescription"><i class="zmdi zmdi-plus"></i>Add Prescription</button>
 
                             <div class="clearfix"></div><br>
-                            <?php if (!empty($medical->prescribe_dose)): ?>
                                 <form name="prescribe_form" id="prescribe_form">
                                 <input type="hidden" name="medicalcondition_id" value="<?= $medical->id?>">
                                 <table id="prescribe_dose_table" class="table table-bordered">
@@ -67,6 +66,7 @@
                                     <th>Days</th>
                                     </thead>
                                     <tbody>
+                                    <?php if (!empty($medical->prescribe_dose)): ?>
                                         <?php foreach ($medical->prescribe_dose as $key => $value): ?>
                                             <tr>
                                                 <?php // print_r($value);?>
@@ -80,14 +80,14 @@
                                             </tr>
                                         <?php endforeach; ?>
 
+                                    <?php else: ?>
+                                        <tr><td colspan="6" style="text-align: center">NA</td></tr>
+                                    <?php endif; ?>
                                     </tbody>
                                 </table>
                                 </form>
                                 <button type="button" style="display:block; margin-top:5px" class="updatebtn btn btn-success waves-effect pull-right" data-url="/patient_edit/updatePrescribeDose" id="prescribeDoseBtn">Save Prescription</button>
                                 
-                            <?php else: ?>
-                                <p style="text-align: center">NA</p>
-                            <?php endif; ?>
                         </div>
                     <?php else: ?>
                         <p>No medical information available</p>

@@ -30,14 +30,14 @@
                                 <?php foreach ($diseases as $key => $value):?>
                                     <option <?php echo ($value->id == @$medical->diseases_master_id ? "selected='selected'":""); ?> value="<?= $value->id ?>"><?= $value->name ?></option>
                                 <?php endforeach ?>
-                                <option value="">other's</option>
+                                <option <?php echo (@$medical->diseases_master_id == 0 ? "selected='selected'":""); ?> value="">other's</option>
                             </select>
                             </div>
                             
                         </div>
-                        <div class="col-md-4 col-sm-4 col-xs-12 other_div" style="display:none">
+                        <div class="col-md-4 col-sm-4 col-xs-12 other_div" style="<?php echo (@$medical->diseases_master_id == 0 ? '' : 'display:none');?>">
                             <div class="fg-line" style="margin-top:10px">
-                                <input type="text" name="disease" id="disease" class="form-control" placeholder="Others Details">
+                                <input type="text" name="disease" id="disease" class="form-control" placeholder="Others Details" value="<?php echo (@$medical->diseases_master_id == 0 ? @$medical->disease : '');?>">
                             </div>
                         </div>
                     </div>
