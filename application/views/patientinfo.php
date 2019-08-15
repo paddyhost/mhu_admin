@@ -130,13 +130,13 @@
                                         <?php endforeach; ?>
                                     <!--</td>-->
                                     </tr>
-        <?php endforeach; ?>
+                                <?php endforeach; ?>
 
                             </tbody>
                         </table>
                     <?php else: ?>
                         <p>No test information available</p>
-    <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -148,7 +148,7 @@
                 </div><div class="clearfix"></div>
                 <div class="card-body card-padding">
                     <?php $vital = $patient_record['vital']; //print_r($patient_record['vital']); ?>
-    <?php if (!empty($vital)): ?>
+                    <?php if (!empty($vital)): ?>
 
                         <div class="row">
                             <label class="col-md-3 col-sm-3 col-xs-12 m-t-0">Height</label>
@@ -172,10 +172,12 @@
                         </div>
                     <?php else: ?>
                         <p>No Vital information available</p>
-    <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
+
             <div class="card m-b-20">
+            <!-- <div class="card m-b-20"> -->
                 <div class="card-header">
                     <h4 class="pull-left">Vaccination Record</h4>
                     <!-- <button data-toggle="modal" data-target="#modalVaccinationRecord" class="btn btn-primary pull-right">Edit</button> -->
@@ -185,10 +187,10 @@
                     $vaccination = $patient_record['vaccination']; //print_r($patient_record['vaccination']);
                     $valid = ['dpt', 'bcg', 'measles', 'opv', 'ttt', 'hepatitis', 'other'];
                     ?>
-                        <?php if (!empty($vaccination)): ?>
+                    <?php if (!empty($vaccination)): ?>
                         <table class="table table-bordered">
                             <?php foreach ($vaccination as $key => $value): ?>
-            <?php if (in_array($key, $valid)): ?>
+                                <?php if (in_array($key, $valid)): ?>
                                     <tr>
                                         <td>
                                             <?php
@@ -202,19 +204,38 @@
                                             ?>
                                         </td>
                                         <td>
-                                    <?php echo $value ?>
+                                            <?php echo $value ?>
                                         </td>
                                     </tr>
-            <?php endif; ?>
-        <?php endforeach; ?>
-
-        
+                                <?php endif; ?>
+                            <?php endforeach; ?>
                         </table>
-    <?php else: ?>
+                    <?php else: ?>
                         <p>No vaccination information available</p>
-    <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
+
+            <div class="card m-b-20">
+            <!-- <div class="card m-b-20"> -->
+                <div class="card-header">
+                    <h4 class="pull-left">Test advice</h4>
+                    <!-- <button data-toggle="modal" data-target="#modalVaccinationRecord" class="btn btn-primary pull-right">Edit</button> -->
+                </div>
+                <div class="clearfix"></div>
+                <div class="card-body card-padding">
+                    <?php if (!empty($patient_record['test_advice'])): ?>
+                        <table class="table table-bordered">
+                            <tr><td>Test name</td><td><?= $patient_record['test_advice']->test_name ?></td></tr>
+                            <tr><td>Referred</td><td><?= $patient_record['test_advice']->referred ?></td></tr>
+                            <tr><td>Remarks</td><td><?= $patient_record['test_advice']->remarks ?></td></tr>
+                        </table>
+                    <?php else: ?>
+                        <p>No test advice available</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
         </div>
     </div>
 

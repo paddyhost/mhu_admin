@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>MHU | New Registration</title>
         <?php $this->load->view('common_css');?>
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
         <style>
             .error{
                 outline: 0;
@@ -422,19 +422,28 @@
                                                     </div>
                                                 </div>
                                             </div> -->
-                                            <div class="row m-t-20">
-                                                <label class="m-l-15 m-r-15 m-b-15">Select Diagnosed disease</label>
+                                            <div class="row m-t-20" class="row">
+                                                <!-- <label class="m-l-15 m-r-15 m-b-15">Select Diagnosed disease</label>                                                 -->
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    <label>Select Diagnosed disease</label>
                                                     <div class="form-group">
-                                                        <select name='diseases_master_id' id="diagnosed_diseases" class="selectpicker"  title="Select patient category">
+                                                        <select name='diseases_master_id' id="diagnosed_diseases" class="selectpicker" data-live-search="true"  title="Select Specific diseases">
                                                             <option value="">other's</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12 other_div" style="display:none">
-                                                    <div class="fg-line">
+                                                    <!-- <div class="fg-line">
                                                         <input type="text" name="disease" id="disease" class="form-control" placeholder="Others Details">
+                                                    </div> -->
+                                                    <label>Other Diseases</label>
+                                                    <div class="form-group">
+                                                        <select name='disease' id="other_diseases" class="selectpicker" data-live-search="true"  title="Select General diseases">
+                                                            <?php foreach ($other_diseases as $id => $value): ?>
+                                                                <option value="<?php echo $value->name; ?>"><?php echo $value->name; ?></option>
+                                                            <?php endforeach;?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div> 
@@ -575,7 +584,7 @@
                                     <div class="tab-pane fade" id="test_outside">
                                         <form>
                                         <div class="row">
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Test Name</label>
                                                     <div class="fg-line">
@@ -583,15 +592,26 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                                <label>Select Referred cause/disease</label>
                                                 <div class="form-group">
-                                                    <label>Referred</label>
+                                                    <select name='referred_disease_id' id="referred_disease_id" class="selectpicker" data-live-search="true"  title="Select diseases">
+                                                        <?php foreach($referred_disease as $key => $disease_details):?>
+                                                            <option value="<?=$disease_details->id;?>"><?=$disease_details->disease_name;?></option>
+                                                        <?php endforeach;?>
+                                                        <option value="">other's</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div style="display:none" class="col-md-3 col-sm-3 col-xs-12 referred_div">
+                                                <div class="form-group">
+                                                    <label>other's</label>
                                                     <div class="fg-line">
                                                         <input type="text" name="referred" id="referred" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
                                                 <div class="form-group">
                                                     <label>Remarks</label>
                                                     <div class="fg-line">
