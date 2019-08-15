@@ -47,6 +47,14 @@ class admin extends CI_Controller {
         if($state_query->num_rows() >= 1){
             $data['state'] = $state_query->result();
         }
+
+        $this->db->order_by('name');
+        $diseases_query = $this->db->get_where('diseases_master', ['type'=>'G']);
+        $data['other_diseases'] = $diseases_query->result();
+
+        $referred_query = $this->db->get('referred_disease_master');
+        $data['referred_disease'] = $referred_query->result();
+
         
         $this->load->view('new_registration', $data);
     }
@@ -153,6 +161,7 @@ class admin extends CI_Controller {
                 $patient_record['medical']->prescribe_dose = $dose;
             }
             $patient_record['vaccination'] = $this->patient_model->getOneByTable('vaccinationmaster', ['visit_master_id' => $visit_master_id]);
+            $patient_record['test_advice'] = $this->patient_model->getOneByTable('test_advice', ['visit_master_id' => $visit_master_id]);
 //            $patient_record['history'] = $this->patient_model->getOneByTable('patient_history', ['visit_master_id'=>$visit_master_id]);
             $patient_record['test'] = $this->patient_model->gettestvalues($visit_master_id);
 

@@ -199,9 +199,14 @@
             var reg = '<?php echo $patient->registration_no; ?>' ;
             var visit= $("#loadvisitinfo").val();
             var visit_not_applicable = false
+            var is_valid = true
             if(id == 'updateTest'){
                 var postData = $("#testByMhuBody input").serializeArray()
             }else if(id == 'updateMedical'){
+                if($("#diagnosed_diseases").val() == '' && $("#other_diseases").val() == ''){
+                    alert('Please select the disease');
+                    return false;
+                }
                 var postData = $("#medicalcondition input, select").serializeArray()
             }else if(id == 'updateGenral'){
                 visit_not_applicable = true

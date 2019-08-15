@@ -311,6 +311,7 @@ class Patient extends CI_Controller {
         $data_insert = array(
             'test_name'=>$test_name,
             'referred'=>$referred,
+            'referred_disease_id'=> !empty($referred_disease_id) ? $referred_disease_id : 0,
             'remarks'=> $remarks,
             'patient_id'=>$pid,
             'registration_id'=>$registration_no,
@@ -558,13 +559,13 @@ class Patient extends CI_Controller {
 
         $dob = $this->input->post('dob'); 
         if($_POST['dob'] && !empty($dob)){
-            $date = DateTime::createFromFormat('m/d/Y', $dob);
+            $date = DateTime::createFromFormat('d/m/Y', $dob);
             $dob = $date->format('Y-m-d');
         }
         
         $regitrationdate = $this->input->post('regitrationdate'); 
         if($_POST['regitrationdate'] && !empty($regitrationdate)){
-        $date = DateTime::createFromFormat('m/d/Y', $regitrationdate);
+        $date = DateTime::createFromFormat('d/m/Y', $regitrationdate);
         $regitrationdate = $date->format('Y-m-d');
         }
 

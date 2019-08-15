@@ -82,6 +82,11 @@ class patient_edit extends CI_Controller {
         $diseases_query = $this->db->get_where('diseases_master',['type'=>$patient_category]);
         $data['diseases'] = $diseases_query->result();
         $data['medical'] = $this->patient_model->getOneByTable('medicalconditionmaster', ['visit_master_id' => $visit_id]);
+        
+        // othere diseases4
+        $this->db->order_by('name');
+        $diseases_query = $this->db->get_where('diseases_master', ['type'=>'G']);
+        $data['other_diseases'] = $diseases_query->result();
         // echo '<pre>'; print_r($data); exit;
         $this->load->view('edit_modal/medical_condition', $data);
         
@@ -92,8 +97,9 @@ class patient_edit extends CI_Controller {
         $update_array = array(
             'chiefcomplaints1' => $symptom1,
             'chiefcomplaints2' => $symptom2,
-            'diseases_master_id' => $diseases_master_id,
-            'disease' => $disease);
+            'diseases_master_id' => empty($diseases_master_id) ? 0 : $diseases_master_id,
+            'disease' => (empty($diseases_master_id) ? $disease : '')
+        );
             // print_r($update_array); exit;
         $where_array = array(
             'patient_id' => $pid,

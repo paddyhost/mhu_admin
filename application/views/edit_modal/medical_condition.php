@@ -26,20 +26,38 @@
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <label>Select Diagnosed Disease</label>
                             <div class="form-group">
-                            <select name='diseases_master_id' id="diagnosed_diseases" class="selectpicker"  title="Select patient category">
+                            <select name='diseases_master_id' id="diagnosed_diseases" class="selectpicker" data-live-search="true"  title="Select Specific diseases">
                                 <?php foreach ($diseases as $key => $value):?>
                                     <option <?php echo ($value->id == @$medical->diseases_master_id ? "selected='selected'":""); ?> value="<?= $value->id ?>"><?= $value->name ?></option>
                                 <?php endforeach ?>
-                                <option value="">other's</option>
+                                <option <?php echo (@$medical->diseases_master_id == 0 ? "selected='selected'":""); ?> value="">other's</option>
                             </select>
                             </div>
                             
                         </div>
-                        <div class="col-md-4 col-sm-4 col-xs-12 other_div" style="display:none">
-                            <div class="fg-line" style="margin-top:10px">
-                                <input type="text" name="disease" id="disease" class="form-control" placeholder="Others Details">
+                        <div class="col-md-4 col-sm-4 col-xs-12 other_div" style="<?php echo (@$medical->diseases_master_id == 0 ? '' : 'display:none');?>">
+                            <label>Other Diseases</label>
+                            <div class="form-group">
+                                <select name='disease' id="other_diseases" class="selectpicker" data-live-search="true"  title="Select General diseases">
+                                        <?php $show_previous = TRUE;?>
+                                    <?php foreach ($other_diseases as $id => $value): ?>
+                                        <?php $other_selected = FALSE;?>
+                                        <?php if($medical->disease == $value->name){
+                                            $other_selected = TRUE; $show_previous = FALSE;
+                                        }?>
+                                        <option <?php if($other_selected){ echo "selected = 'selected'";}?> value="<?php echo $value->name; ?>"><?php echo $value->name; ?></option>
+                                    <?php endforeach;?>
+                                </select>
                             </div>
                         </div>
+                        <?php if($show_previous && !empty($medical->disease)):?>
+                        <div class="col-md-4 col-sm-4 col-xs-12 other_div pull-right" style="<?php echo (@$medical->diseases_master_id == 0 ? '' : 'display:none');?>">
+                            <label>Previous enterd other disease</label>
+                            <div class="fg-line" style="margin-top:10px">
+                                <input disabled="true" type="text" name="disease" id="disease" class="form-control" placeholder="Others Details" value="<?php echo (@$medical->diseases_master_id == 0 ? @$medical->disease : '');?>">
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                     <!-- <table class="table table-bordered">
                         <thead>

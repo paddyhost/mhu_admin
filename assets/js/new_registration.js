@@ -260,6 +260,19 @@ $(document).ready(function(){
     });
     
     
+    $(document).on('change', '#referred_disease_id', function () {
+        $(".referred_div").hide();
+        var selected = $(this).val()
+        if (selected === '') {
+            $("#referred").val('');
+            $(".referred_div").show();
+        }else {
+            var disease_name = $("#referred_disease_id option:selected").text();
+            $("#referred").val(disease_name);
+        }
+    });
+    
+    
     // on change state dd populate city dd
     $(document).on('change', '#state_id, #district_id', function(e){
         var target = e.target.id;
@@ -439,7 +452,9 @@ function validate_tab(index, current_tab){
         
         case 3:
             //for diagnosed disease check other input value
-            if($("#diagnosed_diseases").val() === '' && !validate_input('disease'))
+            // if($("#diagnosed_diseases").val() === '' && !validate_input('disease'))
+            //     is_valid = 0;
+            if ($("#diagnosed_diseases").val() === '' && !validate_select('other_diseases'))
                 is_valid = 0;
     }
     
